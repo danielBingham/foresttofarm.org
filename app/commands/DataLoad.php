@@ -75,7 +75,7 @@ class DataLoad extends Command {
 		$lines = explode("\n", file_get_contents($filename));
 
 		$this->debug('Data file contains ' . count($lines) . ' lines of data.');
-		$counter = 0;
+		$counter = 1;
 		foreach($lines as $line) {
 			$this->debug('Processing line ' . $counter . ' of ' . count($lines));
 			$data = explode(',', $line);
