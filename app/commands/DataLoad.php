@@ -185,7 +185,7 @@ class DataLoad extends Command {
 			if(!empty($data[FUNCTIONS])) {
 				$role_strings = array_map('trim', explode(';', $data[FUNCTIONS]));
 				$role_ids = array();
-				$role_names= array(
+				$role_names = array(
 					'N2'=>'Nitrogen Fixer',
 					'Dynamic Accumulator'=>'Dynamic Accumulator',
 					'Wildlife(F)'=>'Wildlife Food',
@@ -201,7 +201,7 @@ class DataLoad extends Command {
 					$this->debug('Processing role "' . $role_string . '"');
 					if(is_array($role_names[$role_string])) {
 						foreach($role_names[$role_string] as $name) {
-							$role = Role::where('name', $role_names[$role_string])->first();
+							$role = Role::where('name', $name)->first();
 							if ( ! $role) {
 								$this->fatalError('Failed to find role for "' . $role_string . '"');
 							}
