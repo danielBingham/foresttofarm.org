@@ -11,7 +11,5 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+Route::get('/api/v0/plants', 'PlantsController@index');
+
