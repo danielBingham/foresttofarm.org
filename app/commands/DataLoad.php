@@ -77,6 +77,9 @@ class DataLoad extends Command {
 		$this->debug('Data file contains ' . count($lines) . ' lines of data.');
 		$counter = 1;
 		foreach($lines as $line) {
+			if (strlen($line) < 1) {
+				break;
+			}
 			$this->debug('Processing line ' . $counter . ' of ' . count($lines));
 			$data = explode(',', $line);
 			$plant = new Plant();
@@ -244,6 +247,7 @@ class DataLoad extends Command {
 			}
 			$counter++;
 		}
+		$this->debug('Processing complete.');
 	}
 
 	/**
