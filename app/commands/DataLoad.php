@@ -355,7 +355,7 @@ class DataLoad extends Command {
 	protected function debug($message)
 	{
 		$now = new DateTime();
-		echo $now->format("Y-m-d\TH:i:sO") . ':: ' . $message . "\n";
+		echo $now->format("Y-m-d\tH:i:sO") . ':: ' . $message . "\n";
 	}
 
 	/**
