@@ -126,7 +126,7 @@ class DataLoad extends Command {
 				foreach($habit_symbols as $symbol) {
 					$habit = Habit::where('symbol', $symbol)->first();
 					if ( ! $habit) {
-						$this->error('Failed to find habit "' . $symbol . '"');
+						$this->fatalError('Failed to find habit "' . $symbol . '"');
 					}
 					$habit_ids[] = $habit->id;
 				}
@@ -140,7 +140,7 @@ class DataLoad extends Command {
 				foreach($root_pattern_symbols as $symbol) {
 					$root_pattern = RootPattern::where('symbol', $symbol)->first();
 					if ( ! $root_pattern) {
-						$this->error('Failed to find root pattern "' . $symbol . '"');
+						$this->fatalError('Failed to find root pattern "' . $symbol . '"');
 					}
 					$root_pattern_ids[] = $root_pattern->id;
 				}
@@ -154,7 +154,7 @@ class DataLoad extends Command {
 				foreach($habitats as $name) {
 					$habitat = Habitat::where('name', $name)->first();
 					if ( ! $habitat) {
-						$this->error('Failed to find habitat "' . $name . '"');
+						$this->fatalError('Failed to find habitat "' . $name . '"');
 					}
 					$habitat_ids[] = $habitat->id;
 				}
@@ -174,7 +174,7 @@ class DataLoad extends Command {
 
 					$harvest = Harvest::where('name', $name)->first();
 					if ( ! $harvest) {
-						$this->error('Failed to find a harvest for "' . $name . '"');
+						$this->fatalError('Failed to find a harvest for "' . $name . '"');
 					}
 					$plant_harvests[$harvest->id] = array('rating'=>$rating);
 				}
@@ -203,14 +203,14 @@ class DataLoad extends Command {
 						foreach($role_names[$role_string] as $name) {
 							$role = Role::where('name', $role_names[$role_string])->first();
 							if ( ! $role) {
-								$this->error('Failed to find role for "' . $role_string . '"');
+								$this->fatalError('Failed to find role for "' . $role_string . '"');
 							}
 							$role_ids[]  = $role->id;
 						}
 					} else {
 						$role = Role::where('name', $role_names[$role_string])->first();
 						if ( ! $role) {
-							$this->error('Failed to find role for "' . $role_string . '"');
+							$this->fatalError('Failed to find role for "' . $role_string . '"');
 						}
 						$role_ids[] = $role->id;
 					}
@@ -236,7 +236,7 @@ class DataLoad extends Command {
 				foreach($drawback_symbols as $symbol) {
 					$drawback = Drawback::where('name', $drawback_names[$symbol])->first();
 					if ( ! $drawback) {
-						$this->error('Failed to find role for "' . $role_string . '"');
+						$this->fatalError('Failed to find role for "' . $role_string . '"');
 					}
 					$drawback_ids[] = $drawback->id;
 				}
@@ -365,7 +365,7 @@ class DataLoad extends Command {
 	 *
 	 * @return void
 	 */
-	protected function error($message)
+	protected function fatalError($message)
 	{
 		$this->debug('**FATAL ERROR**: ' . $message);
 		exit();
