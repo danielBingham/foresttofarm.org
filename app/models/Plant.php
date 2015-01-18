@@ -3,6 +3,7 @@
 class Plant extends Eloquent
 {
 	protected $table = 'plants';
+	protected $hidden = array('pivot');
 
 
 	public function commonNames()

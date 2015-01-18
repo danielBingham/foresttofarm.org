@@ -14,4 +14,5 @@ class Drawback extends Eloquent
 	public $timestamps = FALSE;
 
 	protected $table = 'drawbacks';
+	protected $hidden = array('pivot');
 }

@@ -14,4 +14,5 @@ class Role extends Eloquent
 	public $timestamps = FALSE;
 
 	protected $table = 'roles';
+	protected $hidden = array('pivot');
 }
