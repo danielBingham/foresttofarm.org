@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:fb="http://www.facebook.com/2008/fbml">
+<html>
 <head>
 	<title>Forest to Farm</title>
 	<link rel="stylesheet" type="text/css" href="/styles/forest.css" />
+	<script data-main="scripts/bootstrap" src="scripts/library/require.js"></script>
 </head>
 <body>
 <div id="header">
