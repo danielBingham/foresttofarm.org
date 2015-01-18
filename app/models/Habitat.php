@@ -14,4 +14,5 @@ class Habitat extends Eloquent
 	public $timestamps = FALSE;
 
 	protected $table = 'habitats';
+	protected $hidden = array('pivot');
 }

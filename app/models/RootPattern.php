@@ -13,4 +13,5 @@ class RootPattern extends Eloquent
 	public $timestamps = FALSE;
 
 	protected $table = 'root_patterns';
+	protected $hidden = array('pivot');
 }

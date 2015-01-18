@@ -24,4 +24,5 @@ class MoistureTolerance extends Eloquent
 	public $timestamps = FALSE;
 
 	protected $table = 'moisture_tolerances';
+	protected $hidden = array('pivot');
 }

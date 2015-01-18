@@ -15,4 +15,5 @@ class Habit extends Eloquent
 	public $timestamps = FALSE;
 
 	protected $table = 'habits';
+	protected $hidden = array('pivot');
 }

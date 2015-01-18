@@ -12,6 +12,7 @@ class PlantCommonName extends Eloquent
 	public $timestamps = FALSE;
 
 	protected $table = 'plant_common_names';
+	protected $hidden = array('pivot');
 
 	/**
 	 * Get the Plant that this common name belongs to
