@@ -1,7 +1,9 @@
-requirejs.config({
-	baseUrl: 'scripts/library',
+require.config({
+	baseUrl: 'scripts',
 	paths: {
-		app: '../app'
+		jquery: 'library/jquery',
+		backbone: 'library/backbone',
+		underscore: 'library/underscore'
 	}
 });
 

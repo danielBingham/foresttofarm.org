@@ -34,6 +34,8 @@ h5 { font: normal 16px Trebuchet MS,Georgia,sans-serif; padding: 0.5em 0; }
 .padding { display: none; padding: 20px 0; }
 .clear { clear: both; height: 1px; }
 
+#templates { display: none; }
+
 .header { 
 	clear: both; margin: 0 auto; width: 1004px; padding: 0 10px; height: 42px;
 	border-bottom: thin solid #C0C0C0; 
