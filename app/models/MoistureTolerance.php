@@ -23,5 +23,5 @@ class MoistureTolerance extends Eloquent
 {
 	public $timestamps = FALSE;
 
-	protected $table = 'moistures';
+	protected $table = 'moisture_tolerances';
 }
