@@ -13,4 +13,5 @@ class Harvest extends Eloquent
 	public $timestamps = FALSE;
 
 	protected $table = 'harvests';
+	protected $hidden = array('pivot');
 }

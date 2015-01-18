@@ -15,4 +15,5 @@ class LightTolerance extends Eloquent
 	public $timestamps = FALSE;
 
 	protected $table = 'light_tolerances';
+	protected $hidden = array('pivot');
 }
