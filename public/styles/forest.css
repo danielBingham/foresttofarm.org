@@ -157,8 +157,8 @@ a.tag.course:hover { background-color: #75A0BF; color: white; border: thin solid
 #footer .clear { clear: both; }
 #footer #version { padding-top: 50px; font: normal 12px serif; }
 
-.browser { clear: both; margin: 0 auto; padding: 10px 0; width: 1024px; background-color: white; border-left: thin solid white; border-right: thin solid white; }
-.browser .display-box {
+#plants { clear: both; margin: 0 auto; padding: 10px 0; width: 1024px; background-color: white; border-left: thin solid white; border-right: thin solid white; }
+#plants .display-box {
 	position: relative; float: left; margin: 19px; width: 300px; height: 300px; 
 	background: url('/img/no_fridge.jpg') no-repeat center; 
 	-moz-border-radius: 10px; -khtml-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; 
@@ -168,48 +168,48 @@ a.tag.course:hover { background-color: #75A0BF; color: white; border: thin solid
 	color: #444444; 
 	font: normal 12px arial, sans-serif; text-align: center;
 }
-.browser .display-box .boxLink {
+#plants .display-box .boxLink {
 	 position: absolute; display: block; margin: 0; padding: 0; width: 300px; height: 300px; border: none; z-index: 0; 
 }
-.browser .display-box .title-box { 
+#plants .display-box .title-box { 
 	margin: 0; padding: 10px; width: 280px;  font: bold 11px Verdana,Arial,sans-serif;
 	color: #444444; background-color: white; z-index: 2; /*filter: alpha(opacity: 80); opacity: 0.80;*/
 	-moz-border-radius-topright: 10px; -khtml-border-top-right-radius: 10px; -webkit-border-top-right-radius: 10px; border-top-right-radius: 10px; 
 	-moz-border-radius-topleft: 10px; -khtml-border-top-left-radius: 10px; -webkit-border-top-left-radius: 10px; border-top-left-radius: 10px;
 }
-.browser .display-box .title-box a {font: bold 11px Verdana,Arial,sans-serif; text-decoration: none; color: #777; }
-.browser .display-box .title-box a:hover { text-decoration: underline; color: #777; }
+#plants .display-box .title-box a {font: bold 11px Verdana,Arial,sans-serif; text-decoration: none; color: #777; }
+#plants .display-box .title-box a:hover { text-decoration: underline; color: #777; }
 
-.browser .display-box .poster-info { 
+#plants .display-box .poster-info { 
 	display: block; width: 300px; position: absolute; bottom: 35px; padding: 4px 0 0 0; /*filter: alpha(opacity: 80); opacity: 0.80;*/
 	text-align: center;  color: #777; font: normal 11px Verdana,Arial,sans-serif; background-color: white;  
 }
-.browser .display-box .poster-info a { font: bold 11px Verdana,Arial,sans-serif; color: #2872A6; text-decoration: none; }
-.browser .display-box .poster-info a:hover { text-decoration: underline; }
+#plants .display-box .poster-info a { font: bold 11px Verdana,Arial,sans-serif; color: #2872A6; text-decoration: none; }
+#plants .display-box .poster-info a:hover { text-decoration: underline; }
 
-.browser .display-box .left { 
+#plants .display-box .left { 
 	position: absolute; bottom: 0; width: 100px; height: 35px; 
 	background-color: white; color: #777; /*filter: alpha(opacity: 80); opacity: 0.80;*/
 	-moz-border-radius-bottomleft: 10px; -khtml-border-bottom-left-radius: 10px; -webkit-border-bottom-left-radius: 10px; border-bottom-left-radius: 10px; 
 	text-align: center;
 }
-.browser .display-box .left-text { margin-top: 5px; color: #777; font: bold 14px arial, sans-serif; }
-.browser .display-box .left-description { color: #777; font: normal 11px arial, sans-serif; }
-.browser .display-box .center { 
+#plants .display-box .left-text { margin-top: 5px; color: #777; font: bold 14px arial, sans-serif; }
+#plants .display-box .left-description { color: #777; font: normal 11px arial, sans-serif; }
+#plants .display-box .center { 
 	position: absolute; bottom: 0; left: 100px; width: 100px; height: 35px; 
 	background-color: white; color: #777;  /*filter: alpha(opacity: 80); opacity: 0.80;*/
 	text-align: center;
 }
-.browser .display-box .center-text { margin-top: 5px; color: #777; font: bold 14px arial, sans-serif; }
-.browser .display-box .center-description { color: #777; font: normal 11px arial, sans-serif; }
-.browser .display-box .right { 
+#plants .display-box .center-text { margin-top: 5px; color: #777; font: bold 14px arial, sans-serif; }
+#plants .display-box .center-description { color: #777; font: normal 11px arial, sans-serif; }
+#plants .display-box .right { 
 	position: absolute; bottom: 0; left: 200px; width: 100px; height: 35px; 
 	background-color: white; color: #777;  /*filter: alpha(opacity: 80); opacity: 0.80;*/
 	-moz-border-radius-bottomright: 10px; -khtml-border-bottom-right-radius: 10px; -webkit-border-bottom-right-radius: 10px; border-bottom-right-radius: 10px; 
 	text-align: center;
 }
-.browser .display-box .right-text { margin-top: 5px; color: #777; font: bold 14px arial, sans-serif; }
-.browser .display-box .right-description { color: #777; font: normal 11px arial, sans-serif; }
+#plants .display-box .right-text { margin-top: 5px; color: #777; font: bold 14px arial, sans-serif; }
+#plants .display-box .right-description { color: #777; font: normal 11px arial, sans-serif; }
 
 
 .display-box .center .ribbonBar { padding: 10px; }

@@ -8,14 +8,17 @@ define([
 	'app/views/PlantView'],
 function($, _, Backbone, PlantView) {
 	return Backbone.View.extend({
-		tagName: 'ul',
-
-		id: 'plants',
+		initialize: function() {
+			this.listenTo(this.collection, 	'sync', this.render);
+		},
 
 		render: function() {
+			this.$el = $("#main ul#plants");
+
 			_.each(this.collection.models, function(plant) {
 				var plant_view = new PlantView({model: plant});
-				$(this.el).append(plant_view.render().el);	
+				plant_view.render();
+				this.$el.append(plant_view.$el[0].outerHTML);	
 			}, this);
 			return this;
 		}

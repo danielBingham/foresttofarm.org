@@ -10,11 +10,9 @@
 	<li id="display-box-template" class="display-box" >
 		<a class="box-link" href="/"></a>
 		<div class="title-box">
-			<a href="">
-				<%- common_name %>
+			<a href="" class="title">
 			</a>
 			<span class="sub-title">
-				<%- genus %> <%- species %>
 			</span>
 		</div>
 		<div class="left">
@@ -22,7 +20,7 @@
 			<span class="left-description"></span>
 		</div>
 		<div class="center">
-			<p class="center-text"><%- zones %></p>
+			<p class="center-text"></p>
 			<span class="center-description"></span>
 		</div>
 		<div class="right">
