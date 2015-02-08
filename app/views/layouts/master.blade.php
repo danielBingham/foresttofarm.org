@@ -11,7 +11,7 @@
 		<a class="box-link" href="/"></a>
 		<div class="title-box">
 			<a href="" class="title">
-			</a>
+			</a><br />
 			<span class="sub-title">
 			</span>
 		</div>
@@ -36,11 +36,15 @@
 <div id="main">
 	<ul id="plants">
 
+
 	</ul>
 </div>
 <div id="footer" >
-
-</div>
+	<div class="attributions">
+		<span id="tree-image-attribution">Tree Image from: Dieter Tracey,
+		Integration and Application Network, University of Maryland Center for
+		Environmental Science (ian.umces.edu/imagelibrary/).</span>
+	</div>
 </body>
 </html>
 
