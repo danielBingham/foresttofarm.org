@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:fb="http://www.facebook.com/2008/fbml">
+<html>
 <head>
 	<title>Forest to Farm</title>
 	<link rel="stylesheet" type="text/css" href="/styles/forest.css" />
+	<script src="scripts/library/require.js" data-main="scripts/bootstrap"></script>
 </head>
 <body>
 <div id="header">
@@ -10,11 +11,17 @@
 	<div class="clear"></div>
 </div>
 <div id="main">
-	@yield('content')
+	<ul id="plants">
+
+
+	</ul>
 </div>
 <div id="footer" >
-
-</div>
+	<div class="attributions">
+		<span id="tree-image-attribution">Tree Image from: Dieter Tracey,
+		Integration and Application Network, University of Maryland Center for
+		Environmental Science (ian.umces.edu/imagelibrary/).</span>
+	</div>
 </body>
 </html>
 
