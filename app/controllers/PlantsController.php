@@ -39,6 +39,5 @@ class PlantsController extends BaseController {
 		->first();
 
 		echo $plant->toJson();
-		//echo '<pre>'; echo json_encode(json_decode($plant->toJson()), JSON_PRETTY_PRINT); echo '</pre>';
 	}
 }
