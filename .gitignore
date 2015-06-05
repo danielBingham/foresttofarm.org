@@ -1,4 +1,4 @@
-app/config/*
+/app/config/*
 /bootstrap/compiled.php
 /vendor
 composer.phar
