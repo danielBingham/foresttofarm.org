@@ -1,0 +1,12 @@
+<div id="{{id}}" class="plant">
+    <h1 id="scientific-name">{{genus}} {{species}}</h1>
+    <div id="family"><span id="family-label" class="label">Family</span> {{family}}</div>
+    <span id="common-names-label" class="label">This plant is known by the following common names:</span>
+    <ul id="common-names-list">
+        {{#common_names}}
+            <li class="common-name">{{name}}</li>
+        {{/common_names}}
+    </ul>
+
+
+</div>
