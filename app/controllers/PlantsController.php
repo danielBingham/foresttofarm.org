@@ -19,8 +19,7 @@ class PlantsController extends BaseController {
 				'moistureTolerances')
 			->get();
 
-		echo $plants->toJson();
-		//echo '<pre>'; echo json_encode(json_decode($plants->toJson()), JSON_PRETTY_PRINT); echo '</pre>';
+        return $plants;
 	}
 
 	public function single($id)
@@ -38,7 +37,6 @@ class PlantsController extends BaseController {
 		->where('id', '=', $id)
 		->first();
 
-		echo $plant->toJson();
-		//echo '<pre>'; echo json_encode(json_decode($plant->toJson()), JSON_PRETTY_PRINT); echo '</pre>';
+        return $plant;
 	}
 }
