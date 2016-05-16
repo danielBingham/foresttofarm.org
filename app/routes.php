@@ -4,11 +4,11 @@
 /**
  * API
  */
-Route::get('/api/v0/plants', 'PlantsController@index');
-Route::get('/api/v0/plant/{id}', 'PlantsController@single');
+Route::get('/api/v0/plants', 'ApiController@plants');
+Route::get('/api/v0/plant/{id}', 'ApiController@plant');
 
 /**
  * Front facing routes
  */
-Route::get('/', 'HomeController@index');
-Route::get('/plant/{id}', 'HomeController@plant');
+Route::get('/', 'SiteController@index');
+Route::get('/plant/{id}', 'SiteController@plant');

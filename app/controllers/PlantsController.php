@@ -5,7 +5,7 @@
  */
 class PlantsController extends BaseController {
 
-	public function index()
+	public function all()
 	{
 		$plants = Plant::with(
 				'commonNames',
