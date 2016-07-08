@@ -2,11 +2,11 @@ require([
 	'jquery',
 	'underscore',
 	'backbone',
+
+    'router'
 	'app/models/Plants',
 	'app/views/PlantsView'],
-function($, _, Backbone, Plants, PlantsView) {
-	var plants = new Plants();
-	var plant_view = new PlantsView({collection:plants});
-
-	plants.fetch();
+function($, _, Backbone, Router, Plants, PlantsView) {
+    var router = new Router();
+    Backbone.history.start({ pushState: true, root: '/' });
 });
