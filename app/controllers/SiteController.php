@@ -16,7 +16,7 @@ class SiteController extends BaseController {
 	public function index()
     {
         $plants_controller = new PlantsController();
-        $plant_models = $plants_controller->index();
+        $plant_models = $plants_controller->all();
 
     }
 
