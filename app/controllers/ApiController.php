@@ -5,7 +5,7 @@
  * javascript fall through.  This is primarily for older browsers and search
  * engine bots.
  */
-class SiteController extends BaseController {
+class ApiController extends BaseController {
 
 
 

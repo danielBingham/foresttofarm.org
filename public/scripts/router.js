@@ -1,7 +1,20 @@
 define([
     'jquery',
-    'underscore'],
-function($, _) {
+    'underscore',
+    'backbone',
+    'app/models/Plant',
+    'app/models/Plants',
+    'app/views/PlantView',
+    'app/views/PlantsView'],
+function(
+    $, 
+    _, 
+    Backbone,
+    Plant,
+    Plants,
+    PlantView,
+    PlantsView
+) {
 
 return Backbone.Router.extend({
     routes: {
