@@ -32,7 +32,7 @@ class SiteController extends BaseController {
     {
 
         $plants_controller = new PlantsController();
-        $plant_model = $plants_controller->plant($id);
+        $plant_model = $plants_controller->single($id);
 
         
         return View::make('plant')->with('plant', $plant_model);
