@@ -30,10 +30,12 @@ return Backbone.Router.extend({
     },
 
     viewPlant: function(id) {
-        var plant = new Plant(id);
-        var plant_view = new PlantView(plant);
+        alert('Called with ' + id);
 
-        plant.fetch();
+//        var plant = new Plant(id);
+ //       var plant_view = new PlantView(plant);
+
+  //      plant.fetch();
     }  
 });
 
