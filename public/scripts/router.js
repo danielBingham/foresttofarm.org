@@ -36,16 +36,21 @@ return Backbone.Router.extend({
      */
     initialize: function() {
         Backbone.history.start({ pushState: true });
-        $(document).on('click', 'a:not([data-bypass])', _.bind(function (event) {
+
+        // This is a little hacky. We need access to this down below as the
+        // router, but we can't rebind 'this' because we also need access to
+        // the clicked element.  So we'll stash the router in 'router' for now.
+        var router = this;
+        $(document).on('click', 'a:not([data-bypass])', function (event) {
 
             var href = $(this).attr('href');
             var protocol = this.protocol + '//';
 
             if (href.slice(protocol.length) !== protocol) {
               event.preventDefault();
-              this.navigate(href, true);
+              router.navigate(href, true);
             }
-        }, this));    
+        }); 
     },
 
     /** 
