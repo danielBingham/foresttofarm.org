@@ -15,6 +15,9 @@ function($, _, Backbone,Mustache,template) {
 		tagName: 'li',	
 		className: 'display-box',
 
+        /**
+         * Render this plant display box from the template.
+         */
 		render: function() {
 			var display_box = Mustache.render(
 				template,
