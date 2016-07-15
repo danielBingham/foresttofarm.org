@@ -6,14 +6,14 @@ define([
 	'underscore',
 	'backbone',
 	'mustache',
-	'text!app/templates/plant-box-template.html'],
+	'text!app/templates/plant-detail-template.html'],
 function($, _, Backbone,Mustache,template) {
 	return Backbone.View.extend({
-		tagName: 'li',	
-		className: 'display-box',
+		tagName: 'div',	
+		className: 'plant-detail',
 
 		render: function() {
-			var display_box = Mustache.render(
+			var plant_detail = Mustache.render(
 				template,
 				{
 					id: this.model.get('id'),
@@ -23,7 +23,7 @@ function($, _, Backbone,Mustache,template) {
 				}
 			);
 
-			this.$el = $.parseHTML(display_box);
+			this.$el = $.parseHTML(plant_detail);
 			return this;
 		}
 	});
