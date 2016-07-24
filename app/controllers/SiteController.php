@@ -11,38 +11,11 @@ class SiteController extends BaseController {
 
 
     /**
-     * Index of the site.  Presents a list of all plant data.
+     * Index of the site.  Essentially hands control over to backbone.
      */
 	public function index()
     {
-        $plants_controller = new PlantsController();
-        $plant_models = $plants_controller->all();
 
     }
 
-    /**
-     * A single plant page showing the plant's data.  Returns
-     * a parsed HTML template.
-     *
-     * @param   int $id The id of the plant to display.
-     *
-     * @return void
-     */
-    public function plant($id) 
-    {
-
-        $plants_controller = new PlantsController();
-        $plant_model = $plants_controller->single($id);
-
-        
-        return View::make('plant')->with('plant', $plant_model);
-    }
-
-    /**
-     * Display the search form or process a completed search.
-     */
-    public function search($search)
-    {
-
-    }
 }
