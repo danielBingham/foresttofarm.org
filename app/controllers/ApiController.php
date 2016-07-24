@@ -32,7 +32,7 @@ class ApiController extends BaseController {
     {
 
         $plants_controller = new PlantsController();
-        $plant_model = $plants_controller->plant($id);
+        $plant_model = $plants_controller->single($id);
 
         return $plant_model->toJson();
     }

@@ -3,7 +3,7 @@
 <head>
 	<title>Forest to Farm</title>
 	<link rel="stylesheet" type="text/css" href="/styles/forest.css" />
-	<script src="scripts/library/require.js" data-main="scripts/bootstrap"></script>
+	<script src="/scripts/library/require.js" data-main="/scripts/bootstrap"></script>
 </head>
 <body>
 <div id="header">

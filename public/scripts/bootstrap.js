@@ -1,5 +1,5 @@
 require.config({
-	baseUrl: 'scripts',
+	baseUrl: '/scripts',
 	paths: {
 		jquery: 'library/jquery',
 		backbone: 'library/backbone',

@@ -8,7 +8,7 @@ define([
 	'backbone'],
 function($, _, Backbone) {
 	return Backbone.Model.extend({
-		urlRoot: 'index.php/api/v0/plant',
+		urlRoot: '/index.php/api/v0/plant',
 
 		getDisplayBoxData: function() {
 			var common_name = this.get('common_names')[0].name;

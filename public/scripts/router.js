@@ -69,7 +69,7 @@ return Backbone.Router.extend({
      * @param   {number}    id  The database id of the plant we'd like to view.
      */
     viewPlant: function(id) {
-        var plant = new Plant(id);
+        var plant = new Plant({id: id});
         var plant_view = new PlantView(plant);
 
         plant.fetch();
