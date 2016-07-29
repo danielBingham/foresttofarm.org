@@ -15,6 +15,10 @@ function($, _, Backbone,Mustache,template) {
 		tagName: 'li',	
 		className: 'display-box',
 
+		initialize: function() {
+			this.listenTo(this.collection, 	'sync', this.render);
+		},
+
         /**
          * Render this plant display box from the template.
          */
@@ -29,7 +33,7 @@ function($, _, Backbone,Mustache,template) {
 				}
 			);
 
-			this.$el = $.parseHTML(display_box);
+            this.setElement($.parseHTML(display_box));
 			return this;
 		}
 	});

@@ -4,6 +4,7 @@ define([
     'backbone',
     'app/models/Plant',
     'app/models/Plants',
+    'app/views/MainView',
     'app/views/PlantView',
     'app/views/PlantsView'],
 function(
@@ -12,6 +13,7 @@ function(
     Backbone,
     Plant,
     Plants,
+    MainView,
     PlantView,
     PlantsView
 ) {
@@ -57,10 +59,16 @@ return Backbone.Router.extend({
      * The site index.  A an auto-paged list of plants available for viewing.
      */
     index: function() {
+        var main_view = new MainView({el: "#main"});
+
         var plants = new Plants();
-        var plant_view = new PlantsView({collection:plants});
+        var plants_view = new PlantsView({collection:plants});
+        
+        main_view.appendSubview(plants_view);
+        main_view.render();
 
         plants.fetch();
+
     },
 
     /**
@@ -69,8 +77,13 @@ return Backbone.Router.extend({
      * @param   {number}    id  The database id of the plant we'd like to view.
      */
     viewPlant: function(id) {
+        var main_view = new MainView({el: "#main"});
+        
         var plant = new Plant({id: id});
         var plant_view = new PlantView(plant);
+
+        main_view.appendSubview(plant_view);
+        main_view.render();
 
         plant.fetch();
     }  
