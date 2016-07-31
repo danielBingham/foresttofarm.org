@@ -3,83 +3,79 @@
  *
  * Shows a scrollable, pageable list of plant short info boxes.
  *
- * @class   PlantsView
  */
 define([
 	'jquery',
 	'underscore',
-	'backbone',
+    'mustache',
+    'app/views/abstract/AbstractParentView',
+    'text!app/templates/plant-list-template.html',
 	'app/views/PlantBoxView'],
-function($, _, Backbone, PlantBoxView) {
+function($, _, Mustache, AbstractParentView, template, PlantBoxView) {
 
     /**
-     *
+     * @todo Comment.
      */
-	var PlantsView = Backbone.View.extend({
-        tagName: 'ul',
-        attributes: {
-            id: 'plants'
-        },
-
-        /**
-         *
-         */
-        renderedSubviews: [],
-
-        /**
-         *
-         */
-        subviewsToRender: [],
+	var PlantListView = AbstractParentView.extend({
 
         /**
          *
          */
 		initialize: function() {
-			this.listenTo(this.collection, 	'sync', this.update);
+            AbstractParentView.prototype.initialize.apply(this,arguments);
+
+			this.listenTo(this.collection, 	'update',
+                _.bind(function(collection, options) {
+                    this.update(options.changes);          
+           
+
+                }, this)
+            );
 		},
+
+
+        parse: function() {
+            var list = Mustache.render(template);
+            return $.parseHTML(list);
+        },
 
         /**
          *
          */
-        appendSubview: function(subview) {
-            this.subviewsToRender.push(subview);
+        create: function() {
+            AbstractParentView.prototype.create.call(this);
+
+            _.each(this.collection.models, _.bind(function(plant) {
+                this.appendSubview(new PlantBoxView({model: plant}));
+            }, this));
+
             return this;
         },
 
-        /**
-         *
-         */
-        update: function() {
-            _.each(this.collection.models, function(plant) {
-                var viewRendered = _.find(this.renderedSubviews, 
-                    function(subview) {
-                        return (subview.model.id == plant.id);
+        update: function(changes) {
+            _.each(changes.added, _.bind(function(plant) {
+                this.appendSubview(new PlantBoxView({model:plant}));
+            }, this));
+
+            _.each(changes.removed, _bind(function(plant) {
+                var subview = _.find(this.subviews, function(test_subview) {
+                    if (test_subview.model.id == plant.id) {
+                        return true;
+                    } else {
+                        return false;
                     }
-                );
+                });
+                subview.remove();
+                delete subview;
 
-                if ( ! viewRendered ) {
-                    this.appendSubview(new PlantBoxView({model: plant}));
-                }
+            }, this));
+           
+           // TODO Handle merges. 
+        }
 
-            }, this);
 
-            this.render();
-        },
-
-        /**
-         *
-         */
-		render: function() {
-            var subview = null;
-            while(subview = this.subviewsToRender.shift()) {
-                this.$el.append(subview.render().$el);
-                this.renderedSubviews.push(subview);
-            } 
-                  
-			return this;
-		}
 
 	});
 
-    return PlantsView;
+    return PlantListView;
 });

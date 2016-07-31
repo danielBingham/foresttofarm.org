@@ -10,7 +10,7 @@ define([
 	'backbone',
 	'mustache',
 	'text!app/templates/plant-box-template.html'],
-function($, _, Backbone,Mustache,template) {
+function($, _, Backbone, Mustache,template) {
 
     /**
      * A view wrapping and managing the list display box for each plant.
