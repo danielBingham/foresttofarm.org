@@ -13,10 +13,10 @@ Vagrant.configure("2") do |config|
 
     # Chef provisioning using vagrant-berkshelf plugin and chef_solo
     config.berkshelf.enabled = true
-    config.berkshelf.berksfile_path = "cookbooks/development/Berksfile"
+    config.berkshelf.berksfile_path = "cookbooks/foresttofarm-development/Berksfile"
 
     config.vm.provision "chef_solo" do |chef|
-      chef.add_recipe "development::default"
+      chef.add_recipe "foresttofarm-development::default"
     end
 
     # There are issues with vagrant shares and symlinks.
