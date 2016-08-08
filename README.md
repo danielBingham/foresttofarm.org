@@ -1,7 +1,7 @@
 # Forest to Farm
 
 Forest to Farm is an online, open source database of useful plants based on
-data assembled by Eric Toesenmeier and Dave Jacke in Edible Forest Gardens 
+data assembled by Eric Toensmeier and Dave Jacke in Edible Forest Gardens 
 Vol. 2.  It is intended to help permaculturists, agro-ecologists, and home
 gardeners in assembling permaculture systems and practicing restoration
 agriculture. 
