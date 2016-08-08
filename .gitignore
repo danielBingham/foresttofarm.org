@@ -1,6 +1,12 @@
-/app/config/*
-/bootstrap/compiled.php
-/vendor
+# Whitelist the composer directory in vendor.  If we don't do this, problems
+# ensue due to Laravel's structure.
+
+# Ignore these files and directories.
+
+app/config/*
+!vendor
+vendor/*
+!vendor/composer
 composer.phar
 composer.lock
 .DS_Store
