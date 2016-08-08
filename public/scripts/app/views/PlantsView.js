@@ -27,8 +27,6 @@ function($, _, Mustache, AbstractParentView, template, PlantBoxView) {
 			this.listenTo(this.collection, 	'update',
                 _.bind(function(collection, options) {
                     this.update(options.changes);          
-           
-
                 }, this)
             );
 		},
@@ -53,24 +51,27 @@ function($, _, Mustache, AbstractParentView, template, PlantBoxView) {
         },
 
         update: function(changes) {
-            _.each(changes.added, _.bind(function(plant) {
-                this.appendSubview(new PlantBoxView({model:plant}));
-            }, this));
+            if ( changes ) {
+                _.each(changes.added, _.bind(function(plant) {
+                    this.appendSubview(new PlantBoxView({model:plant}));
+                }, this));
 
-            _.each(changes.removed, _bind(function(plant) {
-                var subview = _.find(this.subviews, function(test_subview) {
-                    if (test_subview.model.id == plant.id) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                });
-                subview.remove();
-                delete subview;
-
-            }, this));
+                _.each(changes.removed, _bind(function(plant) {
+                    var subview = _.find(this.subviews, function(test_subview) {
+                        if (test_subview.model.id == plant.id) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    });
+                    subview.remove();
+                    delete subview;
+                }, this));
            
-           // TODO Handle merges. 
+               // TODO Handle merges. 
+            }   
+
+            AbstractParentView.prototype.update.call(this);
         }
 
 
