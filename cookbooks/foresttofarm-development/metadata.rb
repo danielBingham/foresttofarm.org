@@ -1,0 +1,16 @@
+name 'foresttofarm-development'
+maintainer 'Daniel Bingham'
+maintainer_email 'dbingham@theroadgoeson.com'
+license 'all_rights'
+description 'Installs/Configures foresttofarm-development'
+long_description 'Installs/Configures foresttofarm-development'
+version '0.1.0'
+
+depends 'apt', '~> 4.0.1'
+depends 'apache2', '~> 3.2.2'
+depends 'php', '~> 1.2.4'
+depends 'php-mcrypt', '~> 1.0.0'
+depends 'mysql', '~> 7.0.0'
+depends 'mysql2_chef_gem', '~> 1.1.0'
+depends 'database', '~> 5.1.2'
+
