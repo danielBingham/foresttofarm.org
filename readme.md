@@ -18,6 +18,12 @@ feeling for where your efforts would be best spent.
 
 ## Setting Up a Development Environment 
 
+The first thing you'll need to do after cloning the repository is 
+run ``composer install`` in the repository directory in order to install
+Laravel's dependencies.  You may need to install composer and PHP on your
+machine in order to do so.  Please see [Composer's
+website](https://getcomposer.org/) for download and installation instructions.
+
 The source includes a vagrant file and chef code to provision a full
 development vm.  To use it, you'll need to download and install
 [Vagrant](https://www.vagrantup.com/), the Vagrant
@@ -42,9 +48,18 @@ You can now develop code locally in your favorite editor or IDE and test it
 using your vagrant vm.  The code will be shared with the vm from your local
 machine through the magic of vagrant shared folders.
 
+
 You're now ready to hack away on Forest to Farm.
 
 ## Code Documentation
+
+TODO
+
+## Testing
+
+TODO
+
+## Building
 
 TODO
 
