@@ -1,5 +1,6 @@
 .vagrant
 
+!app/config/
 app/config/*
 
 !vendor
