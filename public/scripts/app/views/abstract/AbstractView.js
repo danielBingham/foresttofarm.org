@@ -23,7 +23,7 @@ function($, _, Backbone) {
      * The abstract base view underlying all other views in Forest to Farm.
      * Sets up the parse / create / update / render logic.  
      *
-     * @note Certain methods in this view, such as ``parse()`` must be
+     * !!NOTE!!  Certain methods in this view, such as ``parse()`` must be
      * overridden in order for the view to function.  If they are not
      * overridden, the view will throw an exception on initialization when
      * create is called.
@@ -45,11 +45,21 @@ function($, _, Backbone) {
          */
         is_attached_to_DOM: false,
 
+        /**
+         * Mark this view as having been attached to the DOM.
+         *
+         * @return this
+         */
         markAttachedToDOM: function() {
             this.is_attached_to_DOM = true;
             return this;
         },
 
+        /**
+         * Mark this view as having been detached from the DOM.
+         *
+         * @return this
+         */
         markUnattachedFromDOM: function() {
             this.is_attached_to_DOM = false;
             return this;

@@ -17,9 +17,9 @@ function($, _, Mustache, AbstractParentView, template, PlantBoxView) {
      * @todo Comment.
      */
 	var PlantListView = AbstractParentView.extend({
-
         /**
-         *
+         * Initialize the view, calling parent class initializers and binding
+         * the view to its events.
          */
 		initialize: function() {
             AbstractParentView.prototype.initialize.apply(this,arguments);
@@ -50,13 +50,27 @@ function($, _, Mustache, AbstractParentView, template, PlantBoxView) {
             return this;
         },
 
+        /**
+         * Update the plant list view.  If provided a list of changes to 
+         * the plant collection, then add or remove ``PlantBoxView`` objects
+         * as appropriate.  Otherwise, render each subview to update them
+         * for any changes.
+         *
+         * @param   {*} changes Any changes that occurred in the collection.
+         *      Hash structure:
+         *          changes[added] - Models added to the collection.
+         *          changes[removed] - Models removed from the collection.
+         *          changes[merged] - TODO What am I?
+         *
+         * @return this
+         */
         update: function(changes) {
             if ( changes ) {
                 _.each(changes.added, _.bind(function(plant) {
                     this.appendSubview(new PlantBoxView({model:plant}));
                 }, this));
 
-                _.each(changes.removed, _bind(function(plant) {
+                _.each(changes.removed, _.bind(function(plant) {
                     var subview = _.find(this.subviews, function(test_subview) {
                         if (test_subview.model.id == plant.id) {
                             return true;
@@ -67,15 +81,11 @@ function($, _, Mustache, AbstractParentView, template, PlantBoxView) {
                     subview.remove();
                     delete subview;
                 }, this));
-           
-               // TODO Handle merges. 
             }   
 
             AbstractParentView.prototype.update.call(this);
+            return this;
         }
-
-
-
 	});
 
     return PlantListView;

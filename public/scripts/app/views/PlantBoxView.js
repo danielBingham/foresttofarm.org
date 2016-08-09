@@ -7,31 +7,15 @@
 define([
 	'jquery',
 	'underscore',
-	'backbone',
 	'mustache',
+    'app/views/abstract/AbstractView',
 	'text!app/templates/plant-box-template.html'],
-function($, _, Backbone, Mustache,template) {
+function($, _, Mustache,AbstractView,template) {
 
     /**
      * A view wrapping and managing the list display box for each plant.
      */
-	var PlantBoxView = Backbone.View.extend({
-		tagName: 'li',	
-		className: 'display-box',
-
-        /**
-         * Has this view been created and attached to the DOM?
-         *
-         * @type    {boolean}
-         */
-        is_attached: false,
-
-        /**
-         * Has this element been created?
-         *
-         * @type    {boolean}
-         */
-        is_created: false,
+	var PlantBoxView = AbstractView.extend({
 
         /**
          * Initialize this view.  Bind the change events, create and attach the
@@ -40,24 +24,10 @@ function($, _, Backbone, Mustache,template) {
          * @return  {void}
          */
 		initialize: function() {
-            this.listenTo(this.model, 'change', _.bind(this.update, this));
+            AbstractView.prototype.initialize.call(this);
 
-            this.create();
+            this.listenTo(this.model, 'change', _.bind(this.update, this));
 		},
-        
-        /**
-         * Mark whether or not this view has been attached to the DOM.
-         *
-         * @param   {boolean}   attached    If true, this view has been 
-         *      attached to the DOM.  If false, it hasn't been or has been
-         *      removed.
-         *
-         * @return  {this}
-         */
-        setAttached: function(attached) {
-            this.is_attached = attached;
-            return this;
-        },
 
         /**
          * Parse this view's mustache template and populate it with data from
@@ -80,22 +50,11 @@ function($, _, Backbone, Mustache,template) {
             return $.parseHTML(display_box);
         },
 
-        /**
-         * Create this view's element from the mustache template and model.
-         *
-         * @return  {this}
-         */
-        create: function() {
-            this.setElement(this.parse());
-            this.is_created = true;
-            return this;
-        },
-
         /** 
          * Update this view.  Don't recreate it, instead insert the new data
          * into the existing element.
          *
-         * @return  {void}
+         * @return this 
          */
         update: function() {
             this.$el.find("a.title")
@@ -104,22 +63,7 @@ function($, _, Backbone, Mustache,template) {
                 .html(this.model.get('common_names')[0].name);
             return this;
 
-        },
-
-        /**
-         * Render this plant display box from the template.
-         *
-         * @return  {void}
-         */
-		render: function() {
-            if( ! this.is_created) {
-                this.create();
-            } else {
-                this.update();
-            }
-
-			return this;
-		}
+        }
 	});
 
     return PlantBoxView;
