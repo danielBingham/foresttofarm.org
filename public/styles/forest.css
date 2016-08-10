@@ -113,20 +113,12 @@ header h2 {
 
 #main { min-height: 400px; } 
 
-footer {
-	clear: both; margin: 50px 0; padding: 10px 10px; height: 200px;  text-align: center; font: normal 12px arial, sans-serif; 
-	background-color: white; color: #444444; border-top: thin solid #C0C0C0;
+#introduction {
+    width: 700px;
+    margin: 2em auto;
+    font-style: italic;
+    color: #444;
 }
-footer p { font: normal 12px serif; }
-footer #opensource { font: normal 12px serif; }
-footer a:link { color: #2872A6; text-decoration: none; font: bold 12px arial, sans-serif; }
-footer a:hover { color: #2872A6; text-decoration: underline; }
-footer a:visited { color: #2872A6; text-decoration: none; font: bold 12px arial, sans-serif; }
-footer h2 { font: bold 16px Arial,sans-serif; padding: 0.25em 0; margin: 0; }
-footer #linksetWrapper { clear: both; width: 1024px; margin: 0 auto; }
-footer .linkset { float: left; padding: 10px; width: 184px; }
-footer .clear { clear: both; }
-footer #version { padding-top: 50px; font: normal 12px serif; }
 
 #plants { clear: both; margin: 0 auto; padding: 10px 0; width: 1280px; }
 

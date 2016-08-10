@@ -15,16 +15,24 @@
     <h1><a href="/"><p id="forest">Forest</p> <p>to</p> <p id="farm">Farm</p></a></h1>
 	<h2>A tool for permaculture and restoration agriculture.</h2>
 </header>
-<div id="main">
+<nav id="main-menu">
+    <a href="" class="icon-menu"></a>
+    <section id="nav-links">
+        <a href="/">Home</a><br />
+        <a href="/about">About</a><br />
+    </section>
+</nav>
+<section id="introduction">
+    <p>Forest to Farm is a database of useful plants intended to be a tool for
+Permaculture design, restoration agriculture, and agroforestry.  You may browse
+through the database of plants or search for specific plants to fit your needs.
+It is open source and developed by a community of programmers.  You can
+contribute to its development <a href="http://github.com/danielbingham/foresttofarm.org">here</a>.  It is based on data originally compiled by
+<a href="http://www.perennialsolutions.org/meet-eric-toensmeier-perennial-solutions-edible-permaculture-books-videos-workshops-organic-gardening.html">Eric Toensmeier</a> for <a href="http://www.edibleforestgardens.com/">Edible Forest Gardens</a>.</P>
+</section>
+<section id="main">
 
-</div>
-<footer>
-	<div class="attributions">
-		<span id="tree-image-attribution">Tree Image from: Dieter Tracey,
-		Integration and Application Network, University of Maryland Center for
-		Environmental Science (ian.umces.edu/imagelibrary/).</span>
-	</div>
-</footer>
+</section>
 </body>
 </html>
 
