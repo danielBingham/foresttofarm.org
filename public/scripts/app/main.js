@@ -2,9 +2,7 @@ require([
 	'jquery',
 	'underscore',
     'backbone',
-    'router',
-	'app/models/Plants',
-	'app/views/PlantsView'],
-function($, _, Backbone, Router, Plants, PlantsView) {
+    'router'],
+function($, _, Backbone, Router) {
     var router = new Router();
 });
