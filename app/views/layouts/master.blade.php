@@ -11,10 +11,7 @@
 	<div class="clear"></div>
 </div>
 <div id="main">
-	<ul id="plants">
 
-
-	</ul>
 </div>
 <div id="footer" >
 	<div class="attributions">

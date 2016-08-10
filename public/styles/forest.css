@@ -238,5 +238,45 @@ a.tag.course:hover { background-color: #75A0BF; color: white; border: thin solid
 .loginElement .submit input { padding: 5px; font: normal 16px 'Lucida Grande',Verdana,Arial,sans-seriff; }
 
 
+/**************************************
+ * Plant Detail Page
+ **************************************/
+
+.plant-detail {
+    margin: 50px auto; 
+    width: 700px;
+    font-size: 14px;
+}
+.plant-detail h1, .plant-detail h2 {
+    font-size: 1.5em;
+    clear: both;
+}
+.plant-detail h1 {
+    text-align: center;
+}
+.plant-detail .common-names {
+    text-align: center;
+}
+.plant-detail .common-name {
+    font-size: 1.2em;
+    margin: 1em;
+}
+.plant-detail .label {
+    font-weight: bold;
+}
+.plant-detail .descriptor {
+    font-size: 10px;
+    color: #666;
+    font-style: italic;
+}
+.plant-detail section.list {
+    margin: 2em;
+}
+.plant-detail section.single {
+    float: left;
+    margin: 1em;
+}
+
+
 
 
