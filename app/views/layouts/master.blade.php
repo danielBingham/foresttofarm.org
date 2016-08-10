@@ -16,8 +16,7 @@
 	<h2>A tool for permaculture and restoration agriculture.</h2>
 </header>
 <div id="main">
-	<ul id="plants">
-	</ul>
+
 </div>
 <footer>
 	<div class="attributions">

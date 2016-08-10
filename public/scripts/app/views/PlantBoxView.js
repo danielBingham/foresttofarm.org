@@ -7,18 +7,36 @@
 define([
 	'jquery',
 	'underscore',
-	'backbone',
 	'mustache',
+    'app/views/abstract/AbstractView',
 	'text!app/templates/plant-box-template.html'],
-function($, _, Backbone,Mustache,template) {
-	return Backbone.View.extend({
-		tagName: 'li',	
-		className: 'display-box',
+function($, _, Mustache,AbstractView,template) {
+
+    /**
+     * A view wrapping and managing the list display box for each plant.
+     */
+	var PlantBoxView = AbstractView.extend({
 
         /**
-         * Render this plant display box from the template.
+         * Initialize this view.  Bind the change events, create and attach the
+         * DOM element.
+         *
+         * @return  {void}
          */
-		render: function() {
+		initialize: function() {
+            AbstractView.prototype.initialize.call(this);
+
+            this.listenTo(this.model, 'change', _.bind(this.update, this));
+		},
+
+        /**
+         * Parse this view's mustache template and populate it with data from
+         * the model.
+         *
+         * @return  {JQuery}    A jquery element object with the parsed
+         *  template and model data.
+         */
+        parse: function() {
 			var display_box = Mustache.render(
 				template,
 				{
@@ -29,8 +47,24 @@ function($, _, Backbone,Mustache,template) {
 				}
 			);
 
-			this.$el = $.parseHTML(display_box);
-			return this;
-		}
+            return $.parseHTML(display_box);
+        },
+
+        /** 
+         * Update this view.  Don't recreate it, instead insert the new data
+         * into the existing element.
+         *
+         * @return this 
+         */
+        update: function() {
+            this.$el.find("a.title")
+                .html(this.model.get('genus') + ' ' + this.model.get('species')); 
+            this.$el.find("span.sub-title")
+                .html(this.model.get('common_names')[0].name);
+            return this;
+
+        }
 	});
+
+    return PlantBoxView;
 });

@@ -1,6 +1,85 @@
-<div id="{{id}}" class="plant-detail">
-    <div class="name">
-        <span class="latin-name">{{genus}} {{species}}</span>
-        <span class="common-name">{{common_name}}</span>
-    </div>
-</div>
+<article id="plant-{{id}}" class="plant-detail">
+	<h1 class="latin-name">{{genus}} {{species}}</h1>	
+	<section class="common-names">
+	{{#common_names}}
+		<span class="common-name">{{name}}</span> 
+	{{/common_names}}
+	</section>
+	<section class="family single"><span class="label">Family:</span> {{family}}</section>
+	<section class="form single"><span class="label">Form:</span> {{form}}</section>
+	<section class="growth-rate single"><span class="label">Growth Rate: </span> {{growth_rate}}</section>
+	<section class="ph-range single">
+		<span class="label">pH Range:</span> {{minimum_PH}} - {{maximum_PH}}
+	</section>
+	<section class="height-range single">
+		<span class="label">Height Range:</span> {{minimum_height}} - {{maximum_height}}
+	</section>
+	<section class="width-range single">
+		<span class="label">Width Range:</span> {{minimum_width}} - {{maximum_width}}
+	</section>
+	<section class="zone-range single">
+		<span class="label">Zone Range:</span> {{minimum_zone}} - {{maximum_zone}}
+	</section>
+	<section class="native-region single">
+		<span class="label">Native Region:</span> {{native_region}}
+	</section>
+	
+	<section class="habitats list">
+		<h2>Habitats</h2>
+		<p class="descriptor">Can be found in the following habitat types.</p>
+	{{#habitats}}
+		<p class="habitat">{{name}}</p> 
+	{{/habitats}}
+	</section>
+	<section class="habits list">
+		<h2>Growth Habits</h2>
+		<p class="descriptor">Has the following growth habits.</p>
+	{{#habits}}
+		<p class="habit">
+			<span class="name">{{name}}</span>: <span class="description">{{description}}</span>
+		</p>
+	{{/habits}}
+	</section>
+	<section class="harvests list">
+		<h2>Harvests</h2>
+		<p class="descriptor">Offers the following harvests.</p>
+	{{#harvests}}
+		<p class="harvest">{{name}}</p>
+	{{/harvests}}
+	</section>	
+	<section class="light-tolerances list">
+		<h2>Light Tolerances</h2>
+		<p class="descriptor">Tolerates the following light conditions.</p>
+	{{#light_tolerances}}
+		<p class="light-tolerance">{{name}}</p> 
+	{{/light_tolerances}}
+	</section>
+	<section class="root-patterns list">
+		<h2>Root Patterns</h2>
+		<p class="descriptor">Has the following root growth patterns.</p>
+	{{#root_patterns}}
+		<p class="root-pattern"><span class="name">{{name}}</span>: <span class="root-pattern-description">{{description}}</span>
+	{{/root_patterns}}
+	</section>
+	<section class="moisture-tolerances list">
+		<h2>Moisture Tolerances</h2>
+		<p class="descriptor">Will tolerate the following moisture conditions.</p>
+	{{#moisture_tolerances}}
+		<p class="moisture-tolerance"><span class="name">{{name}}</span></p>
+	{{/moisture_tolerances}}
+	</section>
+	<section class="roles list">
+		<h2>Roles</h2>
+		<p class="descriptor">Performs the following ecosystem functions.</p>
+	{{#roles}}
+		<p class="role"><span class="name">{{name}}</span>
+	{{/roles}}
+	</section>
+	<section class="drawbacks list">
+		<h2>Drawbacks</h2>
+		<p class="descriptor">Has the following drawbacks.</p>
+	{{#drawbacks}}
+		<p class="drawback"><span class="name">{{name}}</p>
+	{{/drawbacks}}
+	</section>
+</section>

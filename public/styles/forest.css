@@ -156,6 +156,46 @@ footer #version { padding-top: 50px; font: normal 12px serif; }
     background-size: cover;
 }
 
+/**************************************
+ * Plant Detail Page
+ **************************************/
+
+.plant-detail {
+    margin: 50px auto; 
+    width: 700px;
+    font-size: 14px;
+}
+.plant-detail h1, .plant-detail h2 {
+    font-size: 1.5em;
+    clear: both;
+}
+.plant-detail h1 {
+    text-align: center;
+}
+.plant-detail .common-names {
+    text-align: center;
+}
+.plant-detail .common-name {
+    font-size: 1.2em;
+    margin: 1em;
+}
+.plant-detail .label {
+    font-weight: bold;
+}
+.plant-detail .descriptor {
+    font-size: 10px;
+    color: #666;
+    font-style: italic;
+}
+.plant-detail section.list {
+    margin: 2em;
+}
+.plant-detail section.single {
+    float: left;
+    margin: 1em;
+}
+
+
 
 #plant-2.display-box {
     background-image: url("/img/dwarf-prarie acacia.JPG");

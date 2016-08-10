@@ -4,27 +4,36 @@
 define([
 	'jquery',
 	'underscore',
-	'backbone',
 	'mustache',
+    'app/views/abstract/AbstractView',
 	'text!app/templates/plant-detail-template.html'],
-function($, _, Backbone,Mustache,template) {
-	return Backbone.View.extend({
-		tagName: 'div',	
-		className: 'plant-detail',
+function($, _, Mustache,AbstractView,template) {
+	var PlantDetailView = AbstractView.extend({
 
-		render: function() {
-			var plant_detail = Mustache.render(
+        initialize: function() {
+            AbstractView.prototype.initialize.call(this); 
+
+            this.listenTo(this.model, 'change', _.bind(this.update, this));
+        },
+
+        update: function() {
+            var $newEl = this.parse();
+            this.$el.replaceWith($newEl);
+            this.setElement($newEl);
+            return this;
+        },
+
+        parse: function() {
+            var plant_json = this.model.toJSON();
+			var plant_detail_template  = Mustache.render(
 				template,
-				{
-					id: this.model.get('id'),
-					genus: this.model.get('genus'),
-					species: this.model.get('species'),
-					common_name: this.model.get('common_names')[0].name
-				}
+                plant_json
 			);
 
-			this.$el = $.parseHTML(plant_detail);
-			return this;
-		}
+			return $.parseHTML(plant_detail_template.trim());
+        }
+
 	});
+
+    return PlantDetailView;
 });
