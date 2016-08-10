@@ -109,11 +109,9 @@ header h2 {
     color: white;
     text-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
-    
 
 
-
-#main { margin-top: 90px; min-height: 400px; } 
+#main { min-height: 400px; } 
 
 footer {
 	clear: both; margin: 50px 0; padding: 10px 10px; height: 200px;  text-align: center; font: normal 12px arial, sans-serif; 
@@ -155,48 +153,6 @@ footer #version { padding-top: 50px; font: normal 12px serif; }
     background-repeat: no-repeat;
     background-size: cover;
 }
-
-/**************************************
- * Plant Detail Page
- **************************************/
-
-.plant-detail {
-    margin: 50px auto; 
-    width: 700px;
-    font-size: 14px;
-}
-.plant-detail h1, .plant-detail h2 {
-    font-size: 1.5em;
-    clear: both;
-}
-.plant-detail h1 {
-    text-align: center;
-}
-.plant-detail .common-names {
-    text-align: center;
-}
-.plant-detail .common-name {
-    font-size: 1.2em;
-    margin: 1em;
-}
-.plant-detail .label {
-    font-weight: bold;
-}
-.plant-detail .descriptor {
-    font-size: 10px;
-    color: #666;
-    font-style: italic;
-}
-.plant-detail section.list {
-    margin: 2em;
-}
-.plant-detail section.single {
-    float: left;
-    margin: 1em;
-}
-
-
-
 #plant-2.display-box {
     background-image: url("/img/dwarf-prarie acacia.JPG");
     background-position: center center;
@@ -210,3 +166,72 @@ footer #version { padding-top: 50px; font: normal 12px serif; }
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+/**************************************
+ * Plant Detail Page
+ **************************************/
+
+.plant-detail {
+    margin: 1em auto; 
+    width: 700px;
+    font-size: 14px;
+}
+.plant-detail h1, .plant-detail h2 {
+    font-size: 1.5em;
+    clear: both;
+    text-align: center;
+}
+.plant-detail .common-names {
+    text-align: center;
+    margin-bottom: 3em;
+}
+.plant-detail .common-name {
+    font-size: 1.2em;
+    margin: 1em;
+}
+.plant-detail .label {
+    font-weight: bold;
+}
+.plant-detail .descriptor {
+    font-size: 10px;
+    color: #666;
+    font-style: italic;
+}
+.plant-detail section.lists {
+    clear: both;
+}
+.plant-detail section.list {
+    margin: 2em;
+}
+.plant-detail section.list.quarter{
+    width: 165px;
+    margin: 2em 0;
+    float: left;
+    padding: 0 5px;
+}
+.plant-detail section.list.half {
+    width: 330px;
+    margin: 2em 0;
+    float: left;
+    padding: 0 5px;
+}
+.plant-detail section.single {
+    float: left;
+    margin: 1em 0;
+    width: 165px;
+    padding: 0 5px;
+}
+.plant-detail section.image {
+    float: right;
+    width: 350px;
+    height: 300px;
+}
+#plant-1 section.image {
+    background-image: url("/img/prarie-acacia.JPG");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+
