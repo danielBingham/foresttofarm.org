@@ -29,11 +29,11 @@ ol li { padding: 5px 0; }
 
 body {}
 
-a { color: #2872A6; font: normal 14px Arial,sans-serif; text-decoration: none; }
+a { color: #6463AE; font: normal 14px Arial,sans-serif; text-decoration: none; }
 a span, a div { font: bold 14px Arial, sans-serif; }
-a:link { color: #2872A6; }
-a:hover { color: #2872A6; text-decoration: underline; }
-a:visited { color: #2872A6; }
+a:link { color: #6463AE; }
+a:hover { color: #6463AE; text-decoration: underline; }
+a:visited { color: #6463AE; }
 
 h1 { font: normal 24px Trebuchet MS,Georgia,sans-serif; padding: 0.5em 0; }
 h2 { font: normal 22px Trebuchet MS,Georgia,sans-serif; padding: 0.5em 0; }
@@ -44,25 +44,30 @@ h5 { font: normal 16px Trebuchet MS,Georgia,sans-serif; padding: 0.5em 0; }
 
 header {
     background-color: #14452C;
-    background-image: url("/img/header-background.jpg");
-    background-position: center center;
+    background-image: 
+        linear-gradient(
+            rgba(0,0,0,0.3),
+            rgba(0,0,0,0.05)
+        ), 
+        url("/img/header-background2.jpg");
+    background-position: center 57%;
     background-repeat: no-repeat;
     background-size: cover;
     text-align: center;
-    height: 525px;
+    height: 275px;
 }
 header nav {
     display: block;
     text-align: left;
-    padding: 20px;
+    padding: 15px;
 }
-header nav a:link, header nav a:visited, header nav a:hover {
+header nav a:link, header nav a:visited, header nav a:hover, header nav a:active {
     font-family: ftf-icons !important;
     color: white;
     text-decoration: none;
-    font-size: 50px;
+    font-size: 25px;
+    font-weight: 100;
     text-align: left;
-    text-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 header nav a.icon-menu {
     display: block;
@@ -81,7 +86,7 @@ header nav a.icon-search:before {
 
 
 header h1 { 
-    margin: 60px auto;
+    margin: 30px auto;
 }
 
 header h1 a:link, header h1 a:visited, h1 header a:hover {
@@ -93,25 +98,57 @@ header h1 a:link, header h1 a:visited, h1 header a:hover {
     padding: 0;
 }
 header h1 #forest {
-    font-size: 150px;
+    font-size: 100px;
     line-height: 0.5em;
     font-family: 'Arima Madurai', cursive;
 }
 header h1 #farm {
-    font-size: 150px;
+    font-size: 100px;
     line-height: 0.5em;
     font-family: 'Cabin Sketch', cursive;
 }
 header h2 {
-    margin: 25px auto;
-    font-size: 40px;
+    margin: 35px auto;
+    font-size: 20px;
     text-align: center;
     color: white;
-    text-shadow: 0 0 20px rgba(0,0,0,0.5);
+    text-shadow: 0 0 10px rgba(0,0,0,0.8);
+    display: none;
 }
 
+nav#main-menu {
+    display: none;
+    position: absolute;
+    left: 0; top: 0;
+    width: 300px;
+    height: 100%;
+    z-index: 100;
+    background-color: rgba(16,47,28,0.9);
+    text-align: center;
+    box-shadow: 0 5px 10px black;
+}
+nav#main-menu a.icon-menu {
+    font-family: ftf-icons !important;
+    display: block;
+    margin: 10px 20px;
+    font-size: 30px;
+    font-weight: normal;
+    float: right;
+}
+nav#main-menu a.icon-menu:before {
+  content: "\e9bd";
+}
 
-#main { min-height: 400px; } 
+section#nav-links {
+    margin-top: 100px;
+}
+nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-menu a:active {
+    
+    font-size: 30px;
+    line-height: 1.5em;
+    text-decoration: none;
+    color: white;
+}
 
 #introduction {
     width: 700px;
@@ -120,12 +157,14 @@ header h2 {
     color: #444;
 }
 
+
+#main { min-height: 400px; } 
 #plants { clear: both; margin: 0 auto; padding: 10px 0; width: 1280px; }
 
 .display-box {
 	list-style: none; display: inline-block; position: relative;
-	margin: 60px; width: 300px; height: 400px; 
-	background: url('/img/no-forest.png') no-repeat center; 
+	margin: 40px 30px; width: 350px; height: 400px; 
+	background: url('/img/tree.svg') no-repeat center; 
 	color: #444444; 
 	font: normal 12px arial, sans-serif; text-align: center;
 }
@@ -133,11 +172,11 @@ header h2 {
 	 position: absolute; display: block; margin: 0; padding: 0; width: 300px; height: 300px; border: none; z-index: 0; 
 }
 .display-box .title-box { 
-	margin: 0; padding: 10px; width: 280px;  font: bold 11px Verdana,Arial,sans-serif;
-	color: #444444; background-color: rgba(255,255,255,0.8); z-index: 2; 
+	margin: 0; padding: 10px; width: 330px;  font: bold 11px Verdana,Arial,sans-serif;
+	color: white; background-color: rgba(16,47,28,0.8); z-index: 2; 
 }
-.display-box .title-box a {font: bold 11px Verdana,Arial,sans-serif; text-decoration: none; color: #777; }
-.display-box .title-box a:hover { text-decoration: underline; color: #777; }
+.display-box .title-box a {font: bold 11px Verdana,Arial,sans-serif; text-decoration: none; color: #B9BFD6; }
+.display-box .title-box a:hover { text-decoration: underline; color: #B9BFD6; }
 
 #plant-1.display-box {
     background-image: url("/img/prarie-acacia.JPG");
