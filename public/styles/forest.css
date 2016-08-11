@@ -230,10 +230,8 @@ nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-m
  *      Responsive Design -- Sizes and Dimensions
  ******************************************************************************/
 
-/**
- * Anything over 1280px we'll use one design.  We won't scale bigger than that.
- */
-@media screen and (min-width: 1280px) {
+
+@media screen {
 
     /******************************************************************************
      *      Base setup
@@ -315,24 +313,19 @@ nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-m
      *****************************************************************************/
     #plant-list {
         clear: both;
-        width: 1280px;
         margin: 0 auto;
         padding: 10px 0;
         border: none;
     }
 
     .display-box {
-        margin: 40px 36px; 
-        width: 350px; height: 400px; 
         font-size: 12px;
     }
     .display-box .box-link {
         margin: 0; padding: 0; 
-        width: 300px; height: 300px; 
     }
     .display-box .title-box {
         margin: 0; padding: 10px; 
-        width: 330px;  
         font-size: 11px;
     }
     .display-box .title-box a {
@@ -403,12 +396,152 @@ nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-m
 }
 
 /**
+ * Anything over 1280px we'll use one design.  We won't scale bigger than that.
+ */
+@media screen and (min-width: 1600px) {
+
+    /******************************************************************************
+     *      Plant List
+     *****************************************************************************/
+    #plant-list {
+        width: 1600px;
+    }
+
+    .display-box {
+        margin: 40px 23px; 
+        width: 350px; height: 400px; 
+    }
+    .display-box .box-link {
+        width: 300px; height: 300px; 
+    }
+    .display-box .title-box {
+        width: 330px;  
+    }
+
+}
+
+/**
+ * Anything over 1280px we'll use one design.  We won't scale bigger than that.
+ */
+@media screen and (min-width: 1280px) and (max-width: 1599px) {
+
+    /******************************************************************************
+     *      Plant List
+     *****************************************************************************/
+    #plant-list {
+        width: 1280px;
+    }
+
+    .display-box {
+        margin: 40px 36px; 
+        width: 350px; height: 400px; 
+    }
+    .display-box .box-link {
+        width: 300px; height: 300px; 
+    }
+    .display-box .title-box {
+        width: 330px;  
+    }
+
+}
+
+/**
  * Small to medium screens.
  */
 @media screen and (min-width: 1024px) and (max-width: 1279px) {
 
+    /******************************************************************************
+     *      Plant List
+     *****************************************************************************/
+    #plant-list {
+        width: 1024px;
+    }
 
+    .display-box {
+        margin: 30px 29px; 
+        width: 280px; height: 300px; 
+    }
+    .display-box .box-link {
+        width: 280px; height: 300px; 
+    }
+    .display-box .title-box {
+        width: 260px;  
+    }
 }
 
 
+
+@media screen and (min-width: 700px) and (max-width: 1023px) {
+
+    /******************************************************************************
+     *      Plant List
+     *****************************************************************************/
+    #plant-list {
+        width: 700px;
+    }
+
+    .display-box {
+        margin: 30px 33px; 
+        width: 280px; height: 300px; 
+    }
+    .display-box .box-link {
+        width: 280px; height: 300px; 
+    }
+    .display-box .title-box {
+        width: 260px;  
+    }
+}
+
+
+@media screen and (max-width: 699px) {
+    
+    header {
+        height: 200px;
+    }
+
+    /* ---------------- Header Navigation ------------------- */
+    header nav {
+        padding: 15px;
+    }
+    header nav a:link, header nav a:visited, header nav a:hover, header nav a:active {
+        font-size: 25px;
+    }
+
+    /* ---------------- Logo and Title --------------------- */
+    header h1 a:link, header h1 a:visited, h1 header a:hover {
+        font-size: 25px;
+        text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        padding: 0;
+    }
+    header h1 #forest {
+        font-size: 75px;
+        line-height: 0.5em;
+    }
+    header h1 #farm {
+        font-size: 75px;
+        line-height: 0.5em;
+    }
+
+    /******************************************************************************
+     *      Plant List
+     *****************************************************************************/
+    #introduction {
+        width: 300px;
+    }
+
+    #plant-list {
+        width: 300px;
+    }
+
+    .display-box {
+        margin: 30px 8px; 
+        width: 280px; height: 300px; 
+    }
+    .display-box .box-link {
+        width: 280px; height: 300px; 
+    }
+    .display-box .title-box {
+        width: 260px;  
+    }
+}
 

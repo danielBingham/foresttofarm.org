@@ -4,7 +4,8 @@
 	<title>Forest to Farm</title>
 	<link rel="stylesheet" type="text/css" href="/styles/forest.css" />
     <script src="/scripts/library/require.js" data-main="/scripts/bootstrap"></script>
-	<link href="https://fonts.googleapis.com/css?family=Arima+Madurai|Cabin+Sketch" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Arima+Madurai|Cabin+Sketch" rel="stylesheet">
+    <meta name="viewport" content="width=device-width">
 </head>
 <body>
 <header>
