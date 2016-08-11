@@ -26,35 +26,53 @@
 	</section>
 
     <section class="lists">    
-        <section class="habitats list quarter">
-            <h2>Habitats</h2>
-            <p class="descriptor">Can be found in the following habitat types.</p>
-        {{#habitats}}
-            <p class="habitat">{{name}}</p> 
-        {{/habitats}}
+        <section class="quarter-wrapper">
+            <section class="habitats list quarter">
+                <h2>Habitats</h2>
+                <p class="descriptor">Can be found in the following habitat types.</p>
+            {{#habitats}}
+                <p class="habitat">{{name}}</p> 
+            {{/habitats}}
+            </section>
+            <section class="harvests list quarter">
+                <h2>Harvests</h2>
+                <p class="descriptor">Offers the following harvests.</p>
+            {{#harvests}}
+                <p class="harvest">{{name}}</p>
+            {{/harvests}}
+            </section>	
+            <section class="roles list quarter">
+                <h2>Roles</h2>
+                <p class="descriptor">Performs the following ecosystem functions.</p>
+            {{#roles}}
+                <p class="role"><span class="name">{{name}}</span>
+            {{/roles}}
+            </section>
+            <section class="drawbacks list quarter">
+                <h2>Drawbacks</h2>
+                <p class="descriptor">Has the following drawbacks.</p>
+            {{#drawbacks}}
+                <p class="drawback"><span class="name">{{name}}</p>
+            {{/drawbacks}}
+            </section>
         </section>
-        <section class="harvests list quarter">
-            <h2>Harvests</h2>
-            <p class="descriptor">Offers the following harvests.</p>
-        {{#harvests}}
-            <p class="harvest">{{name}}</p>
-        {{/harvests}}
-        </section>	
-        <section class="roles list quarter">
-            <h2>Roles</h2>
-            <p class="descriptor">Performs the following ecosystem functions.</p>
-        {{#roles}}
-            <p class="role"><span class="name">{{name}}</span>
-        {{/roles}}
-        </section>
-        <section class="drawbacks list quarter">
-            <h2>Drawbacks</h2>
-            <p class="descriptor">Has the following drawbacks.</p>
-        {{#drawbacks}}
-            <p class="drawback"><span class="name">{{name}}</p>
-        {{/drawbacks}}
-        </section>
-        <section class="habits list half">
+        <section class="half-wrapper">
+            <section class="light-tolerances list half">
+                <h2>Light Tolerances</h2>
+                <p class="descriptor">Tolerates the following light conditions.</p>
+            {{#light_tolerances}}
+                <p class="light-tolerance">{{name}}</p> 
+            {{/light_tolerances}}
+            </section>
+            <section class="moisture-tolerances list half">
+                <h2>Moisture Tolerances</h2>
+                <p class="descriptor">Will tolerate the following moisture conditions.</p>
+            {{#moisture_tolerances}}
+                <p class="moisture-tolerance"><span class="name">{{name}}</span></p>
+            {{/moisture_tolerances}}
+            </section>
+        </section>    
+        <section class="habits list">
             <h2>Growth Habits</h2>
             <p class="descriptor">Has the following growth habits.</p>
         {{#habits}}
@@ -63,26 +81,12 @@
             </p>
         {{/habits}}
         </section>
-        <section class="light-tolerances list half">
-            <h2>Light Tolerances</h2>
-            <p class="descriptor">Tolerates the following light conditions.</p>
-        {{#light_tolerances}}
-            <p class="light-tolerance">{{name}}</p> 
-        {{/light_tolerances}}
-        </section>
-        <section class="root-patterns list half">
+        <section class="root-patterns list">
             <h2>Root Patterns</h2>
             <p class="descriptor">Has the following root growth patterns.</p>
         {{#root_patterns}}
             <p class="root-pattern"><span class="name">{{name}}</span>: <span class="root-pattern-description">{{description}}</span>
         {{/root_patterns}}
-        </section>
-        <section class="moisture-tolerances list half">
-            <h2>Moisture Tolerances</h2>
-            <p class="descriptor">Will tolerate the following moisture conditions.</p>
-        {{#moisture_tolerances}}
-            <p class="moisture-tolerance"><span class="name">{{name}}</span></p>
-        {{/moisture_tolerances}}
         </section>
     </section>
 </section>

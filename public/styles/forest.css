@@ -347,6 +347,9 @@ nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-m
         width: 700px;
         font-size: 14px;
     }
+    .plant-detail p {
+        padding: 0.25em 0;
+    }
     .plant-detail h1, .plant-detail h2 {
         font-size: 1.5em;
         clear: both;
@@ -360,12 +363,19 @@ nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-m
     }
     .plant-detail .descriptor {
         font-size: 10px;
+        padding-bottom: 1em;
+        text-align: center;
+        height: 2em;
     }
     .plant-detail section.lists {
         clear: both;
     }
     .plant-detail section.list {
         margin: 2em;
+    }
+    .plant-detail section.half-wrapper,
+    .plant-detail section.quarter-wrapper {
+        clear: both; 
     }
     .plant-detail section.list.quarter{
         width: 165px;
