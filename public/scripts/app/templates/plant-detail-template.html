@@ -27,33 +27,37 @@
 
     <section class="lists">    
         <section class="quarter-wrapper">
-            <section class="habitats list quarter">
-                <h2>Habitats</h2>
-                <p class="descriptor">Can be found in the following habitat types.</p>
-            {{#habitats}}
-                <p class="habitat">{{name}}</p> 
-            {{/habitats}}
+            <section class="mobile-half-wrapper">
+                <section class="habitats list quarter">
+                    <h2>Habitats</h2>
+                    <p class="descriptor">Can be found in the following habitat types.</p>
+                {{#habitats}}
+                    <p class="habitat">{{name}}</p> 
+                {{/habitats}}
+                </section>
+                <section class="harvests list quarter">
+                    <h2>Harvests</h2>
+                    <p class="descriptor">Offers the following harvests.</p>
+                {{#harvests}}
+                    <p class="harvest">{{name}}</p>
+                {{/harvests}}
+                </section>	
             </section>
-            <section class="harvests list quarter">
-                <h2>Harvests</h2>
-                <p class="descriptor">Offers the following harvests.</p>
-            {{#harvests}}
-                <p class="harvest">{{name}}</p>
-            {{/harvests}}
-            </section>	
-            <section class="roles list quarter">
-                <h2>Roles</h2>
-                <p class="descriptor">Performs the following ecosystem functions.</p>
-            {{#roles}}
-                <p class="role"><span class="name">{{name}}</span>
-            {{/roles}}
-            </section>
-            <section class="drawbacks list quarter">
-                <h2>Drawbacks</h2>
-                <p class="descriptor">Has the following drawbacks.</p>
-            {{#drawbacks}}
-                <p class="drawback"><span class="name">{{name}}</p>
-            {{/drawbacks}}
+            <section class="mobile-half-wrapper">
+                <section class="roles list quarter">
+                    <h2>Roles</h2>
+                    <p class="descriptor">Performs the following ecosystem functions.</p>
+                {{#roles}}
+                    <p class="role"><span class="name">{{name}}</span>
+                {{/roles}}
+                </section>
+                <section class="drawbacks list quarter">
+                    <h2>Drawbacks</h2>
+                    <p class="descriptor">Has the following drawbacks.</p>
+                {{#drawbacks}}
+                    <p class="drawback"><span class="name">{{name}}</p>
+                {{/drawbacks}}
+                </section>
             </section>
         </section>
         <section class="half-wrapper">
@@ -72,7 +76,7 @@
             {{/moisture_tolerances}}
             </section>
         </section>    
-        <section class="habits list">
+        <section class="habits list full">
             <h2>Growth Habits</h2>
             <p class="descriptor">Has the following growth habits.</p>
         {{#habits}}
@@ -81,7 +85,7 @@
             </p>
         {{/habits}}
         </section>
-        <section class="root-patterns list">
+        <section class="root-patterns list full">
             <h2>Root Patterns</h2>
             <p class="descriptor">Has the following root growth patterns.</p>
         {{#root_patterns}}

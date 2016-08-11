@@ -209,6 +209,9 @@ nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-m
 .plant-detail .common-names {
     text-align: center;
 }
+.plant-detail section.image {
+	background: url('/img/tree.svg') no-repeat center; 
+}
 .plant-detail .label {
     font-weight: bold;
 }
@@ -542,6 +545,67 @@ nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-m
     }
     .display-box .title-box {
         width: 260px;  
+    }
+
+    /**************************************
+     * Plant Detail Page
+     **************************************/
+    .plant-detail {
+        margin: 1em auto; 
+        width: 300px;
+        font-size: 14px;
+    }
+    .plant-detail .common-names {
+        margin-bottom: 2em;
+    }
+    .plant-detail .common-name {
+        font-size: 1.2em;
+        margin: 1em;
+    }
+    .plant-detail section.image {
+        float: right;
+        width: 300px;
+        height: 300px;
+    }
+    .plant-detail section.single {
+        float: left;
+        margin: 1em 0;
+        width: 140px;
+        height: 2em;
+        padding: 0 5px;
+    }
+    .plant-detail section.lists {
+        clear: both;
+    }
+    .plant-detail section.list {
+        margin: 2em;
+        text-align: center;
+    }
+    .plant-detail .descriptor {
+        font-size: 10px;
+        padding-bottom: 1em;
+        text-align: center;
+        height: 2em;
+    }
+    .plant-detail section.mobile-half-wrapper {
+        clear: both;
+    }
+    .plant-detail section.list.quarter{
+        width: 140px;
+        margin: 2em 0;
+        float: left;
+        padding: 0 5px;
+    }
+    .plant-detail section.list.half {
+        width: 300px;
+        margin: 2em 0;
+        clear: both;
+        padding: 0 5px;
+    }
+    .plant-detail section.list.full {
+        clear: both;
+        width: 300px;
+        margin: 2em 0;
     }
 }
 
