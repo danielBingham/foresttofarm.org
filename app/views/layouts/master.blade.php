@@ -10,16 +10,16 @@
 <body>
 <header>
 	<nav>
-		<a href="" class="icon-search"></a>
-		<a href="" class="icon-menu"></a>
+		<a href="" class="icon icon-search"></a>
+		<a href="" class="icon icon-menu"></a>
 	</nav>
     <h1><a href="/"><p id="forest">Forest</p> <p>to</p> <p id="farm">Farm</p></a></h1>
 </header>
 <nav id="main-menu">
-    <a href="" class="icon-menu"></a>
+    <a href="" class="icon icon-menu"></a>
     <section id="nav-links">
-        <a href="/">Home</a><br />
-        <a href="/about">About</a><br />
+        <a href="/"><span class="icon icon-home"></span> Home</a><br />
+        <a href="/about"><span class="icon icon-about"></span> About</a><br />
     </section>
 </nav>
 <section id="introduction">

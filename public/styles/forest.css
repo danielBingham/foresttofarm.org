@@ -23,6 +23,22 @@
   font-style: normal;
 }
 
+.icon {
+    font-family: ftf-icons !important;
+}
+.icon-menu:before {
+  content: "\e9bd";
+}
+.icon-search:before {
+  content: "\e986";
+}
+.icon-home:before {
+    content: "\e900";
+}
+.icon-about:before {
+    content: "\e923";
+}
+
 /******************************************************************************
  *      Non-Responsive: Font, Color, Borders, and Background
  *
@@ -83,7 +99,6 @@ header nav {
     text-align: left;
 }
 header nav a:link, header nav a:visited, header nav a:hover, header nav a:active {
-    font-family: ftf-icons !important;
     color: white;
     text-decoration: none;
     font-weight: 100;
@@ -96,12 +111,6 @@ header nav a.icon-menu {
 header nav a.icon-search {
     display: block;
     float: right;
-}
-header nav a.icon-menu:before {
-  content: "\e9bd";
-}
-header nav a.icon-search:before {
-  content: "\e986";
 }
 
 /* ---------------- Logo and Title --------------------- */
@@ -127,17 +136,21 @@ nav#main-menu {
     text-align: center;
 }
 nav#main-menu a.icon-menu {
-    font-family: ftf-icons !important;
+    color:white;
+    text-decoration: none;
     display: block;
     font-weight: normal;
     float: right;
 }
-nav#main-menu a.icon-menu:before {
-  content: "\e9bd";
-}
-nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-menu a:active {
+nav#main-menu section#nav-links a:link, 
+nav#main-menu section#nav-links a:visited, 
+nav#main-menu section#nav-links a:active {
     text-decoration: none;
     color: white;
+}
+nav#main-menu section#nav-links a:hover {
+    text-decoration: none;
+    color: #B9BFD6;
 }
 
 /* ---------------- Introductory Paragraph ------------- */
@@ -301,9 +314,12 @@ nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-m
     section#nav-links {
         margin-top: 100px;
     }
-    nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-menu a:active {
-        font-size: 30px;
-        line-height: 1.5em;
+    nav#main-menu section#nav-links a:link, 
+    nav#main-menu section#nav-links a:visited, 
+    nav#main-menu section#nav-links a:hover, 
+    nav#main-menu section#nav-links a:active {
+        font-size: 24px;
+        line-height: 1.6em;
     }
 
     /* ---------------- Introductory Paragraph ------------- */
