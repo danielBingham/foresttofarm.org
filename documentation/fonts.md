@@ -30,7 +30,7 @@ means styling with fill color, size, text decoration, drop shadow, etc.
 
 ### Adding Icons to the Icomoon Font
 
-1. Go to icomoon.io/app/
+1. Go to ``icomoon.io/app/``
 2. If selection isn't cached in your browser, you can reupload it.  
     1. Click on "untitled project" to go to the project page.  
     2. Click on "import project"
@@ -53,6 +53,6 @@ means styling with fill color, size, text decoration, drop shadow, etc.
 .icon-name:before {
     content: "\e900";
 }
-``
+```
     3. Save forest.css and you're done!  Font file sucessfully updated.  You can use the new class on a blank element (usually ``<span></span>`` or ``<a></a>``) to use your icon.
 
