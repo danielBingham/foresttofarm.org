@@ -1,5 +1,17 @@
 @CHARSET "UTF-8";
 
+/******************************************************************************
+ *      Color Scheme
+ *
+ * Greens:
+ *  Light: BECCA3, Dark: 102F1C 
+ * Blues/Purples:
+ *  Light: 6463AE, Lighter: B9BFD6
+ *
+ ******************************************************************************/
+
+
+
 @font-face {
   font-family: 'ftf-icons';
   src:  url('/fonts/ftf-icons.eot?vp31fw');
@@ -52,7 +64,7 @@ h1,h2,h3,h4,h5,h6 {
  * Header, Menus, Navigation and Introduction
  ******************************************************************************/
 header {
-    background-color: #14452C;
+    background-color: #102F1C;
     background-image: 
         linear-gradient(
             rgba(0,0,0,0.3),
@@ -144,7 +156,7 @@ nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-m
 	list-style: none;  
 
 	background: url('/img/tree.svg') no-repeat center; 
-    color: #444444; 
+    color: white; 
 
     font-weight: normal;
     text-align: center;
@@ -157,7 +169,6 @@ nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-m
      z-index: 0; 
 }
 .display-box .title-box { 
-    color: white; 
     background-color: rgba(16,47,28,0.8); 
     z-index: 2; 
 }
