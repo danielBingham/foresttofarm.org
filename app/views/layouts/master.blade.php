@@ -13,7 +13,6 @@
 		<a href="" class="icon-menu"></a>
 	</nav>
     <h1><a href="/"><p id="forest">Forest</p> <p>to</p> <p id="farm">Farm</p></a></h1>
-	<h2>A tool for permaculture and restoration agriculture.</h2>
 </header>
 <nav id="main-menu">
     <a href="" class="icon-menu"></a>

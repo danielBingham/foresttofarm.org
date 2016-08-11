@@ -11,37 +11,46 @@
   font-style: normal;
 }
 
+/******************************************************************************
+ *      Non-Responsive: Font, Color, Borders, and Background
+ *
+ * This section defines the non-responsive elements of the style - the ones that
+ * stay constant through all screem media.  Responsive elements are defined in
+ * the responsive section below (search for "Responsive Design").
+ *
+ ******************************************************************************/
+
+/******************************************************************************
+ *      Base setup
+ *****************************************************************************/
 * { margin: 0; padding: 0; }
-html, body { margin: 0; padding: 0; height: 100%; width: 100%; min-width: 1024px; font: normal 14px "Lucida Grande",Tahoma,Verdana,Arial,sans-serif;  color: #444444; }
+html, body { 
+    margin: 0; padding: 0; 
+    height: 100%; width: 100%; 
+    min-width: 300px; 
+    font-family: "Lucida Grande",Tahoma,Verdana,Arial,sans-serif;  
+    font-weight: normal;
+    color: #444444; 
+}
 img { border: none; }
-input { 
-	border: thin solid #A0A0A0; padding: 5px;  
-	-moz-border-radius: 4px;  -khtml-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+
+a:link, a:hover, a:visited, a:active { 
+    color: #6463AE; 
+    font-family: "Lucida Grande",Tahoma,Verdana,Arial,sans-serif; 
+    font-weight: normal;
+    text-decoration: none; 
+}
+a:hover { text-decoration: underline; }
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: Trebuchet MS,Georgia,sans-serif;
+    font-weight: normal;
 }
 
-textarea { 
-	border: thin solid #A0A0A0; padding: 5px;
-	-moz-border-radius: 4px;  -khtml-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
-}
 
-ol { padding: 10px; list-style-type: decimal; }
-ol li { padding: 5px 0; }
-
-body {}
-
-a { color: #6463AE; font: normal 14px Arial,sans-serif; text-decoration: none; }
-a span, a div { font: bold 14px Arial, sans-serif; }
-a:link { color: #6463AE; }
-a:hover { color: #6463AE; text-decoration: underline; }
-a:visited { color: #6463AE; }
-
-h1 { font: normal 24px Trebuchet MS,Georgia,sans-serif; padding: 0.5em 0; }
-h2 { font: normal 22px Trebuchet MS,Georgia,sans-serif; padding: 0.5em 0; }
-h3 { font: normal 20px Trebuchet MS,Georgia,sans-serif; padding: 0.5em 0; }
-h4 { font: normal 18px Trebuchet MS,Georgia,sans-serif; padding: 0.5em 0; }
-h5 { font: normal 16px Trebuchet MS,Georgia,sans-serif; padding: 0.5em 0; }
-
-
+/******************************************************************************
+ * Header, Menus, Navigation and Introduction
+ ******************************************************************************/
 header {
     background-color: #14452C;
     background-image: 
@@ -54,18 +63,17 @@ header {
     background-repeat: no-repeat;
     background-size: cover;
     text-align: center;
-    height: 275px;
 }
+
+/* ---------------- Header Navigation ------------------- */
 header nav {
     display: block;
     text-align: left;
-    padding: 15px;
 }
 header nav a:link, header nav a:visited, header nav a:hover, header nav a:active {
     font-family: ftf-icons !important;
     color: white;
     text-decoration: none;
-    font-size: 25px;
     font-weight: 100;
     text-align: left;
 }
@@ -84,100 +92,93 @@ header nav a.icon-search:before {
   content: "\e986";
 }
 
-
-header h1 { 
-    margin: 30px auto;
-}
-
+/* ---------------- Logo and Title --------------------- */
 header h1 a:link, header h1 a:visited, h1 header a:hover {
     color: white;
-    font-size: 30px;
     font-weight: 300;
     text-decoration: none;
-    text-shadow: 0 0 20px rgba(0,0,0,0.5);
-    padding: 0;
 }
 header h1 #forest {
-    font-size: 100px;
-    line-height: 0.5em;
     font-family: 'Arima Madurai', cursive;
 }
 header h1 #farm {
-    font-size: 100px;
-    line-height: 0.5em;
     font-family: 'Cabin Sketch', cursive;
 }
-header h2 {
-    margin: 35px auto;
-    font-size: 20px;
-    text-align: center;
-    color: white;
-    text-shadow: 0 0 10px rgba(0,0,0,0.8);
-    display: none;
-}
 
+/* ---------------- Main Sidebar Menu ------------------ */
 nav#main-menu {
     display: none;
     position: absolute;
     left: 0; top: 0;
-    width: 300px;
-    height: 100%;
     z-index: 100;
     background-color: rgba(16,47,28,0.9);
     text-align: center;
-    box-shadow: 0 5px 10px black;
 }
 nav#main-menu a.icon-menu {
     font-family: ftf-icons !important;
     display: block;
-    margin: 10px 20px;
-    font-size: 30px;
     font-weight: normal;
     float: right;
 }
 nav#main-menu a.icon-menu:before {
   content: "\e9bd";
 }
-
-section#nav-links {
-    margin-top: 100px;
-}
 nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-menu a:active {
-    
-    font-size: 30px;
-    line-height: 1.5em;
     text-decoration: none;
     color: white;
 }
 
+/* ---------------- Introductory Paragraph ------------- */
 #introduction {
-    width: 700px;
-    margin: 2em auto;
     font-style: italic;
     color: #444;
 }
 
 
-#main { min-height: 400px; } 
-#plants { clear: both; margin: 0 auto; padding: 10px 0; width: 1280px; }
-
+/******************************************************************************
+ *      Plant List
+ *****************************************************************************/
 .display-box {
-	list-style: none; display: inline-block; position: relative;
-	margin: 40px 30px; width: 350px; height: 400px; 
+    position: relative;
+    display: inline-block;
+	list-style: none;  
+
 	background: url('/img/tree.svg') no-repeat center; 
-	color: #444444; 
-	font: normal 12px arial, sans-serif; text-align: center;
+    color: #444444; 
+
+	font-family: Arial,sans-serif; 
+    font-weight: normal;
+    text-align: center;
 }
 .display-box .box-link {
-	 position: absolute; display: block; margin: 0; padding: 0; width: 300px; height: 300px; border: none; z-index: 0; 
+	 position: absolute; 
+     display: block; 
+
+     border: none; 
+     z-index: 0; 
 }
 .display-box .title-box { 
-	margin: 0; padding: 10px; width: 330px;  font: bold 11px Verdana,Arial,sans-serif;
-	color: white; background-color: rgba(16,47,28,0.8); z-index: 2; 
+    font-family: Verdana,Arial,sans-serif;
+    font-weight: bold;
+	
+    color: white; 
+    background-color: rgba(16,47,28,0.8); 
+    z-index: 2; 
 }
-.display-box .title-box a {font: bold 11px Verdana,Arial,sans-serif; text-decoration: none; color: #B9BFD6; }
-.display-box .title-box a:hover { text-decoration: underline; color: #B9BFD6; }
+.display-box .title-box a {
+    font-family: Verdana,Arial,sans-serif; 
+    font-weight: bold;
+    text-decoration: none; 
+    color: #B9BFD6; 
+}
+.display-box .title-box a:hover { 
+    text-decoration: underline; 
+    color: #B9BFD6; 
+}
 
+/* ----------------TODO REMOVE THIS HACK! -------------- */
+/* This is a temporary hack so that I can get a sense of what the page
+ * will look like once it has images on it. */
 #plant-1.display-box {
     background-image: url("/img/prarie-acacia.JPG");
     background-position: center center;
@@ -202,66 +203,201 @@ nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-m
  * Plant Detail Page
  **************************************/
 
-.plant-detail {
-    margin: 1em auto; 
-    width: 700px;
-    font-size: 14px;
-}
 .plant-detail h1, .plant-detail h2 {
-    font-size: 1.5em;
-    clear: both;
     text-align: center;
 }
 .plant-detail .common-names {
     text-align: center;
-    margin-bottom: 3em;
-}
-.plant-detail .common-name {
-    font-size: 1.2em;
-    margin: 1em;
 }
 .plant-detail .label {
     font-weight: bold;
 }
 .plant-detail .descriptor {
-    font-size: 10px;
     color: #666;
     font-style: italic;
 }
-.plant-detail section.lists {
-    clear: both;
-}
-.plant-detail section.list {
-    margin: 2em;
-}
-.plant-detail section.list.quarter{
-    width: 165px;
-    margin: 2em 0;
-    float: left;
-    padding: 0 5px;
-}
-.plant-detail section.list.half {
-    width: 330px;
-    margin: 2em 0;
-    float: left;
-    padding: 0 5px;
-}
-.plant-detail section.single {
-    float: left;
-    margin: 1em 0;
-    width: 165px;
-    padding: 0 5px;
-}
-.plant-detail section.image {
-    float: right;
-    width: 350px;
-    height: 300px;
-}
+
+/* ---------------- TODO Remove This Hack! ------------- */
 #plant-1 section.image {
     background-image: url("/img/prarie-acacia.JPG");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+
+/******************************************************************************
+ *      Responsive Design -- Sizes and Dimensions
+ ******************************************************************************/
+
+/**
+ * Anything over 1280px we'll use one design.  We won't scale bigger than that.
+ */
+@media screen and (min-width: 1280px) {
+
+    /******************************************************************************
+     *      Base setup
+     *****************************************************************************/
+    html,body {
+        font-size: 14px;
+    }
+    a { 
+        font-size: 14px;
+    }
+    h1 { font-size: 24px; padding: 0.5em 0; }
+    h2 { font-size: 22px; padding: 0.5em 0; }
+    h3 { font-size: 20px; padding: 0.5em 0; }
+    h4 { font-size: 18px; padding: 0.5em 0; }
+    h5 { font-size: 16px; padding: 0.5em 0; }
+    h6 { font-size: 14px; padding: 0.5em 0; }
+
+    /******************************************************************************
+     * Header, Menus, Navigation and Introduction
+     ******************************************************************************/
+    header {
+        height: 275px;
+    }
+
+    /* ---------------- Header Navigation ------------------- */
+    header nav {
+        padding: 15px;
+    }
+    header nav a:link, header nav a:visited, header nav a:hover, header nav a:active {
+        font-size: 25px;
+    }
+
+    /* ---------------- Logo and Title --------------------- */
+    header h1 a:link, header h1 a:visited, h1 header a:hover {
+        font-size: 30px;
+        text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        padding: 0;
+    }
+    header h1 #forest {
+        font-size: 100px;
+        line-height: 0.5em;
+    }
+    header h1 #farm {
+        font-size: 100px;
+        line-height: 0.5em;
+    }
+
+    /* ---------------- Main Sidebar Menu ------------------ */
+    nav#main-menu {
+        width: 300px;
+        height: 100%;
+        box-shadow: 0 5px 10px black;
+    }
+    nav#main-menu a.icon-menu {
+        margin: 10px 20px;
+        font-size: 30px;
+    }
+    section#nav-links {
+        margin-top: 100px;
+    }
+    nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-menu a:active {
+        font-size: 30px;
+        line-height: 1.5em;
+    }
+
+    /* ---------------- Introductory Paragraph ------------- */
+    #introduction {
+        width: 700px;
+        margin: 2em auto;
+    }
+
+    #main {
+        min-height: 600px;
+    }
+
+
+    /******************************************************************************
+     *      Plant List
+     *****************************************************************************/
+    #plant-list {
+        clear: both;
+        width: 1280px;
+        margin: 0 auto;
+        padding: 10px 0;
+        border: none;
+    }
+
+    .display-box {
+        margin: 40px 36px; 
+        width: 350px; height: 400px; 
+        font-size: 12px;
+    }
+    .display-box .box-link {
+        margin: 0; padding: 0; 
+        width: 300px; height: 300px; 
+    }
+    .display-box .title-box {
+        margin: 0; padding: 10px; 
+        width: 330px;  
+        font-size: 11px;
+    }
+    .display-box .title-box a {
+        font-size: 11px;
+    }
+
+    /**************************************
+     * Plant Detail Page
+     **************************************/
+    .plant-detail {
+        margin: 1em auto; 
+        width: 700px;
+        font-size: 14px;
+    }
+    .plant-detail h1, .plant-detail h2 {
+        font-size: 1.5em;
+        clear: both;
+    }
+    .plant-detail .common-names {
+        margin-bottom: 3em;
+    }
+    .plant-detail .common-name {
+        font-size: 1.2em;
+        margin: 1em;
+    }
+    .plant-detail .descriptor {
+        font-size: 10px;
+    }
+    .plant-detail section.lists {
+        clear: both;
+    }
+    .plant-detail section.list {
+        margin: 2em;
+    }
+    .plant-detail section.list.quarter{
+        width: 165px;
+        margin: 2em 0;
+        float: left;
+        padding: 0 5px;
+    }
+    .plant-detail section.list.half {
+        width: 330px;
+        margin: 2em 0;
+        float: left;
+        padding: 0 5px;
+    }
+    .plant-detail section.single {
+        float: left;
+        margin: 1em 0;
+        width: 165px;
+        padding: 0 5px;
+    }
+    .plant-detail section.image {
+        float: right;
+        width: 350px;
+        height: 300px;
+    }
+}
+
+/**
+ * Small to medium screens.
+ */
+@media screen and (min-width: 1024px) and (max-width: 1279px) {
+
+
 }
 
 
