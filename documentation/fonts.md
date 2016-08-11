@@ -48,10 +48,10 @@ means styling with fill color, size, text decoration, drop shadow, etc.
 12. Make a new class for each of your new icons.  
     1. On the generate page you'll find a glyph number for each icon you added.  For example, the glyph for the "Home" icon is ``e900``.  
     2. For each icon you added, create a class at the top of ``forest.css`` following this pattern (where you replace ``e900`` with your glyph number).
-        ```css
-        .icon-name:before {
-            content: "\e900";
-        }
-        ```
-    3. Save forest.css and you're done!  Font file sucessfully updated.  You can use the new class on a blank element (usually ``<span></span>`` or ``<a></a>``) to use your icon.
+    ```css
+    .icon-name:before {
+        content: "\e900";
+    }
+    ```
+13. Save forest.css and you're done!  Font file sucessfully updated.  You can use the new class on a blank element (usually ``<span></span>`` or ``<a></a>``) to use your icon.
 
