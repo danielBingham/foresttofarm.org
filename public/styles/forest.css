@@ -28,7 +28,7 @@ html, body {
     margin: 0; padding: 0; 
     height: 100%; width: 100%; 
     min-width: 300px; 
-    font-family: "Lucida Grande",Tahoma,Verdana,Arial,sans-serif;  
+    font-family: Georgia,serif;  
     font-weight: normal;
     color: #444444; 
 }
@@ -36,14 +36,14 @@ img { border: none; }
 
 a:link, a:hover, a:visited, a:active { 
     color: #6463AE; 
-    font-family: "Lucida Grande",Tahoma,Verdana,Arial,sans-serif; 
+    font-family: Verdana,sans-serif; 
     font-weight: normal;
     text-decoration: none; 
 }
 a:hover { text-decoration: underline; }
 
 h1,h2,h3,h4,h5,h6 {
-    font-family: Trebuchet MS,Georgia,sans-serif;
+    font-family: Verdana,sans-serif;
     font-weight: normal;
 }
 
@@ -146,7 +146,6 @@ nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-m
 	background: url('/img/tree.svg') no-repeat center; 
     color: #444444; 
 
-	font-family: Arial,sans-serif; 
     font-weight: normal;
     text-align: center;
 }
@@ -158,15 +157,11 @@ nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-m
      z-index: 0; 
 }
 .display-box .title-box { 
-    font-family: Verdana,Arial,sans-serif;
-    font-weight: bold;
-	
     color: white; 
     background-color: rgba(16,47,28,0.8); 
     z-index: 2; 
 }
 .display-box .title-box a {
-    font-family: Verdana,Arial,sans-serif; 
     font-weight: bold;
     text-decoration: none; 
     color: #B9BFD6; 
@@ -322,17 +317,16 @@ nav#main-menu a:link, nav#main-menu a:visited, nav#main-menu a:hover, nav#main-m
     }
 
     .display-box {
-        font-size: 12px;
+        font-size: 13px;
     }
     .display-box .box-link {
         margin: 0; padding: 0; 
     }
     .display-box .title-box {
         margin: 0; padding: 10px; 
-        font-size: 11px;
     }
-    .display-box .title-box a {
-        font-size: 11px;
+    .display-box .title-box a { 
+        font-size: 13px;
     }
 
     /**************************************
