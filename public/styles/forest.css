@@ -1,282 +1,632 @@
 @CHARSET "UTF-8";
 
+/******************************************************************************
+ *      Color Scheme
+ *
+ * Greens:
+ *  Light: BECCA3, Dark: 102F1C 
+ * Blues/Purples:
+ *  Light: 6463AE, Lighter: B9BFD6
+ *
+ ******************************************************************************/
+
+
+
+@font-face {
+  font-family: 'ftf-icons';
+  src:  url('/fonts/ftf-icons.eot?vp31fw');
+  src:  url('/fonts/ftf-icons.eot?vp31fw#iefix') format('embedded-opentype'),
+    url('/fonts/ftf-icons.ttf?vp31fw') format('truetype'),
+    url('/fonts/ftf-icons.woff?vp31fw') format('woff'),
+    url('/fonts/ftf-icons.svg?vp31fw#ftf-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.icon {
+    font-family: ftf-icons !important;
+}
+.icon-menu:before {
+  content: "\e9bd";
+}
+.icon-search:before {
+  content: "\e986";
+}
+.icon-home:before {
+    content: "\e900";
+}
+.icon-about:before {
+    content: "\e923";
+}
+
+/******************************************************************************
+ *      Non-Responsive: Font, Color, Borders, and Background
+ *
+ * This section defines the non-responsive elements of the style - the ones that
+ * stay constant through all screem media.  Responsive elements are defined in
+ * the responsive section below (search for "Responsive Design").
+ *
+ ******************************************************************************/
+
+/******************************************************************************
+ *      Base setup
+ *****************************************************************************/
 * { margin: 0; padding: 0; }
-html, body { margin: 0; padding: 0; height: 100%; width: 100%; min-width: 1024px; font: normal 14px "Lucida Grande",Tahoma,Verdana,Arial,sans-serif;  color: #444444; }
+html, body { 
+    margin: 0; padding: 0; 
+    height: 100%; width: 100%; 
+    min-width: 300px; 
+    font-family: Georgia,serif;  
+    font-weight: normal;
+    color: #444444; 
+}
 img { border: none; }
-input { 
-	border: thin solid #A0A0A0; padding: 5px;  
-	-moz-border-radius: 4px;  -khtml-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+
+a:link, a:hover, a:visited, a:active { 
+    color: #6463AE; 
+    font-family: Verdana,sans-serif; 
+    font-weight: normal;
+    text-decoration: none; 
+}
+a:hover { text-decoration: underline; }
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: Verdana,sans-serif;
+    font-weight: normal;
 }
 
-textarea { 
-	border: thin solid #A0A0A0; padding: 5px;
-	-moz-border-radius: 4px;  -khtml-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+
+/******************************************************************************
+ * Header, Menus, Navigation and Introduction
+ ******************************************************************************/
+header {
+    background-color: #102F1C;
+    background-image: 
+        linear-gradient(
+            rgba(0,0,0,0.3),
+            rgba(0,0,0,0.05)
+        ), 
+        url("/img/header-background2.jpg");
+    background-position: center 57%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
 }
 
-ol { padding: 10px; list-style-type: decimal; }
-ol li { padding: 5px 0; }
-
-body {}
-
-a { color: #2872A6; font: normal 14px Arial,sans-serif; text-decoration: none; }
-a span, a div { font: bold 14px Arial, sans-serif; }
-a:link { color: #2872A6; }
-a:hover { color: #2872A6; text-decoration: underline; }
-a:visited { color: #2872A6; }
-a:hover { color: #2872A6; }
-
-h1 { font: normal 24px Trebuchet MS,Georgia,sans-serif; padding: 0.5em 0; }
-h2 { font: normal 22px Trebuchet MS,Georgia,sans-serif; padding: 0.5em 0; }
-h3 { font: normal 20px Trebuchet MS,Georgia,sans-serif; padding: 0.5em 0; }
-h4 { font: normal 18px Trebuchet MS,Georgia,sans-serif; padding: 0.5em 0; }
-h5 { font: normal 16px Trebuchet MS,Georgia,sans-serif; padding: 0.5em 0; }
-
-.padding { display: none; padding: 20px 0; }
-.clear { clear: both; height: 1px; }
-
-#templates { display: none; }
-
-.header { 
-	clear: both; margin: 0 auto; width: 1004px; padding: 0 10px; height: 42px;
-	border-bottom: thin solid #C0C0C0; 
-
+/* ---------------- Header Navigation ------------------- */
+header nav {
+    display: block;
+    text-align: left;
 }
-.header .title { float: left; padding: 11px 3px; }
-.header .controls { float: right; }
-.header .controls a { display: inline-block;  padding: 15px 7px 0 7px;  text-decoration: none; color: #2872A6;  }
-.header .controls a:hover { text-decoration: underline; }
-.header .controls a.highlight { text-decoration: underline; }
-.header .controls.tabbed a { 
-	background-color: white; margin-bottom: -10px; margin-left: -7px; padding-bottom: 10px; padding-right: 20px; padding-left: 20px;
-	border-top: thin solid #C0C0C0; border-left: thin solid #C0C0C0; border-right: thin solid #C0C0C0; z-index: 1;
-	-moz-border-radius-topright: 10px; -khtml-border-top-right-radius: 10px; -webkit-border-top-right-radius: 10px; border-top-right-radius: 10px; 
-	-moz-border-radius-topleft: 10px; -khtml-border-top-left-radius: 10px; -webkit-border-top-left-radius: 10px; border-top-left-radius: 10px;
+header nav a:link, header nav a:visited, header nav a:hover, header nav a:active {
+    color: white;
+    text-decoration: none;
+    font-weight: 100;
+    text-align: left;
 }
-.header .controls.tabbed a.highlight { padding-bottom: 11px; }
-
-.subheader { 
-	clear: both; margin: 0 auto; width: 900px; height: 42px; padding: 0 10px;
-	border-bottom: thin solid #C0C0C0; 
-
+header nav a.icon-menu {
+    display: block;
+    float: left;
 }
-.subheader .title { float: left; font: normal 14px Arial, sans-serif; padding: 13px 3px; }
-.subheader .controls { float: right; }
-.subheader .controls a { display: inline-block; padding: 15px 7px 0 7px; color: #2872A6; font: normal 14px Arial, sans-serif; text-decoration: none; }
-.subheader .controls a:hover { text-decoration: underline; }
-
-
-.tabbedHeader { 
-	clear: both; margin: 0 auto; width: 1004px; padding: 0 10px; height: 42px;
-	border-bottom: thin solid #C0C0C0; 
-
-}
-.tabbedHeader .title { float: left; padding: 11px 3px; }
-.tabbedHeader .controls { float: right; }
-.tabbedHeader .controls a { 
-    display: inline-block;  padding: 15px 20px 10px 20px;  text-decoration: none; color: #2872A6;  
-	background-color: white; margin-bottom: -10px; margin-left: -7px; 
-	border-top: thin solid #C0C0C0; border-left: thin solid #C0C0C0; border-right: thin solid #C0C0C0; z-index: 1;
-	-moz-border-radius-topright: 10px; -khtml-border-top-right-radius: 10px; -webkit-border-top-right-radius: 10px; border-top-right-radius: 10px; 
-	-moz-border-radius-topleft: 10px; -khtml-border-top-left-radius: 10px; -webkit-border-top-left-radius: 10px; border-top-left-radius: 10px;
-}
-.tabbedHeader .controls a:hover { text-decoration: underline; }
-.tabbedHeader .controls a.highlight { text-decoration: underline; padding-bottom: 11px; }
-
-.pageChooser { clear: both; margin: 20px auto; padding: 30px 0; text-align: center; font-weight: bold; }
-.pageChooser .current { display: inline-block; width: 40px; height: 25px; padding: 10px 0; text-decoration: underline; color: #666666;}
-.pageChooser a { display: inline-block; width: 40px; height: 25px; padding: 10px 0; text-decoration: none; color: #2872A6; font-weight: bold; }
-.pageChooser a:hover { text-decoration: underline; }
-
-a.tag { 
-	display: inline-block; padding: 5px; font-weight: bold; color: white; margin: 10px 5px; 
-	-moz-border-radius: 6px;  -khtml-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px;
+header nav a.icon-search {
+    display: block;
+    float: right;
 }
 
-a.tag.general { background-color: white; color: #666666; border: thin solid #C0C0C0; }
-a.tag.cuisine { background-color: #A66E25; color: white; border: thin solid #A66E25; }
-a.tag.allergen { background-color: #A62525; color: white; border: thin solid #A62525; }
-a.tag.diet { background-color: #25A625; color: white; border: thin solid #25A625; }
-a.tag.course { background-color: #2872A6; color: white; border: thin solid #2872A6; }
-
-a.tag.general:hover { background-color: #DEDEDE; color: #666666; border: thin solid #C0C0C06; }
-a.tag.cuisine:hover { background-color: #BF9D70; color: white; border: thin solid #BF9D70; }
-a.tag.allergen:hover { background-color: #BF7070; color: white; border: thin solid #BF7070; }
-a.tag.diet:hover { background-color: #70BF70; color: white; border: thin solid #70BF70; }
-a.tag.course:hover { background-color: #75A0BF; color: white; border: thin solid #75A0BF; }
-
-
-#titles { margin-top: 60px; clear: both; text-align: center; }
-#titles img { clear: both; }
-
-#header { margin: 0;  border-bottom: thin solid #C0C0C0;
-	/*box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
-	-moz-box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
-	-webkit-box-shadow: 0px 0px 10px rgba(0,0,0,0.5); */
+/* ---------------- Logo and Title --------------------- */
+header h1 a:link, header h1 a:visited, h1 header a:hover {
+    color: white;
+    font-weight: 300;
+    text-decoration: none;
+}
+header h1 #forest {
+    font-family: 'Arima Madurai', cursive;
+}
+header h1 #farm {
+    font-family: 'Cabin Sketch', cursive;
 }
 
-#logo { float: left; display: inline-block; padding: 10px;}
-#navigation { float: left; margin: 0; padding: 20px; height: 20px; font-size: 18px; }
-#navigation a { display: inline-block; padding: 0 2px; }
-#navigation a.highlight { text-decoration: underline;}
-
-
-#browse { padding: 0; margin: 0; display: inline-block;  }
-#browse a { display: inline-block; padding: 0 2px; }
-#browse a:hover { text-decoration: none; }
-#browse .open-menu { display: none;   }
-#browse .close-menu {
-    display: none;  z-index: 99; 
+/* ---------------- Main Sidebar Menu ------------------ */
+nav#main-menu {
+    display: none;
+    position: absolute;
+    left: 0; top: 0;
+    z-index: 100;
+    background-color: rgba(16,47,28,0.9);
+    text-align: center;
 }
-#browse .menu {
-	display: none; position: absolute;  margin: 26px 0 0 -10px; padding: 10px; font-size: 14px; background-color: white; text-align: center;
-	border-top: thin solid white; border-bottom: thin solid #C0C0C0; border-left: thin solid #C0C0C0; border-right: thin solid #C0C0C0;	
-	-moz-border-radius-bottomright: 10px; -khtml-border-bottom-right-radius: 10px; -webkit-border-bottom-right-radius: 10px; border-bottom-right-radius: 10px; 
-	-moz-border-radius-bottomleft: 10px; -khtml-border-bottom-left-radius: 10px; -webkit-border-bottom-left-radius: 10px; border-bottom-left-radius: 10px;
+nav#main-menu a.icon-menu {
+    color:white;
+    text-decoration: none;
+    display: block;
+    font-weight: normal;
+    float: right;
 }
-#browse .menu a:hover { text-decoration: underline; }
-
-
-#userControls { float: right; margin: 0; padding: 21px; height: 20px; font-size: 16px;	}
-#quickSearch { float: right; margin: 0; padding: 20px 10px; height: 16px; font-size: 14px; }
-#quickSearch input { font-size: 12px; padding: 5px; width: 300px; color: #666666; }
-
-#main { margin-top: 90px; min-height: 400px; } 
-
-#footer {
-	clear: both; margin: 50px 0; padding: 10px 10px; height: 200px;  text-align: center; font: normal 12px arial, sans-serif; 
-	background-color: white; color: #444444; border-top: thin solid #C0C0C0;
+nav#main-menu section#nav-links a:link, 
+nav#main-menu section#nav-links a:visited, 
+nav#main-menu section#nav-links a:active {
+    text-decoration: none;
+    color: white;
 }
-#footer p { font: normal 12px serif; }
-#footer #opensource { font: normal 12px serif; }
-#footer a:link { color: #2872A6; text-decoration: none; font: bold 12px arial, sans-serif; }
-#footer a:hover { color: #2872A6; text-decoration: underline; }
-#footer a:visited { color: #2872A6; text-decoration: none; font: bold 12px arial, sans-serif; }
-#footer h2 { font: bold 16px Arial,sans-serif; padding: 0.25em 0; margin: 0; }
-#footer #linksetWrapper { clear: both; width: 1024px; margin: 0 auto; }
-#footer .linkset { float: left; padding: 10px; width: 184px; }
-#footer .clear { clear: both; }
-#footer #version { padding-top: 50px; font: normal 12px serif; }
+nav#main-menu section#nav-links a:hover {
+    text-decoration: none;
+    color: #B9BFD6;
+}
 
-#plants { clear: both; margin: 0 auto; padding: 10px 0; width: 1024px; background-color: white; border-left: thin solid white; border-right: thin solid white; }
+/* ---------------- Introductory Paragraph ------------- */
+#introduction {
+    font-style: italic;
+    color: #444;
+}
 
+
+/******************************************************************************
+ *      Plant List
+ *****************************************************************************/
 .display-box {
-	list-style: none; display: inline-block; position: relative;
-	margin: 19px; width: 300px; height: 300px; 
-	background: url('/img/no-forest.png') no-repeat center; 
-	-moz-border-radius: 10px; -khtml-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; 
-	box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.05);
-	-moz-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.05);
-	-webkit-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.05);
-	color: #444444; 
-	font: normal 12px arial, sans-serif; text-align: center;
+    position: relative;
+    display: inline-block;
+	list-style: none;  
+
+	background: url('/img/tree.svg') no-repeat center; 
+    color: white; 
+
+    font-weight: normal;
+    text-align: center;
 }
 .display-box .box-link {
-	 position: absolute; display: block; margin: 0; padding: 0; width: 300px; height: 300px; border: none; z-index: 0; 
+	 position: absolute; 
+     display: block; 
+
+     border: none; 
+     z-index: 0; 
 }
 .display-box .title-box { 
-	margin: 0; padding: 10px; width: 280px;  font: bold 11px Verdana,Arial,sans-serif;
-	color: #444444; background-color: white; z-index: 2; /*filter: alpha(opacity: 80); opacity: 0.80;*/
-	-moz-border-radius-topright: 10px; -khtml-border-top-right-radius: 10px; -webkit-border-top-right-radius: 10px; border-top-right-radius: 10px; 
-	-moz-border-radius-topleft: 10px; -khtml-border-top-left-radius: 10px; -webkit-border-top-left-radius: 10px; border-top-left-radius: 10px;
+    background-color: rgba(16,47,28,0.8); 
+    z-index: 2; 
 }
-.display-box .title-box a {font: bold 11px Verdana,Arial,sans-serif; text-decoration: none; color: #777; }
-.display-box .title-box a:hover { text-decoration: underline; color: #777; }
+.display-box .title-box a {
+    font-weight: bold;
+    text-decoration: none; 
+    color: #B9BFD6; 
+}
+.display-box .title-box a:hover { 
+    text-decoration: underline; 
+    color: #B9BFD6; 
+}
 
-.display-box .poster-info { 
-	display: block; width: 300px; position: absolute; bottom: 35px; padding: 4px 0 0 0; /*filter: alpha(opacity: 80); opacity: 0.80;*/
-	text-align: center;  color: #777; font: normal 11px Verdana,Arial,sans-serif; background-color: white;  
+/* ----------------TODO REMOVE THIS HACK! -------------- */
+/* This is a temporary hack so that I can get a sense of what the page
+ * will look like once it has images on it. */
+#plant-1.display-box {
+    background-image: url("/img/prarie-acacia.JPG");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
-.display-box .poster-info a { font: bold 11px Verdana,Arial,sans-serif; color: #2872A6; text-decoration: none; }
-.display-box .poster-info a:hover { text-decoration: underline; }
+#plant-2.display-box {
+    background-image: url("/img/dwarf-prarie acacia.JPG");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
-.display-box .left { 
-	position: absolute; bottom: 0; width: 100px; height: 35px; 
-	background-color: white; color: #777; /*filter: alpha(opacity: 80); opacity: 0.80;*/
-	-moz-border-radius-bottomleft: 10px; -khtml-border-bottom-left-radius: 10px; -webkit-border-bottom-left-radius: 10px; border-bottom-left-radius: 10px; 
-	text-align: center;
+#plant-3.display-box {
+    background-image: url("/img/silver-maple.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
-.display-box .left-text { margin-top: 5px; color: #777; font: bold 14px arial, sans-serif; }
-.display-box .left-description { color: #777; font: normal 11px arial, sans-serif; }
-.display-box .center { 
-	position: absolute; bottom: 0; left: 100px; width: 100px; height: 35px; 
-	background-color: white; color: #777;  /*filter: alpha(opacity: 80); opacity: 0.80;*/
-	text-align: center;
-}
-.display-box .center-text { margin-top: 5px; color: #777; font: bold 14px arial, sans-serif; }
-.display-box .center-description { color: #777; font: normal 11px arial, sans-serif; }
-.display-box .right { 
-	position: absolute; bottom: 0; left: 200px; width: 100px; height: 35px; 
-	background-color: white; color: #777;  /*filter: alpha(opacity: 80); opacity: 0.80;*/
-	-moz-border-radius-bottomright: 10px; -khtml-border-bottom-right-radius: 10px; -webkit-border-bottom-right-radius: 10px; border-bottom-right-radius: 10px; 
-	text-align: center;
-}
-.display-box .right-text { margin-top: 5px; color: #777; font: bold 14px arial, sans-serif; }
-.display-box .right-description { color: #777; font: normal 11px arial, sans-serif; }
-.display-box .center .ribbonBar { padding: 10px; }
-
-.ribbonBar { display: inline-block; padding: 0; margin: 0; }
-.ribbonBar .ribbon { display: inline-block; text-align: center; }
-.ribbonBar .text { display: inline-block; }
-.ribbonBar .ribbonIcon { 
-	display: inline-block; height: 8px; width: 8px; margin: 0 3px; 
-	-moz-border-radius: 8px;  -khtml-border-radius: 8px; -webkit-border-radius: 8px; border-radius: 8px;
-	box-shadow: 0px 0px 3px rgba(0,0,0,0.5);
-	-moz-box-shadow: 0px 0px 3px rgba(0,0,0,0.5);
-	-webkit-box-shadow: 0px 0px 3px rgba(0,0,0,0.5);
-}
-.ribbonBar .ribbonIcon.red { background-color: #A62525; }
-.ribbonBar .ribbonIcon.blue { background-color: #2872A6; }
-.ribbonBar .ribbonIcon.white {  background-color: white; border: thin solid #C0C0C0; height: 7px; width: 7px; }
-.ribbonBar .ribbonIcon.rainbow { background-color: #25A625; }
-
-.loginElement { text-align: center; font: normal 14px 'Lucida Grande',Verdana,Arial,sans-serif; }
-.loginElement h1 { padding: 10px; text-align: center; font: bold 24px Arial,sans-serif; }
-.loginElement p { text-align: left; padding: 1em 0; }
-.loginElement label { display: inline-block; text-align: left; width: 100px; padding: 5px 0; font: normal 16px 'Lucida Grande',Verdana,Arial,sans-serif; }
-.loginElement .input { padding: 5px 0; }
-.loginElement .input input { width: 300px; font: normal 16px 'Lucida Grande',Verdana,Arial,sans-serif; padding: 0.25em; }
-.loginElement .submit input { padding: 5px; font: normal 16px 'Lucida Grande',Verdana,Arial,sans-seriff; }
-
 
 /**************************************
  * Plant Detail Page
  **************************************/
 
-.plant-detail {
-    margin: 50px auto; 
-    width: 700px;
-    font-size: 14px;
-}
 .plant-detail h1, .plant-detail h2 {
-    font-size: 1.5em;
-    clear: both;
-}
-.plant-detail h1 {
     text-align: center;
 }
 .plant-detail .common-names {
     text-align: center;
 }
-.plant-detail .common-name {
-    font-size: 1.2em;
-    margin: 1em;
+.plant-detail section.image {
+	background: url('/img/tree.svg') no-repeat center; 
 }
 .plant-detail .label {
     font-weight: bold;
 }
 .plant-detail .descriptor {
-    font-size: 10px;
     color: #666;
     font-style: italic;
 }
-.plant-detail section.list {
-    margin: 2em;
+
+/* ---------------- TODO Remove This Hack! ------------- */
+#plant-1 section.image {
+    background-image: url("/img/prarie-acacia.JPG");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
-.plant-detail section.single {
-    float: left;
-    margin: 1em;
+
+
+/******************************************************************************
+ *      Responsive Design -- Sizes and Dimensions
+ ******************************************************************************/
+
+
+@media screen {
+
+    /******************************************************************************
+     *      Base setup
+     *****************************************************************************/
+    html,body {
+        font-size: 14px;
+    }
+    a { 
+        font-size: 14px;
+    }
+    h1 { font-size: 24px; padding: 0.5em 0; }
+    h2 { font-size: 22px; padding: 0.5em 0; }
+    h3 { font-size: 20px; padding: 0.5em 0; }
+    h4 { font-size: 18px; padding: 0.5em 0; }
+    h5 { font-size: 16px; padding: 0.5em 0; }
+    h6 { font-size: 14px; padding: 0.5em 0; }
+
+    /******************************************************************************
+     * Header, Menus, Navigation and Introduction
+     ******************************************************************************/
+    header {
+        height: 275px;
+    }
+
+    /* ---------------- Header Navigation ------------------- */
+    header nav {
+        padding: 15px;
+    }
+    header nav a:link, header nav a:visited, header nav a:hover, header nav a:active {
+        font-size: 25px;
+    }
+
+    /* ---------------- Logo and Title --------------------- */
+    header h1 a:link, header h1 a:visited, h1 header a:hover {
+        font-size: 30px;
+        text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        padding: 0;
+    }
+    header h1 #forest {
+        font-size: 100px;
+        line-height: 0.5em;
+    }
+    header h1 #farm {
+        font-size: 100px;
+        line-height: 0.5em;
+    }
+
+    /* ---------------- Main Sidebar Menu ------------------ */
+    nav#main-menu {
+        width: 300px;
+        height: 100%;
+        box-shadow: 0 5px 10px black;
+    }
+    nav#main-menu a.icon-menu {
+        margin: 10px 20px;
+        font-size: 30px;
+    }
+    section#nav-links {
+        margin-top: 100px;
+    }
+    nav#main-menu section#nav-links a:link, 
+    nav#main-menu section#nav-links a:visited, 
+    nav#main-menu section#nav-links a:hover, 
+    nav#main-menu section#nav-links a:active {
+        font-size: 24px;
+        line-height: 1.6em;
+    }
+
+    /* ---------------- Introductory Paragraph ------------- */
+    #introduction {
+        width: 700px;
+        margin: 2em auto;
+    }
+
+    #main {
+        min-height: 600px;
+    }
+
+
+    /******************************************************************************
+     *      Plant List
+     *****************************************************************************/
+    #plant-list {
+        clear: both;
+        margin: 0 auto;
+        padding: 10px 0;
+        border: none;
+    }
+
+    .display-box {
+        font-size: 13px;
+    }
+    .display-box .box-link {
+        margin: 0; padding: 0; 
+    }
+    .display-box .title-box {
+        margin: 0; padding: 10px; 
+    }
+    .display-box .title-box a { 
+        font-size: 13px;
+    }
+
+    /**************************************
+     * Plant Detail Page
+     **************************************/
+    .plant-detail {
+        margin: 1em auto; 
+        width: 700px;
+        font-size: 14px;
+    }
+    .plant-detail p {
+        padding: 0.25em 0;
+    }
+    .plant-detail h1, .plant-detail h2 {
+        font-size: 1.5em;
+        clear: both;
+    }
+    .plant-detail .common-names {
+        margin-bottom: 3em;
+    }
+    .plant-detail .common-name {
+        font-size: 1.2em;
+        margin: 1em;
+    }
+    .plant-detail .descriptor {
+        font-size: 10px;
+        padding-bottom: 1em;
+        text-align: center;
+        height: 2em;
+    }
+    .plant-detail section.lists {
+        clear: both;
+    }
+    .plant-detail section.list {
+        margin: 2em;
+    }
+    .plant-detail section.half-wrapper,
+    .plant-detail section.quarter-wrapper {
+        clear: both; 
+    }
+    .plant-detail section.list.quarter{
+        width: 165px;
+        margin: 2em 0;
+        float: left;
+        padding: 0 5px;
+    }
+    .plant-detail section.list.half {
+        width: 330px;
+        margin: 2em 0;
+        float: left;
+        padding: 0 5px;
+    }
+    .plant-detail section.single {
+        float: left;
+        margin: 1em 0;
+        width: 165px;
+        padding: 0 5px;
+    }
+    .plant-detail section.image {
+        float: right;
+        width: 350px;
+        height: 300px;
+    }
+}
+
+/**
+ * Anything over 1280px we'll use one design.  We won't scale bigger than that.
+ */
+@media screen and (min-width: 1600px) {
+
+    /******************************************************************************
+     *      Plant List
+     *****************************************************************************/
+    #plant-list {
+        width: 1600px;
+    }
+
+    .display-box {
+        margin: 40px 23px; 
+        width: 350px; height: 400px; 
+    }
+    .display-box .box-link {
+        width: 300px; height: 300px; 
+    }
+    .display-box .title-box {
+        width: 330px;  
+    }
+
+}
+
+/**
+ * Anything over 1280px we'll use one design.  We won't scale bigger than that.
+ */
+@media screen and (min-width: 1280px) and (max-width: 1599px) {
+
+    /******************************************************************************
+     *      Plant List
+     *****************************************************************************/
+    #plant-list {
+        width: 1280px;
+    }
+
+    .display-box {
+        margin: 40px 36px; 
+        width: 350px; height: 400px; 
+    }
+    .display-box .box-link {
+        width: 300px; height: 300px; 
+    }
+    .display-box .title-box {
+        width: 330px;  
+    }
+
+}
+
+/**
+ * Small to medium screens.
+ */
+@media screen and (min-width: 1024px) and (max-width: 1279px) {
+
+    /******************************************************************************
+     *      Plant List
+     *****************************************************************************/
+    #plant-list {
+        width: 1024px;
+    }
+
+    .display-box {
+        margin: 30px 29px; 
+        width: 280px; height: 300px; 
+    }
+    .display-box .box-link {
+        width: 280px; height: 300px; 
+    }
+    .display-box .title-box {
+        width: 260px;  
+    }
 }
 
 
 
+@media screen and (min-width: 700px) and (max-width: 1023px) {
+
+    /******************************************************************************
+     *      Plant List
+     *****************************************************************************/
+    #plant-list {
+        width: 700px;
+    }
+
+    .display-box {
+        margin: 30px 33px; 
+        width: 280px; height: 300px; 
+    }
+    .display-box .box-link {
+        width: 280px; height: 300px; 
+    }
+    .display-box .title-box {
+        width: 260px;  
+    }
+}
+
+
+@media screen and (max-width: 699px) {
+    
+    header {
+        height: 200px;
+    }
+
+    /* ---------------- Header Navigation ------------------- */
+    header nav {
+        padding: 15px;
+    }
+    header nav a:link, header nav a:visited, header nav a:hover, header nav a:active {
+        font-size: 25px;
+    }
+
+    /* ---------------- Logo and Title --------------------- */
+    header h1 a:link, header h1 a:visited, h1 header a:hover {
+        font-size: 25px;
+        text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        padding: 0;
+    }
+    header h1 #forest {
+        font-size: 75px;
+        line-height: 0.5em;
+    }
+    header h1 #farm {
+        font-size: 75px;
+        line-height: 0.5em;
+    }
+
+    /******************************************************************************
+     *      Plant List
+     *****************************************************************************/
+    #introduction {
+        width: 300px;
+    }
+
+    #plant-list {
+        width: 300px;
+    }
+
+    .display-box {
+        margin: 30px 8px; 
+        width: 280px; height: 300px; 
+    }
+    .display-box .box-link {
+        width: 280px; height: 300px; 
+    }
+    .display-box .title-box {
+        width: 260px;  
+    }
+
+    /**************************************
+     * Plant Detail Page
+     **************************************/
+    .plant-detail {
+        margin: 1em auto; 
+        width: 300px;
+        font-size: 14px;
+    }
+    .plant-detail .common-names {
+        margin-bottom: 2em;
+    }
+    .plant-detail .common-name {
+        font-size: 1.2em;
+        margin: 1em;
+    }
+    .plant-detail section.image {
+        float: right;
+        width: 300px;
+        height: 300px;
+    }
+    .plant-detail section.single {
+        float: left;
+        margin: 1em 0;
+        width: 140px;
+        height: 2em;
+        padding: 0 5px;
+    }
+    .plant-detail section.lists {
+        clear: both;
+    }
+    .plant-detail section.list {
+        margin: 2em;
+        text-align: center;
+    }
+    .plant-detail .descriptor {
+        font-size: 10px;
+        padding-bottom: 1em;
+        text-align: center;
+        height: 2em;
+    }
+    .plant-detail section.mobile-half-wrapper {
+        clear: both;
+    }
+    .plant-detail section.list.quarter{
+        width: 140px;
+        margin: 2em 0;
+        float: left;
+        padding: 0 5px;
+    }
+    .plant-detail section.list.half {
+        width: 300px;
+        margin: 2em 0;
+        clear: both;
+        padding: 0 5px;
+    }
+    .plant-detail section.list.full {
+        clear: both;
+        width: 300px;
+        margin: 2em 0;
+    }
+}
 
