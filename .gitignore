@@ -7,6 +7,9 @@ app/config/*
 vendor/*
 !vendor/composer
 
+!node_modules/
+node_modules/*
+
 composer.phar
 composer.lock
 

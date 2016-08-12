@@ -54,7 +54,7 @@ function($, _, Backbone,Mustache) {
 
         renderSubviews: function() {
             var subview = null;
-            while (subview = this.subviews_to_render.shift() ) {
+            while (subview = this.subviews_to_render.shift() ) { // jshint ignore:line
                 this.$el.append(subview.render().$el);
                 this.rendered_subviews.push(subview);
             }
