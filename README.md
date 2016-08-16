@@ -6,7 +6,13 @@ Vol. 2.  It is intended to help permaculturists, agro-ecologists, and home
 gardeners in assembling permaculture systems and practicing restoration
 agriculture. 
 
-The current version of Forest to Farm may be used here at
+## Current Status
+
+Currently, Forest to Farm is still under alpha development and no version is live yet.
+
+The testing version of Forest to Farm will eventually be up at [testing.foresttofarm.org](http://testing.foresttofarm.org).
+
+The production version of Forest to Farm will eventually be up at
 [foresttofarm.org](http://foresttofarm.org).
 
 ## Helping Out
