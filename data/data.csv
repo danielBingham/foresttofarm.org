@@ -1,37 +1,37 @@
-Acacia,Angustissima,prairie acacia,Fabaceae,7 - 10,Sun;Partial,Xeric;Mesic,0:0:2:2,m Shrub,ms,,6',6',F,ENA,Prairies;Gaps/Clearings;Open Woods; Other,,N2;Wildlife(F);Nectary(G),P
-Acacia,Aangustissima hirta,dwarf prairie acacia,Fabaceae,7 - 10,Sun;Partial,Xeric;Mesic,0:0:2:2,s Shrub,ms,,3',6',F,ENA,Prairies;Gaps/Clearings;Open Woods; Other,,N2;Wildlife(F);Nectary(G);Ground Cover,P
-Acer,saccharinum,silver maple,Aceraceae,3b,Sun;Partial,Xeric;Hydric,0:1:1:0,l Tree,std,F,100',100',F,ENA,Forest;Other,Edible Other(G),Dynamic Accumulator;Nectary(G);Other(C),D;P
-Acer,saccharum,sugar maple,Aceraceae,3 - 7,Sun;Shade,Mesic,0:0:2:1,L Tree,std,F;H,100',75',S-M,ENA,Forest;Other,Edible Other(E);Medicinal(F),Dynamic Accumulator;Nectary(G);Other(C),D;P
-Acer,saccharum var. nigrum,black maple,Aceraceae,3b,Sun;Shade,Mesic,0:0:2:1,l Tree,std,F,100',75',S-M,ENA,Forest;Other,Edible Other(G),Dynamic Accumulator; Nectary(G);Other(C),D;P
-Achillea,millefolium,yarrow,Asteraceae,3 - 10,Sun,Xeric;Mesic,0:2:2:1,m Herb,run,Fb;R,3',Indefinite,F,EURA,Disturbed;Meadows;Oldfields;Other,Medicinal(E),Dynamic Accumulator;Invert Shelter;Nectary(S);Ground Cover;Other(A),D;P
-Achillea,ptarmica,white tansy yarrow,Asteraceae,3 - 7,Sun,Xeric;Mesic,0:2:2:1,s Herb,run,R,12",Indefinite,F,EURA,Disturbed;Meadows;Oldfields;Other,Medicinal(Y),Invert Shelter;Nectary(S);Ground Cover;Other(A),D;P
-Actinidia,arguta,hardy kiwifruit,Actinidiaceae,4 - 8,Sun,Mesic,0:2:2:2,h Vine,w vine,H,100',100',F,ASIA,Edges;Open Woods;Forest;Conifer Forest,Edible Fruit(E);Medicinal(S),,S
-Actinidia,kolomikta,superhardy kiwifruit,Actinidiaceae,3 - 8,Sun;Partial,Mesic,0:2:2:2,h Vine,w vine,,100',100',M-F,ASIA,Disturbed;Edges;Gaps/Clearings;Open Woods;Forest;Conifer Forest;Other,Edible Fruit(E);Medicinal(S),,S
-Actinidia,purpurea,Ppurple hardy kiwifruit,Actinidiaceae,4 - 8,Sun,Mesic,0:2:2:2,h Vine,w vine,,100',100',M-F,ASIA,Edges,Edible Fruit(E);Medicinal(S),,S
-Adiantum,pedatum,maidenhair fern,Adiantaceae,3 - 8,Partial;Shade,Mesic,0:2:2:2,m Herb,clmp,R,24",5',S,ENA, Forest;Other,Medicinal(Y),Ground Cover,
-Agastache,foeniculum,anise hyssop,Lamiaceae,3 - 8,Sun;Partial,Mesic,0:0:2:0,m-l Herb,clmp,F,4',2',M,WNA,Meadows;Prairies;Thickets;Open Woods;Forest;Other,Tea(E);Medicinal(E),Invert Shelter;Nectary(G);Other(A),
-Alcea,rosea,hollyhock,Malvaceae,4,Sun,Mesic,0:2:2:1,vl Herb,clmp,,7',2',F,EURA,Disturbed;Other,Edible Greens(G);Edible Other(F);Medicinal(S),Nectary(G),
-Allium,ampeloprasum,perennial sweet leek,Alliaceae,6 - 9,Sun,Mesic,0:0:2:0,s-m Herb,clmp,B,2',1',M,EUR,Other,Edible Greens(E);Culinary(G);Medicinal(S),Nectary(G);Other(A),
-Allium,canadense,wild garlic,Alliaceae,3 - 9,Sun;Partial,Xeric;Mesic,0:0:2:0,s-m Herb,clmp,B,24",1',F,ENA,Disturbed;Meadows;Prairies;Thickets;Open Woods;Other,Edible Greens(G);Edible Roots(G);Culinary(G);Edible Other(F);Medicinal(S),Nectary(G);Other(A),Ps;D;P
-Allium,cepa aggregatum,potato onion;shallot,Alliaceae,5 - 9,Sun,Mesic,0:0:2:0,s Herb,clmp,B,1',1',M,EURA,Other,Edible Greens(G);Edible Roots(E);Culinary(E);Medicinal(S),Nectary(G);Other(A),
-Allium,cepa proliferum,Egyptian walking onion,Alliaceae,5 - 10,Sun,Mesic,0:0:2:0,m Herb,clmp,B,2',5',M-F,EURA,Disturbed;Other,Edible Greens(G);Edible Roots(G);Culinary(G);Medicinal(S),Nectary(G);Other(A),
-Allium,cernuum,nodding wild onion,Alliaceae,3 - 8,Sun;Partial,Mesic,1:2:2:2,s-m Herb,clmp,B,2',2',S,ENA,Meadows;Prairies;Open Woods;Other,Edible Greens(G);Culinary(G);Medicinal(S),Nectary(G);Other(A),
-Allium,fistulosum,Welsh onion,Alliaceae,4 - 10,Sun,Mesic,0:1:2:1,m Herb,clmp,B,3',2',S-M,ASIA,Other,Edible Greens(E);Edible Roots(E);Culinary(E);Medicinal(S),Nectary(G);Other(A),
-Allium,schoenoprasum,chives,Alliaceae,2 - 10,Sun;Partial,Mesic,0:0:2:2,s-m Herb,clmp,B,20",20",S-M,ASIA,Disturbed;Meadows;Other,Edible Greens(E);Culinary(E);Edible Other(G);Medicinal(S),Dynamic Accumulator;Nectary(G);Ground Cover;Other(A),
-Allium,tricoccum,ramps,Alliaceae,4 - 8,Partial;Shade,Mesic,0:1:2:0,s Herb,e clmp,B,10",Indefinite,S,ENA,Forest,Edible Greens(E);Edible Roots(E);Culinary(E);Medicinal(S),Nectary(G);Other(A),
-Allium,tuberosum,garlic chives,Alliaceae,3 - 10,Sun,Mesic,0:1:2:2,s-m Herb,clmp,B,18",12",S-M,ASIA,Thickets;Other,Edible Greens(E);Culinary(E);Edible Other(G);Medicinal(S),Nectary(G);Ground Cover;Other(A),
+Acacia,Angustissima,prairie acacia,Fabaceae,7 - 10,Sun;Partial,Xeric;Mesic,0:0:2:2,m Shrub,ms,,3'-6',3'-6',F,ENA,Prairies;Gaps/Clearings;Open Woods; Other,,N2;Wildlife(F);Nectary(G),P
+Acacia,Aangustissima hirta,dwarf prairie acacia,Fabaceae,7 - 10,Sun;Partial,Xeric;Mesic,0:0:2:2,s Shrub,ms,,1'-3',1'-6',F,ENA,Prairies;Gaps/Clearings;Open Woods; Other,,N2;Wildlife(F);Nectary(G);Ground Cover,P
+Acer,saccharinum,silver maple,Aceraceae,3b,Sun;Partial,Xeric;Hydric,0:1:1:0,l Tree,std,F,75'-100',75'-100',F,ENA,Forest;Other,Other(G),Dynamic Accumulator;Nectary(G);Other(C),D;P
+Acer,saccharum,sugar maple,Aceraceae,3 - 7,Sun;Shade,Mesic,0:0:2:1,L Tree,std,F;H,75'-100',50'-75',S-M,ENA,Forest;Other,Other(E);Medicinal(F),Dynamic Accumulator;Nectary(G);Other(C),D;P
+Acer,saccharum var. nigrum,black maple,Aceraceae,3b,Sun;Shade,Mesic,0:0:2:1,l Tree,std,F,75'-100',50'-75',S-M,ENA,Forest;Other,Other(G),Dynamic Accumulator; Nectary(G);Other(C),D;P
+Achillea,millefolium,yarrow,Asteraceae,3 - 10,Sun,Xeric;Mesic,0:2:2:1,m Herb,run,Fb;R,2'-3',Indefinite,F,EURA,Disturbed;Meadows;Oldfields;Other,Medicinal(E),Dynamic Accumulator;Invert Shelter;Nectary(S);Ground Cover;Other(A),D;P
+Achillea,ptarmica,white tansy yarrow,Asteraceae,3 - 7,Sun,Xeric;Mesic,0:2:2:1,s Herb,run,R,"6""-12""",Indefinite,F,EURA,Disturbed;Meadows;Oldfields;Other,Medicinal(Y),Invert Shelter;Nectary(S);Ground Cover;Other(A),D;P
+Actinidia,arguta,hardy kiwifruit,Actinidiaceae,4 - 8,Sun,Mesic,0:2:2:2,h Vine,w vine,H,20'-100',20'-100',F,ASIA,Edges;Open Woods;Forest;Conifer Forest;,Fruit(E);Medicinal(S),,S
+Actinidia,kolomikta,superhardy kiwifruit,Actinidiaceae,3 - 8,Sun;Partial,Mesic,0:2:2:2,h Vine,w vine,,20'-100',20'-100',M-F,ASIA,Disturbed;Edges;Gaps/Clearings;Open Woods;Forest;Conifer Forest;Other,Fruit(E);Medicinal(S),,S
+Actinidia,purpurea,Ppurple hardy kiwifruit,Actinidiaceae,4 - 8,Sun,Mesic,0:2:2:2,h Vine,w vine,,20'-100',20'-100',M-F,ASIA,Edges,Fruit(E);Medicinal(S),,S
+Adiantum,pedatum,maidenhair fern,Adiantaceae,3 - 8,Partial;Shade,Mesic,0:2:2:2,m Herb,clmp,R,"18""-24""",3'-5',S,ENA, Forest;Other,Medicinal(Y),Ground Cover,
+Agastache,foeniculum,anise hyssop,Lamiaceae,3 - 8,Sun;Partial,Mesic,0:0:2:0,m-l Herb,clmp,F,2'-4',1'-2',M,WNA,Meadows;Prairies;Thickets;Open Woods;Forest;Other,Tea(E);Medicinal(E),Invert Shelter;Nectary(G);Other(A),
+Alcea,rosea,hollyhock,Malvaceae,4,Sun,Mesic,0:2:2:1,vl Herb,clmp,,7',2',F,EURA,Disturbed;Other,Greens(G);Other(F);Medicinal(S),Nectary(G),
+Allium,ampeloprasum,perennial sweet leek,Alliaceae,6 - 9,Sun,Mesic,0:0:2:0,s-m Herb,clmp,B,2',1',M,EUR,Other,Greens(E);Culinary(G);Medicinal(S),Nectary(G);Other(A),
+Allium,canadense,wild garlic,Alliaceae,3 - 9,Sun;Partial,Xeric;Mesic,0:0:2:0,s-m Herb,clmp,B,"24""",1',F,ENA,Disturbed;Meadows;Prairies;Thickets;Open Woods;Other,Greens(G);Roots(G);Culinary(G);Other(F);Medicinal(S),Nectary(G);Other(A),Ps;D;P
+Allium,cepa aggregatum,potato onion;shallot,Alliaceae,5 - 9,Sun,Mesic,0:0:2:0,s Herb,clmp,B,1',1',M,EURA,Other,Greens(G);Roots(E);Culinary(E);Medicinal(S),Nectary(G);Other(A),
+Allium,cepa proliferum,Egyptian walking onion,Alliaceae,5 - 10,Sun,Mesic,0:0:2:0,m Herb,clmp,B,2',5',M-F,EURA,Disturbed;Other,Greens(G);Roots(G);Culinary(G);Medicinal(S),Nectary(G);Other(A),
+Allium,cernuum,nodding wild onion,Alliaceae,3 - 8,Sun;Partial,Mesic,1:2:2:2,s-m Herb,clmp,B,2',2',S,ENA,Meadows;Prairies;Open Woods;Other,Greens(G);Culinary(G);Medicinal(S),Nectary(G);Other(A),
+Allium,fistulosum,Welsh onion,Alliaceae,4 - 10,Sun,Mesic,0:1:2:1,m Herb,clmp,B,3',2',S-M,ASIA,Other,Greens(E);Roots(E);Culinary(E);Medicinal(S),Nectary(G);Other(A),
+Allium,schoenoprasum,chives,Alliaceae,2 - 10,Sun;Partial,Mesic,0:0:2:2,s-m Herb,clmp,B,"20""","20""",S-M,ASIA,Disturbed;Meadows;Other,Greens(E);Culinary(E);Other(G);Medicinal(S),Dynamic Accumulator;Nectary(G);Ground Cover;Other(A),
+Allium,tricoccum,ramps,Alliaceae,4 - 8,Partial;Shade,Mesic,0:1:2:0,s Herb,e clmp,B,"10""",Indefinite,S,ENA,Forest,Greens(E);Roots(E);Culinary(E);Medicinal(S),Nectary(G);Other(A),
+Allium,tuberosum,garlic chives,Alliaceae,3 - 10,Sun,Mesic,0:1:2:2,s-m Herb,clmp,B,"18""","12""",S-M,ASIA,Thickets;Other,Greens(E);Culinary(E);Other(G);Medicinal(S),Nectary(G);Ground Cover;Other(A),
 Alnus,cordata,Italian alder,Betulaceae,6,Sun;Partial,Xeric;Hydric,0:2:2:2,m Tree,std,,50',35',F,EUR,Other,Medicinal(G),N2;Other(C),
 Alnus,incana,gray alder,Betulaceae,2 - 6,Sun;Partial,Xeric;Hydric,0:1:2:1,m-l Tree,std,,60',40',F,EUR,Thickets;Edges;Open Woods;Forest;Other,Medicinal(G),N2;Other(C),
 Alnus,rugosa,speckled alder,Betulaceae,2 - 6,Sun;Partial,Hydric,0:1:2:1,vl-xl Shrub,ms,F,35',35',F,ENA,Thickets;Forest;Other,Medicinal(G),N2;Wildlife(S);Nectary(G);Other(C),
 Alnus,serrulata,smooth alder,Betulaceae,5 - 8,Sun;Partial,Hydric,0:1:2:1,vl Shrub,ms,F;Sk,20',20',F,ENA,Thickets;Other,Medicinal(G),N2;Wildlife(S);Nectary(G); Other(C),
-Althaea,officinalis,marsh mallow,Malvaceae,3 - 7,Sun,Mesic;Hydric,0:0:2:0,m-l Herb,clmp,T,4',4',,EURA,Meadows;Thickets;Other,Edible Greens(G);Edible Roots(G);Medicinal(E),,
-Amelanchier,alnifolia,saskatoon,Rosaceae,2,Sun,Mesic,0:2:2:2,m-vl Shrub,ms,st,15',15',M,WNA,Oldfields;Thickets;Open Woods;Forest;Conifer Forest;Other,Edible Fruit(E);Medicinal(S),Wildlife(F);Nectary(G),P
-Amelanchier,bartramiana,Bartram's shadblow,Rosaceae,4 - 7,Sun,Mesic;Hydric,1:2:2:0,s-l Shurb,ms,,8',8',,ENA,Thickets;Open Woods;Other,Edible Fruit(E);Medicinal(S),Wildlife(B);Nectary(G),P
-Amelanchier,lamarkii,juneberry,Rosaceae,3,Sun,Mesic,0:0:1:0,xl Shrub,ms,F;Sk,50',35',M,ENA,Thickets;Edges;Open Woods;Other,Edible Fruit(E);Medicinal(S),Wildlife(F);Nectary(G),P
-Amelanchier,obovalis,southern juneberry,Rosaceae,6 - 8,Sun,Mesic,0:1:2:0,l Shrub,ms,,10',10',M,ENA,Open Woods;Other,Edible Fruit(E);Medicinal(S),Wildlife(F);Nectary(G),P
-Amelancier,stolonifera,running juneberry,Rosaceae,4,Sun,Xeric;Mesic,0:2:2:0,m Shrub,Rtkt,St,6',Indefinite,M,ENA,Oldfields;Thickets;Open Woods;Other,Edible Fruit(E);Medicinal(S),Wildlife(B);Nectary(G),P
+Althaea,officinalis,marsh mallow,Malvaceae,3 - 7,Sun,Mesic;Hydric,0:0:2:0,m-l Herb,clmp,T,4',4',,EURA,Meadows;Thickets;Other;,Greens(G);Roots(G);Medicinal(E),,
+Amelanchier,alnifolia,saskatoon,Rosaceae,2,Sun,Mesic,0:2:2:2,m-vl Shrub,ms,st,15',15',M,WNA,Oldfields;Thickets;Open Woods;Forest;Conifer Forest;Other;,Fruit(E);Medicinal(S),Wildlife(F);Nectary(G),P
+Amelanchier,bartramiana,Bartram's shadblow,Rosaceae,4 - 7,Sun,Mesic;Hydric,1:2:2:0,s-l Shurb,ms,,8',8',,ENA,Thickets;Open Woods;Other,Fruit(E);Medicinal(S),Wildlife(B);Nectary(G),P
+Amelanchier,lamarkii,juneberry,Rosaceae,3,Sun,Mesic,0:0:1:0,xl Shrub,ms,F;Sk,50',35',M,ENA,Thickets;Edges;Open Woods;Other,Fruit(E);Medicinal(S),Wildlife(F);Nectary(G),P
+Amelanchier,obovalis,southern juneberry,Rosaceae,6 - 8,Sun,Mesic,0:1:2:0,l Shrub,ms,,10',10',M,ENA,Open Woods;Other,Fruit(E);Medicinal(S),Wildlife(F);Nectary(G),P
+Amelancier,stolonifera,running juneberry,Rosaceae,4,Sun,Xeric;Mesic,0:2:2:0,m Shrub,Rtkt,St,6',Indefinite,M,ENA,Oldfields;Thickets;Open Woods;Other,Fruit(E);Medicinal(S),Wildlife(B);Nectary(G),P
 Amorpha,caescens,leadplant,Fabaceae,3,Sun,Xeric;Mesic,0:0:0:2,s Shrub,ms,T;Sk,3',6',M,PRAI,Meadows;Prairies;Edges;Gaps/Clearings;Open Woods;Other,,N2;Invert Shelter;Nectary(G),P
 Amorpha,fruticosa,false indigo,Fabacaea,3,Sun,Xeric;Hydric,0:0:2:2,l-vl Shrub,ms,F;Sk,20',20',M,ENA,Disturbed;Meadows;Thickets;Edges;Open Woods;Other,,N2;Invert Shelter;Nectary(G),P
 Amorpha,nana,fragrant false indigo,Fabaceae,3 - 6,Sun,Xeric;Mesic,0:1:2:1,s Shrub,ms,,3',3',M,PRAI,Meadows;Prairies;Open Woods;Other,,N2;Invert Shelter;Nectary(G),P
-Amorphophallus,riveri var. konjac,konjac,Araceae,6 - 10,Sun;Partial,Mesic,0:0:2:0,l Herb,clmp,C,5',4',S,ASIA,Open Woods;Other,Edible Roots(Y);Medicinal(G),,P
+Amorphophallus,riveri var. konjac,konjac,Araceae,6 - 10,Sun;Partial,Mesic,0:0:2:0,l Herb,clmp,C,5',4',S,ASIA,Open Woods;Other,Roots(Y);Medicinal(G),,P
 Amphicarpaea,bracteata,hog peanut,Fabaceae,3 - 9,Sun;Shade,Mesic,0:2:2:0,l Vine,a r vine,Fb,3',3',M,,,,,

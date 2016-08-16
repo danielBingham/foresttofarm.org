@@ -65,7 +65,7 @@ CREATE TABLE `harvests` (
     PRIMARY KEY(`id`)
 ); 
 
-INSERT INTO `harvests` (`name`) VALUES ('Edible Fruit'), ('Edible Nuts/Mast'), ('Edible Greens'), ('Edible Roots'), ('Culinary'), ('Tea'), ('Edible Other'), ('Medicinal');
+INSERT INTO `harvests` (`name`) VALUES ('Fruit'), ('Nuts/Mast'), ('Greens'), ('Roots'), ('Culinary'), ('Tea'), ('Other'), ('Medicinal');
 
 CREATE TABLE `roles` (
     `id` int unsigned NOT NULL AUTO_INCREMENT,

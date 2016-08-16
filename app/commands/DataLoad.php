@@ -117,7 +117,7 @@ class DataLoad extends Command {
 			$moisture_tolerance_ids = array();
 			foreach($moisture_tolerance_names as $name)
 			{
-				$moisture_tolearance_ids = $moisture_tolerance_map[$name];
+				$moisture_tolerance_ids[] = $moisture_tolerance_map[$name];
 			}
 			$plant->moistureTolerances()->sync($moisture_tolerance_ids);
 
@@ -154,7 +154,10 @@ class DataLoad extends Command {
 			if(!empty($data[HABITATS])) {
 				$habitats = array_map('trim', explode(';', $data[HABITATS]));
 				$habitat_ids = array();
-				foreach($habitats as $name) {
+                foreach($habitats as $name) {
+                    if (strlen($name) == 0) {
+                        continue;
+                    }
 					$habitat = Habitat::where('name', $name)->first();
 					if ( ! $habitat) {
 						$this->fatalError('Failed to find habitat "' . $name . '"');
@@ -221,8 +224,8 @@ class DataLoad extends Command {
 				$plant->roles()->sync($role_ids);
 			}
 
-			$this->debug("Processing $plant_name's drawbacks.");
-			if(!empty($data[DRAWBACKS])) {
+			$this->debug("Processing $plant_name's drawbacks [{$data[DRAWBACKS]}].");
+			if( ! empty($data[DRAWBACKS])) {
 				$drawback_symbols = array_map('trim', explode(';', $data[DRAWBACKS]));
 				$drawback_ids = array();
 				$drawback_names = array(
@@ -236,10 +239,13 @@ class DataLoad extends Command {
 					'T'=>'Thorny',
 					'P'=>'Poison'
 				);
-				foreach($drawback_symbols as $symbol) {
+                foreach($drawback_symbols as $symbol) {
+                    if ( strlen($symbol) == 0 ) {
+                        continue;
+                    }
 					$drawback = Drawback::where('name', $drawback_names[$symbol])->first();
 					if ( ! $drawback) {
-						$this->fatalError('Failed to find role for "' . $role_string . '"');
+						$this->fatalError('Failed to find drawback for "' . $symbol. '"');
 					}
 					$drawback_ids[] = $drawback->id;
 				}
@@ -270,6 +276,9 @@ class DataLoad extends Command {
 			return FALSE;
 		}
 
+        // ---------------------------- Soil pH -------------------------------
+        // Format: [0-2]:[0-2]:[0-2]:[0-2]
+        // Examples: 0:0:2:2, 0:1:2:1, 1:2:2:1, 0:0:0:2
 		$phs = array_map('trim', explode(':', $data[PH]));
 		$minimum_ph_values = array(
 			0=>array(1=>4.25, 2=>3.5),
@@ -287,64 +296,95 @@ class DataLoad extends Command {
 				break;
 			}
 		}
-		for($i = 0; $i < 4; $i++) {
+		for($i = 3; $i > 0; $i--) {
 			if(isset($maximum_ph_values[$i][$phs[$i]])) {
 				$plant->maximum_PH = $maximum_ph_values[$i][$phs[$i]];
 				break;
 			}
-		}
+        }
 
+        // ---------------------------- Zone ----------------------------------
+        // Formats: [Minimum Zone] - [Maximum Zone] OR [Minimum Zone]
+        // Examples: 3 - 7 OR 3b
+        if (strpos($data[ZONE], '-') !== FALSE) {
+            list($minimum_zone, $maximum_zone) = array_map('trim', explode('-', $data[ZONE]));
+        } else {
+            $minimum_zone = $data[ZONE]; 
+            $maximum_zone = null;
+        }
+        $plant->minimum_zone = $minimum_zone;
+        $plant->maximum_zone = $maximum_zone;
+        
+
+        // ---------------------------- Form ----------------------------------
+        // Format: [size] [form]
+        // Examples: m Shrub, l Tree, s-m Herb
 		$forms = array_map('trim', explode(' ', $data[FORM]));
-		$plant->form = strtolower($forms[1]);
+		$plant->form = strtolower($forms[1]); // We're ignoring size.  You can get it from the height / width.
 
-		if (strpos('-', $data[HEIGHT]) !== FALSE)
-		{
+        // ---------------------------- Plant Height --------------------------
+        // Format:  [Minimum Height]' - [Maximum Height]' OR [Maximum Height]' 
+        //      OR [Minimum Height]" - [Maximum Height]" OR [Maximum Height]"
+        // Examples: 20' - 100', 7', 24", 12" - 24"
+		if (strpos($data[HEIGHT], '-') !== FALSE) {
 			list($minimum_height, $maximum_height) = array_map('trim', explode('-', $data[HEIGHT]));
-		}
-		else
-		{
-			$minimum_height = $maximum_height = $data[HEIGHT];
+		} else {
+            $maximum_height = $data[HEIGHT];
+            $minimum_height = null; // If we've only got one value, then it's the maximum.
 		}
 
-		if (strpos('"', $minimum_height) === FALSE)  {
-			$minimum_height = ((float)str_replace('\'', '', $minimum_height)*12);
-		} else {
-			$minimum_height = (float)str_replace('"', '', $minimum_height);
+		if ($minimum_height !== null && strpos($minimum_height, "'") !== FALSE)  {
+			$minimum_height = str_replace('\'', '', $minimum_height);
+		} else if ($minimum_height !== null && strpos($minimum_height, '"') !== FALSE) {
+			$minimum_height = ((float)str_replace('"', '', $minimum_height))/12;
 		}
 		$plant->minimum_height = $minimum_height;
 
-		if (strpos('"', $maximum_height) === FALSE)  {
-			$maximum_height = ((float)str_replace('\'', '', $maximum_height)*12);
-		} else {
-			$maximum_height = (float)str_replace('"', '', $maximum_height);
+		if (strpos($maximum_height, "'") !== FALSE)  {
+			$maximum_height = str_replace('\'', '', $maximum_height);
+		} else if(strpos($maximum_height, '"') !== FALSE) {
+			$maximum_height = ((float)str_replace('"', '', $maximum_height))/12;
 		}
 		$plant->maximum_height = $maximum_height;
 
 
-		if (strpos('-', $data[HEIGHT]) !== FALSE)
-		{
+        // ---------------------------- Plant Width ---------------------------
+        // Format:  [Minimum Width]' - [Maximum Width]' OR [Maximum Width]' 
+        //      OR [Minimum Width]" - [Maximum Width]" OR [Maximum Width]"
+        // Examples: 20' - 100', 7', 24", 12" - 24"
+		if (strpos($data[WIDTH], '-') !== FALSE) {
 			list($minimum_width, $maximum_width) = array_map('trim', explode('-', $data[WIDTH]));
-		}
-		else
-		{
-			$minimum_width = $maximum_width = $data[WIDTH];
+		} else {
+            $maximum_width = $data[WIDTH];
+            $minimum_width = null; // If we've only got one value, then it's the maximum.
 		}
 
-		if (strpos('"', $minimum_width) === FALSE) {
+        if ($minimum_width !== null && strpos($minimum_width, "'") !== FALSE) {
+            // Minimum Width given in feet.  Just parse out the unit.
 			$minimum_width = str_replace('\'', '', $minimum_width);
-		} else {
+        } else if ($minimum_width !== null && strpos($minimum_width, '"') !== FALSE) {
+            // Minimum Width given in inches.  Parse out the unit and convert to feet.
 			$minimum_width = ((float)str_replace('"', '', $minimum_width))/12;
 		}
 		$plant->minimum_width = $minimum_width;
 
-		if (strpos('"', $maximum_width) === FALSE) {
-			$maximum_width = str_replace('\'', '', $maximum_width);
-		} else {
+		if (strpos($maximum_width, "'") !== FALSE) {
+            // Maximum Width given in feet.  Just parse out the unit.
+            $maximum_width = str_replace('\'', '', $maximum_width);
+		} else if (strpos($maximum_width, '"') !== FALSE) { 
+            // Maximum Width given in inches.  Parse out the unit and convert to feet.
 			$maximum_width = ((float)str_replace('"', '', $maximum_width))/12;
 		}
 		$plant->maximum_width = $maximum_width;
 
-		$plant->growth_rate = strtolower($data[GROWTH_RATE]);
+        // ---------------------------- Growth Rate ---------------------------
+        // Format: [Growth Rate]
+        // Examples: F, M, S
+        $plant->growth_rate = strtolower($data[GROWTH_RATE]);
+
+        // ---------------------------- Native Region -------------------------
+        // Format: [Native Region]
+        // Examples: ENA, EURA, ASIA
 		$plant->native_region = $data[NATIVE_REGION];
 		return TRUE;
 	}
