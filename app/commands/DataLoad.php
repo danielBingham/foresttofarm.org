@@ -4,6 +4,10 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+/** 
+ * These are the columns in the CSV file we'll be loading from.  We're defining
+ * names for them to more easily reference them.
+ */
 define('GENUS', 0);
 define('SPECIES', 1);
 define('COMMON_NAME', 2);
@@ -82,11 +86,11 @@ class DataLoad extends Command {
 			}
 			$this->debug('Processing line ' . $counter . ' of ' . count($lines));
 			$data = explode(',', $line);
-			$plant = new Plant();
 
 			$this->debug('Processing plant...');
 			// If this plant already exists in the database, then
 			// move on to the next one.
+			$plant = new Plant();
 			if ( ! $this->parsePlant($plant, $data)) {
 				$this->debug('Plant ' . $plant->genus . ' ' . $plant->species . ' already exists.  Skipping...');
 				continue;
@@ -95,20 +99,12 @@ class DataLoad extends Command {
 			$this->debug('Saving plant "' . $plant_name . '".');
 			$plant->save();
 
-			$this->debug('Processing ' . $plant_name . '\'s common names.');
-			$common_name = new PlantCommonName();
-			$common_name->name = $data[COMMON_NAME];
-			$common_name->plant_id = $plant->id;
-			$common_name->save();
+            $this->debug('Processing ' . $plant_name . '\'s common names.');
+            $common_name = $this->parseCommonNames($data);
+            $plant->commonNames()->save($common_name);
 
-			$this->debug('Processing ' . $plant_name . '\'s light tolerances.');
-			$light_tolerance_names = array_map('trim', explode(';', $data[LIGHT]));
-			$light_tolerance_map = array('Sun'=>1, 'Partial'=>2, 'Shade'=>3);
-			$light_tolerance_ids = array();
-			foreach($light_tolerance_names as $name)
-			{
-				$light_tolerance_ids[] = $light_tolerance_map[$name];
-			}
+            $this->debug('Processing ' . $plant_name . '\'s light tolerances.');
+            $light_tolerance_ids = $this->parseLightTolerances($data);
 			$plant->lightTolerances()->sync($light_tolerance_ids);
 
 			$this->debug('Processing ' . $plant_name . '\'s moisture tolerances.');
@@ -387,7 +383,40 @@ class DataLoad extends Command {
         // Examples: ENA, EURA, ASIA
 		$plant->native_region = $data[NATIVE_REGION];
 		return TRUE;
-	}
+    }
+
+    /**
+     * Parse the plant's common name and build a CommonName object.
+     *
+     * @param   mixed[] $data   The data parsed from the CSV file.
+     *
+     * @return  PlantCommonName The parsed common name of the Plant.
+     */
+    protected function parseCommonNames($data) 
+    {
+        $common_name = new PlantCommonName();
+        $common_name->name = $data[COMMON_NAME];
+        return $common_name;
+    }
+
+    /**
+     * Parse the plant's light tolerances and return an array of ids.
+     *
+     * @param   mixed[] $data   The data parsed from the CSV file.
+     *
+     * @return  int[]   The ids of the appropriate light tolerances.
+     */
+    protected function parseLightTolerances($data) 
+    {
+        $light_tolerance_names = array_map('trim', explode(';', $data[LIGHT]));
+        $light_tolerance_map = array('Sun'=>1, 'Partial'=>2, 'Shade'=>3);
+        $light_tolerance_ids = array();
+        foreach($light_tolerance_names as $name)
+        {
+            $light_tolerance_ids[] = $light_tolerance_map[$name];
+        }
+        return $light_tolerance_ids;
+    }
 
 	/**
 	 * Print a Debug Message
