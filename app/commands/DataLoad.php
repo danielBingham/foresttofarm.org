@@ -108,144 +108,43 @@ class DataLoad extends Command {
 			$plant->lightTolerances()->sync($light_tolerance_ids);
 
 			$this->debug('Processing ' . $plant_name . '\'s moisture tolerances.');
-			$moisture_tolerance_names = array_map('trim', explode(';', $data[MOISTURE]));
-			$moisture_tolerance_map = array('Xeric'=>1, 'Mesic'=>2, 'Hydric'=>3);
-			$moisture_tolerance_ids = array();
-			foreach($moisture_tolerance_names as $name)
-			{
-				$moisture_tolerance_ids[] = $moisture_tolerance_map[$name];
-			}
-			$plant->moistureTolerances()->sync($moisture_tolerance_ids);
+            $moisture_tolerance_ids = $this->parseMoistureTolerances($data);
+            $plant->moistureTolerances()->sync($moisture_tolerance_ids);
 
-
-			$this->debug("Processing $plant_name's habit.");
 			if(!empty($data[HABIT])) {
-				$habit_symbols = array_map('trim', explode(' ', $data[HABIT]));
-				$habit_ids = array();
-				foreach($habit_symbols as $symbol) {
-					$habit = Habit::where('symbol', $symbol)->first();
-					if ( ! $habit) {
-						$this->fatalError('Failed to find habit "' . $symbol . '"');
-					}
-					$habit_ids[] = $habit->id;
-				}
+                $this->debug("Processing $plant_name's habit.");
+                $habit_ids = $this->parseHabit($data);
 				$plant->habits()->sync($habit_ids);
 			}
 
-			$this->debug("Processing $plant_name's root pattern.");
-			if(!empty($data[ROOT_PATTERN])) {
-				$root_pattern_symbols = array_map('trim', explode(';', $data[ROOT_PATTERN]));
-				$root_pattern_ids = array();
-				foreach($root_pattern_symbols as $symbol) {
-					$root_pattern = RootPattern::where('symbol', $symbol)->first();
-					if ( ! $root_pattern) {
-						$this->fatalError('Failed to find root pattern "' . $symbol . '"');
-					}
-					$root_pattern_ids[] = $root_pattern->id;
-				}
+            if(!empty($data[ROOT_PATTERN])) {
+                $this->debug("Processing $plant_name's root pattern.");
+                $root_pattern_ids = $this->parseRootPattern($data);
 				$plant->rootPatterns()->sync($root_pattern_ids);
 			}
 
-			$this->debug("Processing $plant_name's habitats.");
 			if(!empty($data[HABITATS])) {
-				$habitats = array_map('trim', explode(';', $data[HABITATS]));
-				$habitat_ids = array();
-                foreach($habitats as $name) {
-                    if (strlen($name) == 0) {
-                        continue;
-                    }
-					$habitat = Habitat::where('name', $name)->first();
-					if ( ! $habitat) {
-						$this->fatalError('Failed to find habitat "' . $name . '"');
-					}
-					$habitat_ids[] = $habitat->id;
-				}
+                $this->debug("Processing $plant_name's habitats.");
+                $habitat_ids = $this->parseHabitats($data);
 				$plant->habitats()->sync($habitat_ids);
 			}
 
-			$this->debug("Processing $plant_name's harvests.");
 			if(!empty($data[USES])) {
-				$harvest_strings = array_map('trim', explode(';', $data[USES]));
-				$plant_harvests = array();
-				foreach($harvest_strings as $harvest_string) {
-					$this->debug('Processing harvest "' . $harvest_string . '"');
-
-					preg_match('/(\w+\s*\w*)\((\w+)\)/', $harvest_string, $matches);
-					$name = $matches[1];
-					$rating = $matches[2];
-
-					$harvest = Harvest::where('name', $name)->first();
-					if ( ! $harvest) {
-						$this->fatalError('Failed to find a harvest for "' . $name . '"');
-					}
-					$plant_harvests[$harvest->id] = array('rating'=>$rating);
-				}
+                $this->debug("Processing $plant_name's harvests.");
+                $plant_harvests = $this->parseHarvest($data);
 				$plant->harvests()->sync($plant_harvests);
 			}
 
-			$this->debug("Processing $plant_name's roles.");
 			if(!empty($data[FUNCTIONS])) {
-				$role_strings = array_map('trim', explode(';', $data[FUNCTIONS]));
-				$role_ids = array();
-				$role_names = array(
-					'N2'=>'Nitrogen Fixer',
-					'Dynamic Accumulator'=>'Dynamic Accumulator',
-					'Wildlife(F)'=>'Wildlife Food',
-					'Wildlife(S)'=>'Wildlife Shelter',
-					'Wildlife(B)'=>array('Wildlife Food', 'Wildlife Shelter'),
-					'Invert Shelter'=>'Invertabrate Shelter',
-					'Nectary(G)'=>'Generalist Nectary',
-					'Nectary(S)'=>'Specialist Nectary',
-					'Ground Cover'=>'Ground Cover',
-					'Other(A)'=>'Aromatic',
-					'Other(C)'=>'Coppice');
-				foreach($role_strings as $role_string) {
-					$this->debug('Processing role "' . $role_string . '"');
-					if(is_array($role_names[$role_string])) {
-						foreach($role_names[$role_string] as $name) {
-							$role = Role::where('name', $name)->first();
-							if ( ! $role) {
-								$this->fatalError('Failed to find role for "' . $role_string . '"');
-							}
-							$role_ids[]  = $role->id;
-						}
-					} else {
-						$role = Role::where('name', $role_names[$role_string])->first();
-						if ( ! $role) {
-							$this->fatalError('Failed to find role for "' . $role_string . '"');
-						}
-						$role_ids[] = $role->id;
-					}
-				}
+                $this->debug("Processing $plant_name's roles.");
+                $role_ids = $this->parseRoles($data);
 				$plant->roles()->sync($role_ids);
 			}
 
-			$this->debug("Processing $plant_name's drawbacks [{$data[DRAWBACKS]}].");
-			if( ! empty($data[DRAWBACKS])) {
-				$drawback_symbols = array_map('trim', explode(';', $data[DRAWBACKS]));
-				$drawback_ids = array();
-				$drawback_names = array(
-					'A'=>'Allelopathic',
-					'D'=>'Dispersive',
-					'E'=>'Expansive',
-					'H'=>'Hay Fever',
-					'Ps'=>'Persistent',
-					'S'=>'Sprawling vigorous vine',
-					'St'=>'Stings',
-					'T'=>'Thorny',
-					'P'=>'Poison'
-				);
-                foreach($drawback_symbols as $symbol) {
-                    if ( strlen($symbol) == 0 ) {
-                        continue;
-                    }
-					$drawback = Drawback::where('name', $drawback_names[$symbol])->first();
-					if ( ! $drawback) {
-						$this->fatalError('Failed to find drawback for "' . $symbol. '"');
-					}
-					$drawback_ids[] = $drawback->id;
-				}
-				$plant->drawbacks()->sync($drawback_ids);
+            if( ! empty($data[DRAWBACKS])) {
+                $this->debug("Processing $plant_name's drawbacks [{$data[DRAWBACKS]}].");
+                $drawback_ids = $this->parseDrawbacks($data);
+                $plant->drawbacks()->sync($drawback_ids);
 			}
 			$counter++;
 		}
@@ -287,13 +186,13 @@ class DataLoad extends Command {
 			2=>array(1=>6.55, 2=>7.0),
 			3=>array(1=>7.55, 2=>8.5));
 		for($i = 0; $i < 4; $i++) {
-			if(isset($minimum_ph_values[$i][$phs[$i]])) {
+			if( $phs[$i] > 0 ) {
 				$plant->minimum_PH = $minimum_ph_values[$i][$phs[$i]];
 				break;
 			}
 		}
 		for($i = 3; $i > 0; $i--) {
-			if(isset($maximum_ph_values[$i][$phs[$i]])) {
+			if( $phs[$i] > 0 ) {
 				$plant->maximum_PH = $maximum_ph_values[$i][$phs[$i]];
 				break;
 			}
@@ -389,7 +288,6 @@ class DataLoad extends Command {
      * Parse the plant's common name and build a CommonName object.
      *
      * @param   mixed[] $data   The data parsed from the CSV file.
-     *
      * @return  PlantCommonName The parsed common name of the Plant.
      */
     protected function parseCommonNames($data) 
@@ -402,9 +300,12 @@ class DataLoad extends Command {
     /**
      * Parse the plant's light tolerances and return an array of ids.
      *
-     * @param   mixed[] $data   The data parsed from the CSV file.
+     * Format: tolerance;tolerance*
+     * Possible Values: Sun, Shade, Partial
+     * Examples: Shade;Partial, Sun;Partial, Sun;Shade
      *
-     * @return  int[]   The ids of the appropriate light tolerances.
+     * @param   mixed[] $data   The data parsed from the CSV file.
+     * @return  int[]   An array of LightTolerance ids. 
      */
     protected function parseLightTolerances($data) 
     {
@@ -416,6 +317,224 @@ class DataLoad extends Command {
             $light_tolerance_ids[] = $light_tolerance_map[$name];
         }
         return $light_tolerance_ids;
+    }
+
+    /**
+     * Parse the plant's moisture tolerances.
+     *
+     * Format: tolerance;tolerance*
+     * Possible Values: Xeric, Mesic, Hydric
+     * Examples: Xeric, Xeric;Mesic, Hydric,Mesic 
+     *
+     * @param   mixed[] $data   The data parsed from the CSV file.
+     * @return  int[]  An array of MoistureTolerance ids. 
+     */
+    protected function parseMoistureTolerances($data)
+    {
+        $moisture_tolerance_names = array_map('trim', explode(';', $data[MOISTURE]));
+        $moisture_tolerance_map = array('Xeric'=>1, 'Mesic'=>2, 'Hydric'=>3);
+        $moisture_tolerance_ids = array();
+        foreach($moisture_tolerance_names as $name) {
+            $moisture_tolerance_ids[] = $moisture_tolerance_map[$name];
+        }
+        return $moisture_tolerance_ids;
+    }
+
+    /**
+     * Parse the plant's growth habit.
+     *
+     * Format: symbol symbol* 
+     * Possible Values: E, std, skr, spr, ms, Ctkt, Rtkt, Cmat, Rmat, w, r,
+     *      vine, v/kr, a, e, clmp, run
+     * Examples: clmp, w vine, Rtkt, r vine, a e clmp
+     *
+     * @param   mixed[] $data   The parsed CSV data.
+     * @return  int[]   An array of Habit ids.
+     */
+    protected function parseHabit($data)
+    {
+        $habit_symbols = array_map('trim', explode(' ', $data[HABIT]));
+        $habit_ids = array();
+        foreach($habit_symbols as $symbol) {
+            $habit = Habit::where('symbol', $symbol)->first();
+            if ( ! $habit) {
+                $this->error('Failed to find habit "' . $symbol . '"');
+            }
+            $habit_ids[] = $habit->id;
+        }
+        return $habit_ids;
+    }
+
+    /**
+     * Parse the plant's root patterns.
+     *
+     * Format: symbol;symbol*
+     * Possible values: F, FB, H, T, Sk, St, B, C, R, Tu, Fl, St
+     * Examples: F;FB, St;F, Sk;R;FB  
+     *
+     * @param   mixed[] $data   The parsed CSV data.
+     * @return  int[]   An array of RootPattern ids.
+     */
+    protected function parseRootPattern($data)
+    {
+        $root_pattern_symbols = array_map('trim', explode(';', $data[ROOT_PATTERN]));
+        $root_pattern_ids = array();
+        foreach($root_pattern_symbols as $symbol) {
+            $root_pattern = RootPattern::where('symbol', $symbol)->first();
+            if ( ! $root_pattern) {
+                $this->error('Failed to find root pattern "' . $symbol . '"');
+            }
+            $root_pattern_ids[] = $root_pattern->id;
+        }
+        return $root_pattern_ids;
+    }
+
+    /**
+     * Parse the plant's habitats.
+     *
+     * Format: habitat;habitat*
+     * Possible values: Disturbed, Meadows, Prairies, Oldfields, Thickets,
+     *      Edges, Gaps/Clearings, Open Woods, Forest, Conifer Forest, Other
+     * Examples: Disturbed;Meadows;Oldfields, Forest;Open Woods,
+     *      Gaps/Clearings;Open Woods;Conifer Forest
+     *
+     * @param   mixed[] $data   The parsed CSV data.
+     * @return  int[]   An array of Habitat ids.
+     */
+    protected function parseHabitats($data) 
+    {
+        $habitats = array_map('trim', explode(';', $data[HABITATS]));
+        $habitat_ids = array();
+        foreach($habitats as $name) {
+            if (strlen($name) == 0) {
+                continue;
+            }
+            $habitat = Habitat::where('name', $name)->first();
+            if ( ! $habitat) {
+                $this->error('Failed to find habitat "' . $name . '"');
+            }
+            $habitat_ids[] = $habitat->id;
+        }
+        return $habitat_ids;
+    }
+
+    /**
+     * Parse the plant's possible harvests.
+     *
+     * Format: harvest(rating);harvest(rating)*
+     * Possible Harvests: Fruit, Nuts/Mast, Greens, Roots, Culinary, Tea,
+     *      Other, Medicinal 
+     * Possible Ratings: E, G, F, Y, S
+     * Examples: Fruit(E);Medicinal(Y)
+     *
+     * @param   mixed[] $data   The parsed CSV data.
+     * @return  int[]   An array of Harvest ids.
+     */
+    protected function parseHarvest($data)
+    {
+        $harvest_strings = array_map('trim', explode(';', $data[USES]));
+        $plant_harvests = array();
+        foreach($harvest_strings as $harvest_string) {
+            $this->debug('Processing harvest "' . $harvest_string . '"');
+
+            preg_match('/(\w+\s*\w*)\((\w+)\)/', $harvest_string, $matches);
+            $name = $matches[1];
+            $rating = $matches[2];
+
+            $harvest = Harvest::where('name', $name)->first();
+            if ( ! $harvest) {
+                $this->error('Failed to find a harvest for "' . $name . '"');
+            }
+            $plant_harvests[$harvest->id] = array('rating'=>$rating);
+        }
+        return $plant_harvests;
+    }
+
+    /**
+     * Parse this plants roles in the ecosystem.
+     *
+     * Format: role;role*
+     * Possible Values: N2, Dynamic Accumulator, Wildlife(F), Wildlife(S),
+     *      Wildlife(B), Invert Shelter, Nectary(G), Nectary(S), Ground Cover,
+     *      Other(A), Other(C) 
+     * Examples: N2;Willife(F);Invert Shelter, Dynamic Accumulator;Wildlife(S)
+     *
+     * @param   mixed[] $data   The parsed CSV data.
+     * @return  int[]   An array of Role ids.
+     */
+    protected function parseRoles($data)
+    {
+        $role_strings = array_map('trim', explode(';', $data[FUNCTIONS]));
+        $role_ids = array();
+        $role_names = array(
+            'N2'=>'Nitrogen Fixer',
+            'Dynamic Accumulator'=>'Dynamic Accumulator',
+            'Wildlife(F)'=>'Wildlife Food',
+            'Wildlife(S)'=>'Wildlife Shelter',
+            'Wildlife(B)'=>array('Wildlife Food', 'Wildlife Shelter'),
+            'Invert Shelter'=>'Invertabrate Shelter',
+            'Nectary(G)'=>'Generalist Nectary',
+            'Nectary(S)'=>'Specialist Nectary',
+            'Ground Cover'=>'Ground Cover',
+            'Other(A)'=>'Aromatic',
+            'Other(C)'=>'Coppice');
+        foreach($role_strings as $role_string) {
+            $this->debug('Processing role "' . $role_string . '"');
+            if(is_array($role_names[$role_string])) {
+                foreach($role_names[$role_string] as $name) {
+                    $role = Role::where('name', $name)->first();
+                    if ( ! $role) {
+                        $this->error('Failed to find role for "' . $role_string . '"');
+                    }
+                    $role_ids[]  = $role->id;
+                }
+            } else {
+                $role = Role::where('name', $role_names[$role_string])->first();
+                if ( ! $role) {
+                    $this->error('Failed to find role for "' . $role_string . '"');
+                }
+                $role_ids[] = $role->id;
+            }
+        }
+        return $role_ids;
+    }
+
+    /**
+     * Parse this plant's drawbacks.
+     *
+     * Format: drawback;drawback*
+     * Possible Values: A, D, E, H, Ps, S, St, T P
+     * Examples: P;D, D, P;H;Ps, A;D
+     *
+     * @param   mixed[] $data   The parsed CSV data.
+     * @return  int[]   An array of Drawback ids.
+     */
+    protected function parseDrawbacks($data)
+    {
+        $drawback_symbols = array_map('trim', explode(';', $data[DRAWBACKS]));
+        $drawback_ids = array();
+        $drawback_names = array(
+            'A'=>'Allelopathic',
+            'D'=>'Dispersive',
+            'E'=>'Expansive',
+            'H'=>'Hay Fever',
+            'Ps'=>'Persistent',
+            'S'=>'Sprawling vigorous vine',
+            'St'=>'Stings',
+            'T'=>'Thorny',
+            'P'=>'Poison'
+        );
+        foreach($drawback_symbols as $symbol) {
+            if ( strlen($symbol) == 0 ) {
+                continue;
+            }
+            $drawback = Drawback::where('name', $drawback_names[$symbol])->first();
+            if ( ! $drawback) {
+                $this->error('Failed to find drawback for "' . $symbol. '"');
+            }
+            $drawback_ids[] = $drawback->id;
+        }
+        return $drawback_ids;
     }
 
 	/**
