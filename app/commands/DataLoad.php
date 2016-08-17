@@ -87,21 +87,50 @@ class DataLoad extends Command {
 			$this->debug('Processing line ' . $counter . ' of ' . count($lines));
 			$data = explode(',', $line);
 
-			$this->debug('Processing plant...');
-			// If this plant already exists in the database, then
-			// move on to the next one.
-			$plant = new Plant();
-			if ( ! $this->parsePlant($plant, $data)) {
-				$this->debug('Plant ' . $plant->genus . ' ' . $plant->species . ' already exists.  Skipping...');
-				continue;
-			}
+            $genus = $data[GENUS];
+            $species = $data[SPECIES];
+			$this->debug("Processing '{$genus} {$species}'...");
+
+            $plant = Plant::where('genus', $genus)
+                ->where('species', $species)
+                ->first();
+            if ( $plant === NULL ) {
+                $this->debug("Creating new plant for '{$genus} {$species}'...");
+                $plant = new Plant();
+                $plant->species = $species;
+                $plant->genus = $genus;
+            }
+
+            $plant->family = $data[FAMILY];
+
+            list($plant->minimum_ph, $plant->maximum_ph) = $this->parsePH($data);
+            list($plant->minimum_zone, $plant->maximum_zone) = $this->parseZone($data);
+            $plant->form = $this->parseForm($data);
+            list($plant->minimum_height, $plant->maximum_height) = $this->parseHeight($data);
+            list($plant->minimum_width, $plant->maximum_width) = $this->parseWidth($data);
+            // ---------------------------- Growth Rate ---------------------------
+            // Format: [Growth Rate]
+            // Examples: F, M, S
+            $plant->growth_rate = strtolower($data[GROWTH_RATE]);
+
+            // ---------------------------- Native Region -------------------------
+            // Format: [Native Region]
+            // Examples: ENA, EURA, ASIA
+            $plant->native_region = $data[NATIVE_REGION];
+
 			$plant_name = $plant->genus . ' ' . $plant->species;
 			$this->debug('Saving plant "' . $plant_name . '".');
 			$plant->save();
 
+            // Begin parsing data for related models.
+
             $this->debug('Processing ' . $plant_name . '\'s common names.');
-            $common_name = $this->parseCommonNames($data);
-            $plant->commonNames()->save($common_name);
+            $name = $this->parseCommonNames($data);
+            if($plant->commonNames()->where('name', $name)->get() === null) {
+                $common_name = new PlantCommonName();
+                $common_name->name = $name;
+                $plant->commonNames()->save($common_name);
+            }
 
             $this->debug('Processing ' . $plant_name . '\'s light tolerances.');
             $light_tolerance_ids = $this->parseLightTolerances($data);
@@ -142,7 +171,7 @@ class DataLoad extends Command {
 			}
 
             if( ! empty($data[DRAWBACKS])) {
-                $this->debug("Processing $plant_name's drawbacks [{$data[DRAWBACKS]}].");
+                $this->debug("Processing $plant_name's drawbacks [". trim($data[DRAWBACKS]). "].");
                 $drawback_ids = $this->parseDrawbacks($data);
                 $plant->drawbacks()->sync($drawback_ids);
 			}
@@ -150,139 +179,6 @@ class DataLoad extends Command {
 		}
 		$this->debug('Processing complete.');
 	}
-
-	/**
-	 * Parse the data from the csv into a Plant model.  Check the database
-	 * for an existing plant model and return FALSE if found.
-	 *
-	 * @param Plant $plant The model to parse into.
-	 * @param array $data	The data from the csv file for parsing.
-	 *
-	 * @return boolean	TRUE if successfully parsed, FALSE if plant already exists.
-	 */
-	protected function parsePlant(Plant $plant, array $data)
-	{
-		$plant->genus = $data[GENUS];
-		$plant->species = $data[SPECIES];
-		$plant->family = $data[FAMILY];
-
-		$existing = Plant::where('genus', $plant->genus)->where('species', $plant->species)->first();
-		if ( $existing !== NULL ) {
-			return FALSE;
-		}
-
-        // ---------------------------- Soil pH -------------------------------
-        // Format: [0-2]:[0-2]:[0-2]:[0-2]
-        // Examples: 0:0:2:2, 0:1:2:1, 1:2:2:1, 0:0:0:2
-		$phs = array_map('trim', explode(':', $data[PH]));
-		$minimum_ph_values = array(
-			0=>array(1=>4.25, 2=>3.5),
-			1=>array(1=>5.55, 2=>5.1),
-			2=>array(1=>6.55, 2=>6.1),
-			3=>array(1=>7.55, 2=>7.1));
-		$maximum_ph_values = array(
-			0=>array(1=>4.25, 2=>5.0),
-			1=>array(1=>5.55, 2=>6.0),
-			2=>array(1=>6.55, 2=>7.0),
-			3=>array(1=>7.55, 2=>8.5));
-		for($i = 0; $i < 4; $i++) {
-			if( $phs[$i] > 0 ) {
-				$plant->minimum_PH = $minimum_ph_values[$i][$phs[$i]];
-				break;
-			}
-		}
-		for($i = 3; $i > 0; $i--) {
-			if( $phs[$i] > 0 ) {
-				$plant->maximum_PH = $maximum_ph_values[$i][$phs[$i]];
-				break;
-			}
-        }
-
-        // ---------------------------- Zone ----------------------------------
-        // Formats: [Minimum Zone] - [Maximum Zone] OR [Minimum Zone]
-        // Examples: 3 - 7 OR 3b
-        if (strpos($data[ZONE], '-') !== FALSE) {
-            list($minimum_zone, $maximum_zone) = array_map('trim', explode('-', $data[ZONE]));
-        } else {
-            $minimum_zone = $data[ZONE]; 
-            $maximum_zone = null;
-        }
-        $plant->minimum_zone = $minimum_zone;
-        $plant->maximum_zone = $maximum_zone;
-        
-
-        // ---------------------------- Form ----------------------------------
-        // Format: [size] [form]
-        // Examples: m Shrub, l Tree, s-m Herb
-		$forms = array_map('trim', explode(' ', $data[FORM]));
-		$plant->form = strtolower($forms[1]); // We're ignoring size.  You can get it from the height / width.
-
-        // ---------------------------- Plant Height --------------------------
-        // Format:  [Minimum Height]' - [Maximum Height]' OR [Maximum Height]' 
-        //      OR [Minimum Height]" - [Maximum Height]" OR [Maximum Height]"
-        // Examples: 20' - 100', 7', 24", 12" - 24"
-		if (strpos($data[HEIGHT], '-') !== FALSE) {
-			list($minimum_height, $maximum_height) = array_map('trim', explode('-', $data[HEIGHT]));
-		} else {
-            $maximum_height = $data[HEIGHT];
-            $minimum_height = null; // If we've only got one value, then it's the maximum.
-		}
-
-		if ($minimum_height !== null && strpos($minimum_height, "'") !== FALSE)  {
-			$minimum_height = str_replace('\'', '', $minimum_height);
-		} else if ($minimum_height !== null && strpos($minimum_height, '"') !== FALSE) {
-			$minimum_height = ((float)str_replace('"', '', $minimum_height))/12;
-		}
-		$plant->minimum_height = $minimum_height;
-
-		if (strpos($maximum_height, "'") !== FALSE)  {
-			$maximum_height = str_replace('\'', '', $maximum_height);
-		} else if(strpos($maximum_height, '"') !== FALSE) {
-			$maximum_height = ((float)str_replace('"', '', $maximum_height))/12;
-		}
-		$plant->maximum_height = $maximum_height;
-
-
-        // ---------------------------- Plant Width ---------------------------
-        // Format:  [Minimum Width]' - [Maximum Width]' OR [Maximum Width]' 
-        //      OR [Minimum Width]" - [Maximum Width]" OR [Maximum Width]"
-        // Examples: 20' - 100', 7', 24", 12" - 24"
-		if (strpos($data[WIDTH], '-') !== FALSE) {
-			list($minimum_width, $maximum_width) = array_map('trim', explode('-', $data[WIDTH]));
-		} else {
-            $maximum_width = $data[WIDTH];
-            $minimum_width = null; // If we've only got one value, then it's the maximum.
-		}
-
-        if ($minimum_width !== null && strpos($minimum_width, "'") !== FALSE) {
-            // Minimum Width given in feet.  Just parse out the unit.
-			$minimum_width = str_replace('\'', '', $minimum_width);
-        } else if ($minimum_width !== null && strpos($minimum_width, '"') !== FALSE) {
-            // Minimum Width given in inches.  Parse out the unit and convert to feet.
-			$minimum_width = ((float)str_replace('"', '', $minimum_width))/12;
-		}
-		$plant->minimum_width = $minimum_width;
-
-		if (strpos($maximum_width, "'") !== FALSE) {
-            // Maximum Width given in feet.  Just parse out the unit.
-            $maximum_width = str_replace('\'', '', $maximum_width);
-		} else if (strpos($maximum_width, '"') !== FALSE) { 
-            // Maximum Width given in inches.  Parse out the unit and convert to feet.
-			$maximum_width = ((float)str_replace('"', '', $maximum_width))/12;
-		}
-		$plant->maximum_width = $maximum_width;
-
-        // ---------------------------- Growth Rate ---------------------------
-        // Format: [Growth Rate]
-        // Examples: F, M, S
-        $plant->growth_rate = strtolower($data[GROWTH_RATE]);
-
-        // ---------------------------- Native Region -------------------------
-        // Format: [Native Region]
-        // Examples: ENA, EURA, ASIA
-		$plant->native_region = $data[NATIVE_REGION];
-		return TRUE;
-    }
 
     /**
      * Parse the plant's common name and build a CommonName object.
@@ -292,9 +188,7 @@ class DataLoad extends Command {
      */
     protected function parseCommonNames($data) 
     {
-        $common_name = new PlantCommonName();
-        $common_name->name = $data[COMMON_NAME];
-        return $common_name;
+        return $data[COMMON_NAME];
     }
 
     /**
@@ -537,18 +431,184 @@ class DataLoad extends Command {
         return $drawback_ids;
     }
 
+    /**  
+     * Parse out this plant's Soil pH requirements.
+     *
+     * Format: [0-2]:[0-2]:[0-2]:[0-2]
+     * Examples: 0:0:2:2, 0:1:2:1, 1:2:2:1, 0:0:0:2
+     *
+     * @param   mixed[] $data   The parsed CSV data.
+     * @return  float[]   An array containing the minimum and maximum pH values
+     *      in list form: ``array(0=>minimum_ph, 1=>maximum_ph)``
+     */
+    public function parsePH($data) 
+    {
+		$phs = array_map('trim', explode(':', $data[PH]));
+		$minimum_ph_values = array(
+			0=>array(1=>4.25, 2=>3.5),
+			1=>array(1=>5.55, 2=>5.1),
+			2=>array(1=>6.55, 2=>6.1),
+			3=>array(1=>7.55, 2=>7.1));
+		$maximum_ph_values = array(
+			0=>array(1=>4.25, 2=>5.0),
+			1=>array(1=>5.55, 2=>6.0),
+			2=>array(1=>6.55, 2=>7.0),
+            3=>array(1=>7.55, 2=>8.5));
+        $ph_list = array();
+		for($i = 0; $i < 4; $i++) {
+			if( $phs[$i] > 0 ) {
+				$ph_list[] = $minimum_ph_values[$i][$phs[$i]];
+				break;
+			}
+		}
+		for($i = 3; $i > 0; $i--) {
+			if( $phs[$i] > 0 ) {
+				$ph_list[] = $maximum_ph_values[$i][$phs[$i]];
+				break;
+			}
+        }
+        return $ph_list; 
+    }
+
+    /**
+     * Parse this plant's USDA zone.
+     *
+     * Formats: [Minimum Zone] - [Maximum Zone] OR [Minimum Zone]
+     * Examples: 3 - 7 OR 3b
+     *
+     * @param   mixed[] $data   The parsed CSV data.
+     * @return  string[]   An array containing the minimum and maximum zone values
+     *      in list form: ``array(0=>minimum_zone, 1=>maximum_zone)``
+     */
+    public function parseZone($data) 
+    {
+        if (strpos($data[ZONE], '-') !== FALSE) {
+            list($minimum_zone, $maximum_zone) = array_map('trim', explode('-', $data[ZONE]));
+        } else {
+            $minimum_zone = $data[ZONE]; 
+            $maximum_zone = null;
+        }
+
+        return array($minimum_zone, $maximum_zone);
+
+    }
+
+    /**
+     * Parse this plant's form.
+     *
+     * Format: [size] [form]
+     * Examples: m Shrub, l Tree, s-m Herb
+     *
+     * @param   mixed[] $data   The parsed CSV data.
+     * @return  string  This plant's form.
+     */
+    public function parseForm($data)
+    {
+        $forms = array_map('trim', explode(' ', $data[FORM]));
+        if (empty($forms[1])) {
+            $this->error('Failed to properly parse form.  Possible data error? [' . $data[FORM] .']');
+            return '';
+        }
+		return strtolower($forms[1]); // We're ignoring size.  You can get it from the height / width.
+    }
+    /**
+     * Parse the plant's height (minimum and maximum).
+     *
+     * Format:  [Minimum Height]' - [Maximum Height]' OR [Maximum Height]' 
+     *      OR [Minimum Height]" - [Maximum Height]" OR [Maximum Height]"
+     * Examples: 20' - 100', 7', 24", 12" - 24"
+     *
+     * @param   mixed[] $data   The parsed CSV data.
+     * @return  float[] An array containing this plant's minimum and maximum
+     *      heights (``array(0=>minimum_height, 1=>maximum_height)``).
+     */
+    public function parseHeight($data)
+    {
+		if (strpos($data[HEIGHT], '-') !== FALSE) {
+			list($minimum_height, $maximum_height) = array_map('trim', explode('-', $data[HEIGHT]));
+		} else {
+            $maximum_height = $data[HEIGHT];
+            $minimum_height = null; // If we've only got one value, then it's the maximum.
+		}
+
+		if ($minimum_height !== null && strpos($minimum_height, "'") !== FALSE)  {
+			$minimum_height = str_replace('\'', '', $minimum_height);
+		} else if ($minimum_height !== null && strpos($minimum_height, '"') !== FALSE) {
+			$minimum_height = ((float)str_replace('"', '', $minimum_height))/12;
+		}
+
+		if (strpos($maximum_height, "'") !== FALSE)  {
+			$maximum_height = str_replace('\'', '', $maximum_height);
+		} else if(strpos($maximum_height, '"') !== FALSE) {
+			$maximum_height = ((float)str_replace('"', '', $maximum_height))/12;
+        }
+        return array($minimum_height, $maximum_height);
+    }
+
+    /**
+     * Parse the plant's width (minimum and maximum).
+     * Format:  [Minimum Width]' - [Maximum Width]' OR [Maximum Width]' 
+     *      OR [Minimum Width]" - [Maximum Width]" OR [Maximum Width]"
+     * Examples: 20' - 100', 7', 24", 12" - 24"
+     * 
+     * @param   mixed[] $data   The parsed CSV data.
+     * @return  float[] An array containing this plant's minimum and maximum
+     *      widths(``array(0=>minimum_width, 1=>maximum_width)``).
+     */
+    public function parseWidth($data)
+    {
+		if (strpos($data[WIDTH], '-') !== FALSE) {
+			list($minimum_width, $maximum_width) = array_map('trim', explode('-', $data[WIDTH]));
+		} else {
+            $maximum_width = $data[WIDTH];
+            $minimum_width = null; // If we've only got one value, then it's
+            // the maximum.
+		}
+
+        if ($minimum_width !== null && strpos($minimum_width, "'") !== FALSE) {
+            // Minimum Width given in feet.  Just parse out the unit.
+			$minimum_width = str_replace('\'', '', $minimum_width);
+        } else if ($minimum_width !== null && strpos($minimum_width, '"') !== FALSE) {
+            // Minimum Width given in inches.  Parse out the unit and convert
+            // to feet.
+			$minimum_width = ((float)str_replace('"', '', $minimum_width))/12;
+		}
+
+		if (strpos($maximum_width, "'") !== FALSE) {
+            // Maximum Width given in feet.  Just parse out the unit.
+            $maximum_width = str_replace('\'', '', $maximum_width);
+		} else if (strpos($maximum_width, '"') !== FALSE) { 
+            // Maximum Width given in inches.  Parse out the unit and convert
+            // to feet.
+			$maximum_width = ((float)str_replace('"', '', $maximum_width))/12;
+        }
+        return array($minimum_width, $maximum_width);
+    }
+
 	/**
 	 * Print a Debug Message
 	 *
 	 * @param	string $message The message to print.
-	 *
 	 * @return void
 	 */
 	protected function debug($message)
 	{
 		$now = new DateTime();
-		echo $now->format("Y-m-d\tH:i:sO") . ':: ' . $message . "\n";
-	}
+		$this->info($now->format("Y-m-d\tH:i:sO") . ':: ' . $message);
+    }
+
+    /**
+     * Print an Error message to the console.
+     *
+     * @param   string  $message    The message to print.
+     * @return void
+     */
+    public function error($message)
+    {
+		$now = new DateTime();
+        $message = $now->format("Y-m-d\tH:i:sO") . ':: ' . $message . "\n";
+        parent::error($message);
+    }
 
 	/**
 	 * Print an error message and kill execution
