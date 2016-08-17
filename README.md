@@ -17,10 +17,15 @@ The production version of Forest to Farm will eventually be up at
 
 ## Helping Out
 
+[![Stories in Ready](https://badge.waffle.io/danielbingham/foresttofarm.org.svg?label=ready&title=Ready)](http://waffle.io/danielbingham/foresttofarm.org)
+[![Stories In Progress](https://badge.waffle.io/danielbingham/foresttofarm.org.svg?label=in+progress&title=In+Progress)](http://waffle.io/danielbingham/foresttofarm.org)
+
 Forest to Farm is an open source project and we appreciate any help offered. If
 you'd like to help develop it, take a look at the code standards document, and
 then spend a little time reading through the issues and milestones to get a
 feeling for where your efforts would be best spent.  
+
+We use [Waffle](http://waffle.io) as an issue card board to help track development progress.  You can view our waffle by clicking one of the buttons above or going here: [Forest to Farm Waffle](https://waffle.io/danielbingham/foresttofarm.org)
 
 ## Setting Up a Development Environment 
 
