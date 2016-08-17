@@ -18,7 +18,7 @@ The production version of Forest to Farm will eventually be up at
 ## Helping Out
 
 [![Stories in Ready](https://badge.waffle.io/danielbingham/foresttofarm.org.svg?label=ready&title=Ready)](http://waffle.io/danielbingham/foresttofarm.org)
-[![Stories In Progress](https://badge.waffle.io/danielbingham/foresttofarm.org.svg?label=in+progress&title=In+Progress)](http://waffle.io/danielbingham/foresttofarm.org)
+[![Stories In Progress](https://badge.waffle.io/danielbingham/foresttofarm.org.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/danielbingham/foresttofarm.org)
 
 Forest to Farm is an open source project and we appreciate any help offered. If
 you'd like to help develop it, take a look at the code standards document, and
