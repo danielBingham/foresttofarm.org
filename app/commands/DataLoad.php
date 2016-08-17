@@ -214,6 +214,11 @@ class DataLoad extends Command {
         $light_tolerance_ids = array();
         foreach($light_tolerance_names as $name)
         {
+            if (empty($light_tolerance_map[$name])) {
+                $this->error('Found invalid light tolerance "' . $name . '"');
+                continue;
+            }
+
             $light_tolerance_ids[] = $light_tolerance_map[$name];
         }
         return $light_tolerance_ids;
@@ -235,6 +240,10 @@ class DataLoad extends Command {
         $moisture_tolerance_map = array('Xeric'=>1, 'Mesic'=>2, 'Hydric'=>3);
         $moisture_tolerance_ids = array();
         foreach($moisture_tolerance_names as $name) {
+            if(empty($moisture_tolerance_map[$name])) {
+                $this->error('Found invalid moisture tolerance "' . $name . '"');
+                continue;
+            }
             $moisture_tolerance_ids[] = $moisture_tolerance_map[$name];
         }
         return $moisture_tolerance_ids;
@@ -259,6 +268,7 @@ class DataLoad extends Command {
             $habit = Habit::where('symbol', $symbol)->first();
             if ( ! $habit) {
                 $this->error('Failed to find habit "' . $symbol . '"');
+                continue;
             }
             $habit_ids[] = $habit->id;
         }
@@ -283,6 +293,7 @@ class DataLoad extends Command {
             $root_pattern = RootPattern::where('symbol', $symbol)->first();
             if ( ! $root_pattern) {
                 $this->error('Failed to find root pattern "' . $symbol . '"');
+                continue;
             }
             $root_pattern_ids[] = $root_pattern->id;
         }
@@ -312,6 +323,7 @@ class DataLoad extends Command {
             $habitat = Habitat::where('name', $name)->first();
             if ( ! $habitat) {
                 $this->error('Failed to find habitat "' . $name . '"');
+                continue;
             }
             $habitat_ids[] = $habitat->id;
         }
@@ -335,8 +347,6 @@ class DataLoad extends Command {
         $harvest_strings = array_map('trim', explode(';', $data[USES]));
         $plant_harvests = array();
         foreach($harvest_strings as $harvest_string) {
-            $this->debug('Processing harvest "' . $harvest_string . '"');
-
             preg_match('/(\w+\s*\w*)\((\w+)\)/', $harvest_string, $matches);
             $name = $matches[1];
             $rating = $matches[2];
@@ -344,6 +354,7 @@ class DataLoad extends Command {
             $harvest = Harvest::where('name', $name)->first();
             if ( ! $harvest) {
                 $this->error('Failed to find a harvest for "' . $name . '"');
+                continue;
             }
             $plant_harvests[$harvest->id] = array('rating'=>$rating);
         }
@@ -379,12 +390,18 @@ class DataLoad extends Command {
             'Other(A)'=>'Aromatic',
             'Other(C)'=>'Coppice');
         foreach($role_strings as $role_string) {
-            $this->debug('Processing role "' . $role_string . '"');
+
+            if ( empty($role_names[$role_string])) {
+                $this->error('Found invalid role "' . $role_string . '"');
+                continue;
+            }
+
             if(is_array($role_names[$role_string])) {
                 foreach($role_names[$role_string] as $name) {
                     $role = Role::where('name', $name)->first();
                     if ( ! $role) {
                         $this->error('Failed to find role for "' . $role_string . '"');
+                        continue;
                     }
                     $role_ids[]  = $role->id;
                 }
@@ -392,6 +409,7 @@ class DataLoad extends Command {
                 $role = Role::where('name', $role_names[$role_string])->first();
                 if ( ! $role) {
                     $this->error('Failed to find role for "' . $role_string . '"');
+                    continue;
                 }
                 $role_ids[] = $role->id;
             }
@@ -431,6 +449,7 @@ class DataLoad extends Command {
             $drawback = Drawback::where('name', $drawback_names[$symbol])->first();
             if ( ! $drawback) {
                 $this->error('Failed to find drawback for "' . $symbol. '"');
+                continue;
             }
             $drawback_ids[] = $drawback->id;
         }
@@ -612,22 +631,9 @@ class DataLoad extends Command {
     public function error($message)
     {
 		$now = new DateTime();
-        $message = $now->format("Y-m-d\tH:i:sO") . ':: ' . $message . "\n";
+        $message = $now->format("Y-m-d\tH:i:sO") . ':: ' . $message;
         parent::error($message);
     }
-
-	/**
-	 * Print an error message and kill execution
-	 *
-	 * @param	string	$message The message to print.
-	 *
-	 * @return void
-	 */
-	protected function fatalError($message)
-	{
-		$this->debug('**FATAL ERROR**: ' . $message);
-		exit();
-	}
 
 	/**
 	 * Get the console command arguments.
