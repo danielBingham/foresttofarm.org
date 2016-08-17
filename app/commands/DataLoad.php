@@ -87,8 +87,8 @@ class DataLoad extends Command {
 			$this->debug('Processing line ' . $counter . ' of ' . count($lines));
 			$data = explode(',', $line);
 
-            $genus = $data[GENUS];
-            $species = $data[SPECIES];
+            $genus = trim($data[GENUS]);
+            $species = trim($data[SPECIES]);
 			$this->debug("Processing '{$genus} {$species}'...");
 
             $plant = Plant::where('genus', $genus)
@@ -124,21 +124,27 @@ class DataLoad extends Command {
 
             // Begin parsing data for related models.
 
-            $this->debug('Processing ' . $plant_name . '\'s common names.');
-            $name = $this->parseCommonNames($data);
-            if($plant->commonNames()->where('name', $name)->get() === null) {
-                $common_name = new PlantCommonName();
-                $common_name->name = $name;
-                $plant->commonNames()->save($common_name);
+            if(!empty($data[COMMON_NAME])) {
+                $this->debug('Processing ' . $plant_name . '\'s common names.');
+                $name = $this->parseCommonNames($data);
+                if($plant->commonNames()->where('name', $name)->first() === null) {
+                    $common_name = new PlantCommonName();
+                    $common_name->name = $name;
+                    $plant->commonNames()->save($common_name);
+                }
             }
 
-            $this->debug('Processing ' . $plant_name . '\'s light tolerances.');
-            $light_tolerance_ids = $this->parseLightTolerances($data);
-			$plant->lightTolerances()->sync($light_tolerance_ids);
-
-			$this->debug('Processing ' . $plant_name . '\'s moisture tolerances.');
-            $moisture_tolerance_ids = $this->parseMoistureTolerances($data);
-            $plant->moistureTolerances()->sync($moisture_tolerance_ids);
+            if(!empty($data[LIGHT])) {
+                $this->debug('Processing ' . $plant_name . '\'s light tolerances.');
+                $light_tolerance_ids = $this->parseLightTolerances($data);
+                $plant->lightTolerances()->sync($light_tolerance_ids);
+            }
+            
+            if(!empty($data[MOISTURE])) {
+                $this->debug('Processing ' . $plant_name . '\'s moisture tolerances.');
+                $moisture_tolerance_ids = $this->parseMoistureTolerances($data);
+                $plant->moistureTolerances()->sync($moisture_tolerance_ids);
+            }
 
 			if(!empty($data[HABIT])) {
                 $this->debug("Processing $plant_name's habit.");
