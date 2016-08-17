@@ -47,8 +47,7 @@ INSERT INTO `root_patterns` (`symbol`, `name`, `description`)
         ('C', 'Corm', 'A thick swelling at the base of the stem.'),
         ('R', 'Rhizomatous', 'Underground stems that send out shoots and roots periodically along their length.  They can travel great distances, or stay close to the crown.'),
         ('Tu', 'Tuberous', 'Producing swollen potato-like "roots" (actually modified stems).'),
-        ('Fl', 'Fleshy', 'Thick or swollen, usually a form of fibrous or tap roots.'),
-        ('St', 'Stoloniferous', 'Rooting from creeping stems above the ground.');
+        ('Fl', 'Fleshy', 'Thick or swollen, usually a form of fibrous or tap roots.');
 
 CREATE TABLE `habitats` (
     `id` bigint unsigned NOT NULL AUTO_INCREMENT,
@@ -65,7 +64,7 @@ CREATE TABLE `harvests` (
     PRIMARY KEY(`id`)
 ); 
 
-INSERT INTO `harvests` (`name`) VALUES ('Edible Fruit'), ('Edible Nuts/Mast'), ('Edible Greens'), ('Edible Roots'), ('Culinary'), ('Tea'), ('Edible Other'), ('Medicinal');
+INSERT INTO `harvests` (`name`) VALUES ('Fruit'), ('Nuts/Mast'), ('Greens'), ('Roots'), ('Culinary'), ('Tea'), ('Other'), ('Medicinal');
 
 CREATE TABLE `roles` (
     `id` int unsigned NOT NULL AUTO_INCREMENT,
