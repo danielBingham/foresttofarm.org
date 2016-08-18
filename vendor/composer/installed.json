@@ -614,17 +614,17 @@
     },
     {
         "name": "doctrine/common",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "version": "2.6.x-dev",
+        "version_normalized": "2.6.9999999.9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/doctrine/common.git",
-            "reference": "670d814b6c8b5e8f39a2764d090463d39b3502c9"
+            "reference": "63fdca9a8581338a0288724798663bb3e2d3e718"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/doctrine/common/zipball/670d814b6c8b5e8f39a2764d090463d39b3502c9",
-            "reference": "670d814b6c8b5e8f39a2764d090463d39b3502c9",
+            "url": "https://api.github.com/repos/doctrine/common/zipball/63fdca9a8581338a0288724798663bb3e2d3e718",
+            "reference": "63fdca9a8581338a0288724798663bb3e2d3e718",
             "shasum": ""
         },
         "require": {
@@ -633,12 +633,12 @@
             "doctrine/collections": "1.*",
             "doctrine/inflector": "1.*",
             "doctrine/lexer": "1.*",
-            "php": "~5.6|~7.0"
+            "php": "~5.5|~7.0"
         },
         "require-dev": {
-            "phpunit/phpunit": "^5.4.6"
+            "phpunit/phpunit": "~4.8|~5.0"
         },
-        "time": "2016-07-20 15:39:51",
+        "time": "2016-07-07 01:43:08",
         "type": "library",
         "extra": {
             "branch-alias": {
