@@ -29,7 +29,11 @@ execute "Enable mcrypt mod" do
 end
 
 composer_project node['foresttofarm.org']['source_directory'] do
-    dev true
+    quiet   false
+    action  :dump_autoload
+end
+
+composer_project node['foresttofarm.org']['source_directory'] do
     quiet   false
     action  :install
 end
