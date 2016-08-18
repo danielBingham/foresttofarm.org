@@ -57,11 +57,22 @@ define('DRAWBACKS', 18);
  * If you would like for debug and error output to be printed to an 
  * interface, such as the console, then you must provide an output
  * interface that implements a ``debug()`` and an ``error()`` method to
- * the ``setOutput()`` method.  Laravel Commands implement this methods,
- * thus a laravel command can be used for this purpose.  To use this
- * service to parse CSV file input from a laravel Command and have the input
- * routed to the console through the Command, do the following from with in
- * a the Command's methods:
+ * the ``setOutput()`` method.  
+ *
+ * Example interface:
+ *
+ * ```
+ * interface Output {
+ *
+ *      public function debug($message);
+ *      public function error($message);
+ * }
+ * ```
+ *
+ * Laravel Commands implement these methods, thus a laravel command can be used
+ * for this purpose.  To use this service to parse CSV file input from a
+ * laravel Command and have the input routed to the console through the
+ * Command, do the following from with in a the Command's method:
  *
  * ```
  * $csvService = new PlantCSVParsingService();
