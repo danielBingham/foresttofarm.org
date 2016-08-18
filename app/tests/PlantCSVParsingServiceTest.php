@@ -19,7 +19,7 @@ class PlantCSVParsingServiceTest extends TestCase {
 
         foreach($fixtures as $fixture) {
             $result = $this->csvService->parseLightTolerances($fixture['test']);
-            $this->assertEqual($result, $fixture['result']);
+            $this->assertEquals($result, $fixture['result']);
         }
     }
 
@@ -34,7 +34,7 @@ class PlantCSVParsingServiceTest extends TestCase {
 
         foreach($fixtures as $fixture) {
             $result = $this->csvService->parseLightTolerances($fixture['test']);
-            $this->assertEqual($result, $fixture['result']);
+            $this->assertEquals($result, $fixture['result']);
         }
     }
 
