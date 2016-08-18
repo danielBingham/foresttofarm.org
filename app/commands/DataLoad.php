@@ -47,28 +47,12 @@ class DataLoad extends Command {
 	public function fire()
 	{
         
-		$filename = $this->argument('csv_file');
-		$this->debug('Starting processing of data file: ' . $filename);
-		$lines = explode("\n", file_get_contents($filename));
+        $filename = $this->argument('csv_file');
 
         // Set up the CSV parsing service.
         $plantCSVService = new PlantCSVParsingService();
         $plantCSVService->setOutput($this);
-
-		$this->debug('Data file contains ' . count($lines) . ' lines of data.');
-		$counter = 1;
-		foreach($lines as $line) {
-			if (strlen($line) < 1) {
-				break;
-			}
-			$this->debug('Processing line ' . $counter . ' of ' . count($lines));
-            $data = explode(',', $line);
-
-            $plantCSVService->parsePlant($data);
-
-			$counter++;
-		}
-		$this->debug('Processing complete.');
+        $plantCSVService->parseCSVFile($filename);
 	}
 
 	/**

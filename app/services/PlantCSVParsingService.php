@@ -1,11 +1,10 @@
 <?php
 /**
+ * Service to handle the parsing of Plant CSV formatted data files.
  *
- *
- *
- *
+ * @author  Daniel Bingham  <dbingham@theroadgoeson.com>
+ * @license MIT
  */
-
 
 
 /** 
@@ -33,7 +32,42 @@ define('FUNCTIONS', 17);
 define('DRAWBACKS', 18);
 
 /**
+ * Service class that parses plant CSV data files and saves them to the
+ * database.  
  *
+ * Usage:
+ *
+ * ```
+ *
+ * $csvService = new PlantCSVParsingService();
+ * $csvService->parseCSVFile($filename);
+ * ```
+ * Alternately, if the CSV file has already been parsed into individual lines,
+ * you can parse it a line at the time by passing each line to
+ * ``parsePlant()``:
+ *
+ * ```
+ * $csvService = new PlantCSVParsingService();
+ * $lines = explode("\n", $csv_data_string);
+ * foreach($lines as $line) {
+ *      $csvService->parsePlant($line);
+ * }
+ * ```
+ *
+ * If you would like for debug and error output to be printed to an 
+ * interface, such as the console, then you must provide an output
+ * interface that implements a ``debug()`` and an ``error()`` method to
+ * the ``setOutput()`` method.  Laravel Commands implement this methods,
+ * thus a laravel command can be used for this purpose.  To use this
+ * service to parse CSV file input from a laravel Command and have the input
+ * routed to the console through the Command, do the following from with in
+ * a the Command's methods:
+ *
+ * ```
+ * $csvService = new PlantCSVParsingService();
+ * $csvService->setOutput($this);
+ * $csvService->parseCSVFile($filename);
+ * ```
  */
 class PlantCSVParsingService {
 
@@ -53,27 +87,85 @@ class PlantCSVParsingService {
         return $this;
     }
 
+    /**
+     * Print a debug message to our output's ``debug()`` method, if we have
+     * an output set.
+     *
+     * @param   string  $message    The message to print.
+     * @return  void
+     */
+    protected function debug($message) 
+    {
+        if($this->output !== null) {
+            $this->output->debug($message);
+        }
+    }
+
+    /**
+     * Print an error message to our output's ``error()`` method, if we have an
+     * output set.
+     *
+     * @param   string  $message    The message to print.
+     * @return  void
+     */
+    protected function error($message) 
+    {
+        if($this->output !== null) {
+            $this->output->error($message);
+        }
+    }
+
+    /**
+     * Parse a CSV formatted file of plant data and save the parsed Plant
+     * models to the database.
+     *
+     * @param   string  $filename   The filepath of the file to open and parse.
+     * @return void
+     */
+    public function parseCSVFile($filename)
+    {
+		$this->debug('Starting processing of data file: ' . $filename);
+		$lines = explode("\n", file_get_contents($filename));
+
+
+		$this->debug('Data file contains ' . count($lines) . ' lines of data.');
+		$counter = 1;
+		foreach($lines as $line) {
+			if (strlen($line) < 1) {
+				break;
+			}
+			$this->debug('Processing line ' . $counter . ' of ' . count($lines));
+            $this->parsePlant($line);
+
+			$counter++;
+		}
+		$this->debug('Processing complete.');
+
+    }
+
 
     /**
      * Parse a Plant model from the given CSV data line and save it to the
      * database.
      *
-     * @param   mixed[] $data   A line from a CSV plant data file, exploded
-     *      into an array.
+     * @param   string  $line   A line from a CSV plant data file. 
      *
      * @return void
      */
-    public function parsePlant($data) 
+    public function parsePlant($line) 
     {
-        $genus = trim($data[GENUS]);
-        $species = trim($data[SPECIES]);
-        $this->output->debug("Processing '{$genus} {$species}'...");
+        // We want to work with the line as an array.  Blow it up.
+        $data = array_map('trim', explode(',', $line));
+
+        $genus = $data[GENUS];
+        $species = $data[SPECIES];
+        $this->debug("Processing '{$genus} {$species}'...");
 
         $plant = Plant::where('genus', $genus)
             ->where('species', $species)
             ->first();
         if ( $plant === NULL ) {
-            $this->output->debug("Creating new plant for '{$genus} {$species}'...");
+            $this->debug("Creating new plant for '{$genus} {$species}'...");
             $plant = new Plant();
             $plant->species = $species;
             $plant->genus = $genus;
@@ -97,14 +189,14 @@ class PlantCSVParsingService {
         $plant->native_region = $data[NATIVE_REGION];
 
         $plant_name = $plant->genus . ' ' . $plant->species;
-        $this->output->debug('Saving plant "' . $plant_name . '".');
+        $this->debug('Saving plant "' . $plant_name . '".');
         $plant->save();
 
         // Begin parsing data for related models.
 
         if(!empty($data[COMMON_NAME])) {
-            $this->output->debug('Processing ' . $plant_name . '\'s common names.');
-            $name = trim($data[COMMON_NAME]);
+            $this->debug('Processing ' . $plant_name . '\'s common names.');
+            $name = $data[COMMON_NAME];
             if($plant->commonNames()->where('name', $name)->first() === null) {
                 $common_name = new PlantCommonName();
                 $common_name->name = $name;
@@ -113,49 +205,49 @@ class PlantCSVParsingService {
         }
 
         if(!empty($data[LIGHT])) {
-            $this->output->debug('Processing ' . $plant_name . '\'s light tolerances.');
+            $this->debug('Processing ' . $plant_name . '\'s light tolerances.');
             $light_tolerance_ids = $this->parseLightTolerances($data[LIGHT]);
             $plant->lightTolerances()->sync($light_tolerance_ids);
         }
         
         if(!empty($data[MOISTURE])) {
-            $this->output->debug('Processing ' . $plant_name . '\'s moisture tolerances.');
+            $this->debug('Processing ' . $plant_name . '\'s moisture tolerances.');
             $moisture_tolerance_ids = $this->parseMoistureTolerances($data[MOISTURE]);
             $plant->moistureTolerances()->sync($moisture_tolerance_ids);
         }
 
         if(!empty($data[HABIT])) {
-            $this->output->debug("Processing $plant_name's habit.");
+            $this->debug("Processing $plant_name's habit.");
             $habit_ids = $this->parseHabit($data[HABIT]);
             $plant->habits()->sync($habit_ids);
         }
 
         if(!empty($data[ROOT_PATTERN])) {
-            $this->output->debug("Processing $plant_name's root pattern.");
+            $this->debug("Processing $plant_name's root pattern.");
             $root_pattern_ids = $this->parseRootPattern($data[ROOT_PATTERN]);
             $plant->rootPatterns()->sync($root_pattern_ids);
         }
 
         if(!empty($data[HABITATS])) {
-            $this->output->debug("Processing $plant_name's habitats.");
+            $this->debug("Processing $plant_name's habitats.");
             $habitat_ids = $this->parseHabitats($data[HABITATS]);
             $plant->habitats()->sync($habitat_ids);
         }
 
         if(!empty($data[USES])) {
-            $this->output->debug("Processing $plant_name's harvests.");
+            $this->debug("Processing $plant_name's harvests.");
             $plant_harvests = $this->parseHarvest($data[USES]);
             $plant->harvests()->sync($plant_harvests);
         }
 
         if(!empty($data[FUNCTIONS])) {
-            $this->output->debug("Processing $plant_name's roles.");
+            $this->debug("Processing $plant_name's roles.");
             $role_ids = $this->parseRoles($data[FUNCTIONS]);
             $plant->roles()->sync($role_ids);
         }
 
         if( ! empty($data[DRAWBACKS])) {
-            $this->output->debug("Processing $plant_name's drawbacks [". trim($data[DRAWBACKS]). "].");
+            $this->debug("Processing $plant_name's drawbacks [{$data[DRAWBACKS]}].");
             $drawback_ids = $this->parseDrawbacks($data[DRAWBACKS]);
             $plant->drawbacks()->sync($drawback_ids);
         }
@@ -179,7 +271,7 @@ class PlantCSVParsingService {
         foreach($light_tolerance_names as $name)
         {
             if (empty($light_tolerance_map[$name])) {
-                $this->output->error('Found invalid light tolerance "' . $name . '"');
+                $this->error('Found invalid light tolerance "' . $name . '"');
                 continue;
             }
 
@@ -206,7 +298,7 @@ class PlantCSVParsingService {
         $moisture_tolerance_ids = array();
         foreach($moisture_tolerance_names as $name) {
             if(empty($moisture_tolerance_map[$name])) {
-                $this->output->error('Found invalid moisture tolerance "' . $name . '"');
+                $this->error('Found invalid moisture tolerance "' . $name . '"');
                 continue;
             }
             $moisture_tolerance_ids[] = $moisture_tolerance_map[$name];
@@ -232,7 +324,7 @@ class PlantCSVParsingService {
         foreach($habit_symbols as $symbol) {
             $habit = Habit::where('symbol', $symbol)->first();
             if ( ! $habit) {
-                $this->output->error('Failed to find habit "' . $symbol . '"');
+                $this->error('Failed to find habit "' . $symbol . '"');
                 continue;
             }
             $habit_ids[] = $habit->id;
@@ -257,7 +349,7 @@ class PlantCSVParsingService {
         foreach($root_pattern_symbols as $symbol) {
             $root_pattern = RootPattern::where('symbol', $symbol)->first();
             if ( ! $root_pattern) {
-                $this->output->error('Failed to find root pattern "' . $symbol . '"');
+                $this->error('Failed to find root pattern "' . $symbol . '"');
                 continue;
             }
             $root_pattern_ids[] = $root_pattern->id;
@@ -287,7 +379,7 @@ class PlantCSVParsingService {
             }
             $habitat = Habitat::where('name', $name)->first();
             if ( ! $habitat) {
-                $this->output->error('Failed to find habitat "' . $name . '"');
+                $this->error('Failed to find habitat "' . $name . '"');
                 continue;
             }
             $habitat_ids[] = $habitat->id;
@@ -318,7 +410,7 @@ class PlantCSVParsingService {
 
             $harvest = Harvest::where('name', $name)->first();
             if ( ! $harvest) {
-                $this->output->error('Failed to find a harvest for "' . $name . '"');
+                $this->error('Failed to find a harvest for "' . $name . '"');
                 continue;
             }
             $plant_harvests[$harvest->id] = array('rating'=>$rating);
@@ -357,7 +449,7 @@ class PlantCSVParsingService {
         foreach($role_strings as $role_string) {
 
             if ( empty($role_names[$role_string])) {
-                $this->output->error('Found invalid role "' . $role_string . '"');
+                $this->error('Found invalid role "' . $role_string . '"');
                 continue;
             }
 
@@ -365,7 +457,7 @@ class PlantCSVParsingService {
                 foreach($role_names[$role_string] as $name) {
                     $role = Role::where('name', $name)->first();
                     if ( ! $role) {
-                        $this->output->error('Failed to find role for "' . $role_string . '"');
+                        $this->error('Failed to find role for "' . $role_string . '"');
                         continue;
                     }
                     $role_ids[]  = $role->id;
@@ -373,7 +465,7 @@ class PlantCSVParsingService {
             } else {
                 $role = Role::where('name', $role_names[$role_string])->first();
                 if ( ! $role) {
-                    $this->output->error('Failed to find role for "' . $role_string . '"');
+                    $this->error('Failed to find role for "' . $role_string . '"');
                     continue;
                 }
                 $role_ids[] = $role->id;
@@ -413,7 +505,7 @@ class PlantCSVParsingService {
             }
             $drawback = Drawback::where('name', $drawback_names[$symbol])->first();
             if ( ! $drawback) {
-                $this->output->error('Failed to find drawback for "' . $symbol. '"');
+                $this->error('Failed to find drawback for "' . $symbol. '"');
                 continue;
             }
             $drawback_ids[] = $drawback->id;
@@ -495,7 +587,7 @@ class PlantCSVParsingService {
     {
         $forms = array_map('trim', explode(' ', $form_string));
         if (empty($forms[1])) {
-            $this->output->error('Failed to properly parse form.  Possible data error? [' . $data[FORM] .']');
+            $this->error('Failed to properly parse form.  Possible data error? [' . $data[FORM] .']');
             return '';
         }
 		return strtolower($forms[1]); // We're ignoring size.  You can get it from the height / width.
