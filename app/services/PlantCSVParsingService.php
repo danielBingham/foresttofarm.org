@@ -286,9 +286,9 @@ class PlantCSVParsingService {
                 continue;
             }
 
-            $light_tolerance_ids[] = $light_tolerance_map[$name];
+            $light_tolerance_ids[$light_tolerance_map[$name]] = true;
         }
-        return $light_tolerance_ids;
+        return array_keys($light_tolerance_ids);
     }
 
     /**
