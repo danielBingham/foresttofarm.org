@@ -11,11 +11,22 @@ module.exports = function(grunt) {
           jQuery: true
         }
       }
+    },
+    'phpunit-runner': {
+        all: {
+            options: {
+                phpunit: 'phpunit'
+            },
+            files: {
+                testFiles: 'app/tests/'
+            }
+        }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-phpunit-runner');
 
-  grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('default', ['jshint', 'phpunit-runner']);
 
 };

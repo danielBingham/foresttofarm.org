@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "devDependencies": {
     "grunt": "~1.0.0",
-    "grunt-contrib-jshint": "^1.0.0"
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-phpunit-runner": "^0.1.9"
   }
 }
