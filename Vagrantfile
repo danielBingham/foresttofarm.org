@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
     # Give the vagrant share more memory.  If we don't do this, it runs out of
     # RAM in the MySQL provisioning stage.
     config.vm.provider "virtualbox" do |v|
-        v.memory = 1024
+        v.memory = 2048
     end
 
     # Chef provisioning using vagrant-berkshelf plugin and chef_solo

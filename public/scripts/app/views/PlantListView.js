@@ -79,7 +79,6 @@ function($, _, Mustache, AbstractParentView, template, PlantBoxView) {
                         }
                     });
                     subview.remove();
-                    delete subview;
                 }, this));
             }   
 

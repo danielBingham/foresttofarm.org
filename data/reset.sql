@@ -1,5 +1,5 @@
-drop database dev_org_foresttofarm;
-create database dev_org_foresttofarm;
-grant all on dev_org_foresttofarm.* to 'dev'@'localhost' identified by 'development';
-use dev_org_foresttofarm;
-source /home/dbingham/src/development/foresttofarm.org/laravel/data/schema.sql;
+drop database local_foresttofarm; 
+create database local_foresttofarm;
+grant all on local_foresttofarm.* to 'developer'@'127.0.0.1' identified by 'developing';
+use local_foresttofarm;
+source /srv/www/foresttofarm.org/data/schema.sql;

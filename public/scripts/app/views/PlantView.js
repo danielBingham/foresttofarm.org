@@ -25,6 +25,28 @@ function($, _, Mustache,AbstractView,template) {
 
         parse: function() {
             var plant_json = this.model.toJSON();
+           
+            // Collapse height values down to a single one. 
+            if ( plant_json.minimum_height ) {
+                plant_json.height = plant_json.minimum_height + ' - ' + plant_json.maximum_height;
+            } else {
+                plant_json.height = plant_json.maximum_height;
+            }
+
+            // Collapse width values down to a single one. 
+            if ( plant_json.minimum_width ) {
+                plant_json.width = plant_json.minimum_width + ' - ' + plant_json.maximum_width;
+            } else {
+                plant_json.width = plant_json.maximum_width;
+            }
+
+            // Collapse Zone values down to a single one.
+            if( plant_json.maximum_zone ) {
+                plant_json.zone = plant_json.minimum_zone + ' - ' + plant_json.maximum_zone;
+            } else {
+                plant_json.zone = plant_json.minimum_zone;
+            }
+
 			var plant_detail_template  = Mustache.render(
 				template,
                 plant_json
