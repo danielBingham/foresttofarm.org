@@ -547,20 +547,31 @@ class PlantCSVParsingService {
 			1=>[1=>5.80, 2=>6.0],
 			2=>[1=>6.80, 2=>7.0],
             3=>[1=>7.80, 2=>8.5]];
-        $ph_list = [];
+        $minimum_ph = 6.1;
+        $maximum_ph = 7.0;
+        if ( count($phs) < 4) {
+            $this->error('Failed to parse pH values.  Bad data in pH values.');
+            return [$minimum_ph, $maximum_ph];
+        }
+
 		for($i = 0; $i < 4; $i++) {
-			if( $phs[$i] > 0 ) {
-				$ph_list[] = $minimum_ph_values[$i][$phs[$i]];
+			if( $phs[$i] == 1 || $phs[$i] == 2) {
+				$minimum_ph = $minimum_ph_values[$i][$phs[$i]];
 				break;
-			}
+            } else if ($phs[$i] > 2 || $phs[$i] < 0) {
+                $this->error('Bad data in pH values.');
+            }
 		}
 		for($i = 3; $i >= 0; $i--) {
-			if( $phs[$i] > 0 ) {
-				$ph_list[] = $maximum_ph_values[$i][$phs[$i]];
+			if( $phs[$i] == 1 || $phs[$i] == 2) {
+				$maximum_ph = $maximum_ph_values[$i][$phs[$i]];
 				break;
-			}
+            } else if ($phs[$i] > 2 || $phs[$i] < 0) {
+                $this->error('Bad data in pH values.');
+            }
         }
-        return $ph_list; 
+
+        return [$minimum_ph, $maximum_ph]; 
     }
 
     /**
@@ -579,6 +590,27 @@ class PlantCSVParsingService {
             list($minimum_zone, $maximum_zone) = array_map('trim', explode('-', trim($zone_string)));
         } else {
             $minimum_zone = trim($zone_string); 
+            $maximum_zone = null;
+        }
+
+        // Generate the list of valid zones.  They range from 1 - 13 and each
+        // zone can have an 'a' or a 'b'.  Examples: 1, 1a, 1b, 10a, 7b, 3
+        $valid_zones = [];
+        for($i = 1; $i <= 13; $i++) {
+            $valid_zones[] = (string)$i; // We have to cast it to a string
+            // because in_array cannot intelligently perform this check using
+            // loose checking and strict checking fails unless the types match.
+            $valid_zones[] = $i.'a';
+            $valid_zones[] = $i.'b';
+        }
+
+        if ( $minimum_zone !== null && ! in_array($minimum_zone, $valid_zones, true)) {
+            $this->error("Invalid zone detected [$minimum_zone]");
+            $minimum_zone = null;
+        }
+
+        if ( $maximum_zone !== null && ! in_array($maximum_zone, $valid_zones, true)) {
+            $this->error("Invalid zone detected [$maximum_zone]");
             $maximum_zone = null;
         }
 

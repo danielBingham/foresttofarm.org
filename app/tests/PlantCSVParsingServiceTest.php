@@ -95,4 +95,47 @@ class PlantCSVParsingServiceTest extends TestCase {
             $this->assertEquals($fixture['result'], $result);
         }
     }
+
+    public function testParsePhWithBadData() {
+        $fixtures = [
+            ['test'=>'0:3:2:1', 'result'=>[6.1,7.8]],
+            ['test'=>'0:0:0:0', 'result'=>[6.1,7.0]],
+            ['test'=>'0:2;2:0', 'result'=>[6.1,7.0]],
+            ['test'=>'-1:0:2:1', 'result'=>[6.1,7.8]]
+        ];
+
+        foreach($fixtures as $fixture) {
+            $result = $this->csvService->parsePH($fixture['test']);
+            $this->assertEquals($fixture['result'], $result);
+        }
+
+    }
+
+    public function testZoneWithGoodData() {
+        $fixtures = [
+            ['test'=>'3 - 7', 'result'=>['3','7']],
+            ['test'=>'3b', 'result'=>['3b',null]],
+            ['test'=>'7-10', 'result'=>['7','10']],
+            ['test'=>'2', 'result'=>['2',null]]
+        ];
+
+        foreach($fixtures as $fixture) {
+            $result = $this->csvService->parseZone($fixture['test']);
+            $this->assertEquals($fixture['result'], $result);
+        }
+    }
+
+    public function testZoneWithBadData() {
+        $fixtures = [
+            ['test'=>'3_7', 'result'=>[null, null]],
+            ['test'=>'20', 'result'=>[null, null]],
+            ['test'=>'3c',  'result'=>[null, null]]
+        ];
+
+        foreach($fixtures as $fixture) {
+            $result = $this->csvService->parseZone($fixture['test']);
+            $this->assertEquals($fixture['result'], $result);
+        }
+    }
+
 }
