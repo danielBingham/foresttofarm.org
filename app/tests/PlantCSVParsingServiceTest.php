@@ -111,7 +111,7 @@ class PlantCSVParsingServiceTest extends TestCase {
 
     }
 
-    public function testZoneWithGoodData() {
+    public function testParseZoneWithGoodData() {
         $fixtures = [
             ['test'=>'3 - 7', 'result'=>['3','7']],
             ['test'=>'3b', 'result'=>['3b',null]],
@@ -125,7 +125,7 @@ class PlantCSVParsingServiceTest extends TestCase {
         }
     }
 
-    public function testZoneWithBadData() {
+    public function testParseZoneWithBadData() {
         $fixtures = [
             ['test'=>'3_7', 'result'=>[null, null]],
             ['test'=>'20', 'result'=>[null, null]],
@@ -138,4 +138,100 @@ class PlantCSVParsingServiceTest extends TestCase {
         }
     }
 
+    public function testParseFormWithGoodData() {
+        $fixtures = [
+            ['test'=>'m Shrub', 'result'=>'shrub'],
+            ['test'=>'l Tree', 'result'=>'tree'],
+            ['test'=>'s Herb', 'result'=>'herb'],
+            ['test'=>'l Vine', 'result'=>'vine'],
+            ['test'=>'m-l Tree', 'result'=>'tree'],
+            ['test'=>'s-m Herb', 'result'=>'herb'],
+            ['test'=>'m shrub', 'result'=>'shrub'],
+            ['test'=>'m-l tree', 'result'=>'tree']
+        ]; 
+
+        foreach($fixtures as $fixture) {
+            $result = $this->csvService->parseForm($fixture['test']);
+            $this->assertEquals($fixture['result'], $result);
+        }
+    }
+
+    public function testParseFormWithBadData() {
+        $fixtures = [
+            ['test'=>'mShrub', 'result'=>''],
+            ['test'=>'ltree', 'result'=>''],
+            ['test'=>'s l tree', 'result'=>'']
+        ];
+
+        foreach($fixtures as $fixture) {
+            $result = $this->csvService->parseForm($fixture['test']);
+            $this->assertEquals($fixture['result'], $result);
+        } 
+    }
+
+    public function testParseHeightWithGoodData() {
+        $fixtures = [
+            ['test'=>"20'", 'result'=>[null, 20]],
+            ['test'=>"20' - 100'", 'result'=>[20,100]],
+            ['test'=>"1'-2'", 'result'=>[1,2]],
+            ['test'=>'24"', 'result'=>[null,2]],
+            ['test'=>'12"-24"', 'result'=>[1,2]],
+            ['test'=>"15'-30'", 'result'=>[15,30]],
+            ['test'=>'24" - 20\'', 'result'=>[2,20]],
+            ['test'=>'12"-36"', 'result'=>[1,3]]
+        ];
+
+        foreach($fixtures as $fixture) {
+            $result = $this->csvService->parseHeight($fixture['test']);
+            $this->assertEquals($fixture['result'], $result);
+        }
+    }
+
+    public function testParseHeightWithBadData() {
+        $fixtures = [
+            ['test'=>'24""', 'result'=>[null,null]],
+            ['test'=>'12"24"', 'result'=>[null,null]],
+            ['test'=>'12"2\'', 'result'=>[null,null]],
+            ['test'=>'tall', 'result'=>[null,null]]
+        ];
+
+        foreach($fixtures as $fixture) {
+            $result = $this->csvService->parseHeight($fixture['test']);
+            $this->assertEquals($fixture['result'],$result);
+        }
+    }
+
+    public function testParseWidthWithGoodData() {
+        $fixtures = [
+            ['test'=>"20'", 'result'=>[null, 20]],
+            ['test'=>"20' - 100'", 'result'=>[20,100]],
+            ['test'=>"1'-2'", 'result'=>[1,2]],
+            ['test'=>'24"', 'result'=>[null,2]],
+            ['test'=>'12"-24"', 'result'=>[1,2]],
+            ['test'=>"15'-30'", 'result'=>[15,30]],
+            ['test'=>'12"-36"', 'result'=>[1,3]],
+            ['test'=>'24" - 20\'', 'result'=>[2,20]],
+            ['test'=>'20\'-Indefinite', 'result'=>[20,-1]],
+            ['test'=>'Indefinite', 'result'=>[null,-1]]
+        ];
+
+        foreach($fixtures as $fixture) {
+            $result = $this->csvService->parseWidth($fixture['test']);
+            $this->assertEquals($fixture['result'], $result);
+        }
+    }
+
+    public function testParseWidthWithBadData() {
+        $fixtures = [
+            ['test'=>'24""', 'result'=>[null,null]],
+            ['test'=>'12"24"', 'result'=>[null,null]],
+            ['test'=>'12"2\'', 'result'=>[null,null]],
+            ['test'=>'wide', 'result'=>[null,null]]
+        ];
+
+        foreach($fixtures as $fixture) {
+            $result = $this->csvService->parseWidth($fixture['test']);
+            $this->assertEquals($fixture['result'],$result);
+        }
+    }
 }

@@ -629,8 +629,13 @@ class PlantCSVParsingService {
     public function parseForm($form_string)
     {
         $forms = array_map('trim', explode(' ', $form_string));
+        if (count($forms) > 2) {
+            $this->error('Failed to properly parse form.  Possible data error? [' . $form_string .']');
+            return '';
+        }
+
         if (empty($forms[1])) {
-            $this->error('Failed to properly parse form.  Possible data error? [' . $data[FORM] .']');
+            $this->error('Failed to properly parse form.  Possible data error? [' . $form_string .']');
             return '';
         }
 		return strtolower($forms[1]); // We're ignoring size.  You can get it from the height / width.
@@ -654,19 +659,30 @@ class PlantCSVParsingService {
 		} else {
             $maximum_height = trim($height_string);
             $minimum_height = null; // If we've only got one value, then it's the maximum.
-		}
-
-		if ($minimum_height !== null && strpos($minimum_height, "'") !== FALSE)  {
-			$minimum_height = str_replace('\'', '', $minimum_height);
-		} else if ($minimum_height !== null && strpos($minimum_height, '"') !== FALSE) {
-			$minimum_height = ((float)str_replace('"', '', $minimum_height))/12;
-		}
-
-		if (strpos($maximum_height, "'") !== FALSE)  {
-			$maximum_height = str_replace('\'', '', $maximum_height);
-		} else if(strpos($maximum_height, '"') !== FALSE) {
-			$maximum_height = ((float)str_replace('"', '', $maximum_height))/12;
         }
+
+        // Parse the minimum_height and ensure good data.
+        if ($minimum_height !== null && preg_match('/^(\d+)(\'|")$/', $minimum_height, $matches)) {
+            $minimum_height = (float)$matches[1];
+            if ($matches[2] == '"') {
+                $minimum_height = $minimum_height / 12;
+            }
+        } else if($minimum_height !== null){
+            $this->error("Invalid minimum height [$minimum_height]");
+            $minimum_height = null;
+        }
+
+        // Parse the maximum_height and ensure good data.
+        if ($maximum_height !== null && preg_match('/^(\d+)(\'|")$/', $maximum_height, $matches)) {
+            $maximum_height = (float)$matches[1];
+            if ($matches[2] == '"') {
+                $maximum_height = $maximum_height / 12;
+            }
+        } else if($maximum_height !== null){
+            $this->error("Invalid minimum width [$maximum_height]");
+            $maximum_height = null;
+        }
+
         return array($minimum_height, $maximum_height);
     }
 
@@ -688,24 +704,30 @@ class PlantCSVParsingService {
             $maximum_width = trim($width_string);
             $minimum_width = null; // If we've only got one value, then it's
             // the maximum.
-		}
+        }
 
-        if ($minimum_width !== null && strpos($minimum_width, "'") !== FALSE) {
-            // Minimum Width given in feet.  Just parse out the unit.
-			$minimum_width = str_replace('\'', '', $minimum_width);
-        } else if ($minimum_width !== null && strpos($minimum_width, '"') !== FALSE) {
-            // Minimum Width given in inches.  Parse out the unit and convert
-            // to feet.
-			$minimum_width = ((float)str_replace('"', '', $minimum_width))/12;
-		}
+        // Parse the minimum_width and ensure good data.
+        if ($minimum_width !== null && preg_match('/^(\d+)(\'|")$/', $minimum_width, $matches)) {
+            $minimum_width = (float)$matches[1];
+            if ($matches[2] == '"') {
+                $minimum_width = $minimum_width / 12;
+            }
+        } else if($minimum_width !== null){
+            $this->error("Invalid minimum width [$minimum_width]");
+            $minimum_width = null;
+        }
 
-		if (strpos($maximum_width, "'") !== FALSE) {
-            // Maximum Width given in feet.  Just parse out the unit.
-            $maximum_width = str_replace('\'', '', $maximum_width);
-		} else if (strpos($maximum_width, '"') !== FALSE) { 
-            // Maximum Width given in inches.  Parse out the unit and convert
-            // to feet.
-			$maximum_width = ((float)str_replace('"', '', $maximum_width))/12;
+        // Parse the maximum_width and ensure good data.
+        if ($maximum_width !== null && preg_match('/^(\d+)(\'|")$/', $maximum_width, $matches)) {
+            $maximum_width = (float)$matches[1];
+            if ($matches[2] == '"') {
+                $maximum_width = $maximum_width / 12;
+            }
+        } else if(strtolower($maximum_width) === 'indefinite') {
+            $maximum_width = -1; 
+        } else if($maximum_width !== null){
+            $this->error("Invalid minimum width [$maximum_width]");
+            $maximum_width = null;
         }
         return array($minimum_width, $maximum_width);
     }
