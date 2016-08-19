@@ -3,39 +3,96 @@
 class PlantCSVParsingServiceTest extends TestCase {
 
     public function setUp() {
+        parent::setUp();
         $this->csvService = new PlantCSVParsingService();
 
     }
 
     public function testParseLightTolerancesWithGoodData() {
-        $fixtures = array(
-            array('test'=>'Sun;Partial', 'result'=>array(1,2)),
-            array('test'=> 'Sun;Shade', 'result'=>array(1,3)),
-            array('test'=>'Sun;Partial;Shade', 'result'=>array(1,2,3)),
-            array('test'=>'Partial;Shade', 'result'=>array(2,3)),
-            array('test'=>'Shade;Partial;Sun', 'result'=>array(3,2,1)),
-            array('test'=>'','result'=>array())
-        );
+        $fixtures = [
+            ['test'=>'Sun;Partial', 'result'=>[1,2]],
+            ['test'=> 'Sun;Shade', 'result'=>[1,3]],
+            ['test'=>'Sun;Partial;Shade', 'result'=>[1,2,3]],
+            ['test'=>'Partial;Shade', 'result'=>[2,3]],
+            ['test'=>'Shade;Partial;Sun', 'result'=>[3,2,1]],
+            ['test'=>'','result'=>[]]
+        ];
 
         foreach($fixtures as $fixture) {
             $result = $this->csvService->parseLightTolerances($fixture['test']);
-            $this->assertEquals($result, $fixture['result']);
+            $this->assertEquals($fixture['result'], $result);
         }
     }
 
     public function testParseLightTolerancesWithBadData() {
-        $fixtures = array(
-            array('test'=>'sun;Partial', 'result'=>array(2)),
-            array('test'=>'Suun;Shade', 'result'=>array(3)),
-            array('test'=>'Sun;Sun;Shade', 'result'=>array(1,3)),
-            array('test'=>'Sun,Shade', 'result'=>array()),
-            array('test'=>'Sun;Partial;Shade;Cloudy', 'result'=>array(1,2,3))
-        );
+        $fixtures = [
+            ['test'=>'sun;Partial', 'result'=>[2]],
+            ['test'=>'Suun;Shade', 'result'=>[3]],
+            ['test'=>'Sun;Sun;Shade', 'result'=>[1,3]],
+            ['test'=>'Sun,Shade', 'result'=>[]],
+            ['test'=>'Sun;Partial;Shade;Cloudy', 'result'=>[1,2,3]],
+            ['test'=>'Sun;Partial;', 'result'=>[1,2]]
+        ];
 
         foreach($fixtures as $fixture) {
             $result = $this->csvService->parseLightTolerances($fixture['test']);
-            $this->assertEquals($result, $fixture['result']);
+            $this->assertEquals($fixture['result'], $result);
         }
     }
 
+    public function testParseMoistureTolerancesWithGoodData() {
+        $fixtures = [
+            ['test'=>'Xeric;Mesic', 'result'=>[1,2]],
+            ['test'=>'Xeric', 'result'=>[1]],
+            ['test'=>'Mesic;Hydric', 'result'=>[2,3]],
+            ['test'=>'Hydric;Mesic;Xeric', 'result'=>[3,2,1]],
+            ['test'=>'Xeric;Mesic;Hydric', 'result'=>[1,2,3]],
+            ['test'=>'Xeric; Mesic; Hydric', 'result'=>[1,2,3]],
+            ['test'=>'', 'result'=>[]]
+        ];
+
+        foreach($fixtures as $fixture) {
+            $result = $this->csvService->parseMoistureTolerances($fixture['test']);
+            $this->assertEquals($fixture['result'], $result);
+        }
+
+    }
+
+    public function testParseMoistureTolerancesWithBadData() {
+        $fixtures = [
+            ['test'=>'xeric;Mesic', 'result'=>[2]],
+            ['test'=>'Xeric;Partial', 'result'=>[1]],
+            ['test'=>'Xeeric;Mesic', 'result'=>[2]],
+            ['test'=>'Xeric;Xeric;Mesic', 'result'=>[1,2]],
+            ['test'=>'Xeric,Mesic;Hydric', 'result'=>[3]],
+            ['test'=>'Xeric;Mesic;Watery', 'result'=>[1,2]],
+            ['test'=>'Xeric;Mesic;', 'result'=>[1,2]]
+        ];
+
+        foreach($fixtures as $fixture) {
+            $result = $this->csvService->parseMoistureTolerances($fixture['test']);
+            $this->assertEquals($fixture['result'], $result);
+        }
+    }
+
+    public function testParsePhWithGoodData() {
+        $fixtures = [
+            ['test'=>'0:0:2:0', 'result'=>[6.1,7.0]],
+            ['test'=>'2:2:2:2', 'result'=>[3.5,8.5]],
+            ['test'=>'1:2:2:1', 'result'=>[4.0,7.8]],
+            ['test'=>'0:1:2:1', 'result'=>[5.35,7.8]],
+            ['test'=>'1:2:1:0', 'result'=>[4.0,6.8]],
+            ['test'=>'1:1:0:0', 'result'=>[4.0,5.8]],
+            ['test'=>'0:0:1:1', 'result'=>[6.35,7.8]],
+            ['test'=>'1:0:0:0', 'result'=>[4.0,4.5]],
+            ['test'=>'0:1:0:0', 'result'=>[5.35,5.8]],
+            ['test'=>'0:0:1:0', 'result'=>[6.35,6.8]],
+            ['test'=>'0:0:0:1', 'result'=>[7.5,7.8]]
+        ];
+
+        foreach($fixtures as $fixture) {
+            $result = $this->csvService->parsePH($fixture['test']);
+            $this->assertEquals($fixture['result'], $result);
+        }
+    }
 }

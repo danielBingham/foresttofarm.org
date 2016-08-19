@@ -277,8 +277,8 @@ class PlantCSVParsingService {
     public function parseLightTolerances($light_string) 
     {
         $light_tolerance_names = array_map('trim', explode(';', $light_string));
-        $light_tolerance_map = array('Sun'=>1, 'Partial'=>2, 'Shade'=>3);
-        $light_tolerance_ids = array();
+        $light_tolerance_map = ['Sun'=>1, 'Partial'=>2, 'Shade'=>3];
+        $light_tolerance_ids = []; 
         foreach($light_tolerance_names as $name)
         {
             if (empty($light_tolerance_map[$name])) {
@@ -305,16 +305,16 @@ class PlantCSVParsingService {
     public function parseMoistureTolerances($moisture_string)
     {
         $moisture_tolerance_names = array_map('trim', explode(';', $moisture_string));
-        $moisture_tolerance_map = array('Xeric'=>1, 'Mesic'=>2, 'Hydric'=>3);
-        $moisture_tolerance_ids = array();
+        $moisture_tolerance_map = ['Xeric'=>1, 'Mesic'=>2, 'Hydric'=>3];
+        $moisture_tolerance_ids = [];
         foreach($moisture_tolerance_names as $name) {
             if(empty($moisture_tolerance_map[$name])) {
                 $this->error('Found invalid moisture tolerance "' . $name . '"');
                 continue;
             }
-            $moisture_tolerance_ids[] = $moisture_tolerance_map[$name];
+            $moisture_tolerance_ids[$moisture_tolerance_map[$name]] = true;
         }
-        return $moisture_tolerance_ids;
+        return array_keys($moisture_tolerance_ids);
     }
 
     /**
@@ -331,7 +331,7 @@ class PlantCSVParsingService {
     public function parseHabit($habit_string)
     {
         $habit_symbols = array_map('trim', explode(' ', $habit_string));
-        $habit_ids = array();
+        $habit_ids = [];
         foreach($habit_symbols as $symbol) {
             $habit = Habit::where('symbol', $symbol)->first();
             if ( ! $habit) {
@@ -356,7 +356,7 @@ class PlantCSVParsingService {
     public function parseRootPattern($root_pattern_string)
     {
         $root_pattern_symbols = array_map('trim', explode(';', $root_pattern_string));
-        $root_pattern_ids = array();
+        $root_pattern_ids = [];
         foreach($root_pattern_symbols as $symbol) {
             $root_pattern = RootPattern::where('symbol', $symbol)->first();
             if ( ! $root_pattern) {
@@ -383,7 +383,7 @@ class PlantCSVParsingService {
     public function parseHabitats($habitat_string) 
     {
         $habitats = array_map('trim', explode(';', $habitat_string));
-        $habitat_ids = array();
+        $habitat_ids = [];
         foreach($habitats as $name) {
             if (strlen($name) == 0) {
                 continue;
@@ -413,7 +413,7 @@ class PlantCSVParsingService {
     public function parseHarvest($harvest_string)
     {
         $harvest_strings = array_map('trim', explode(';', $harvest_string));
-        $plant_harvests = array();
+        $plant_harvests = [];
         foreach($harvest_strings as $harvest_string) {
             preg_match('/(\w+\s*\w*)\((\w+)\)/', $harvest_string, $matches);
             $name = $matches[1];
@@ -424,7 +424,7 @@ class PlantCSVParsingService {
                 $this->error('Failed to find a harvest for "' . $name . '"');
                 continue;
             }
-            $plant_harvests[$harvest->id] = array('rating'=>$rating);
+            $plant_harvests[$harvest->id] = ['rating'=>$rating];
         }
         return $plant_harvests;
     }
@@ -444,19 +444,19 @@ class PlantCSVParsingService {
     public function parseRoles($role_string)
     {
         $role_strings = array_map('trim', explode(';', $role_string));
-        $role_ids = array();
-        $role_names = array(
+        $role_ids = [];
+        $role_names = [
             'N2'=>'Nitrogen Fixer',
             'Dynamic Accumulator'=>'Dynamic Accumulator',
             'Wildlife(F)'=>'Wildlife Food',
             'Wildlife(S)'=>'Wildlife Shelter',
-            'Wildlife(B)'=>array('Wildlife Food', 'Wildlife Shelter'),
+            'Wildlife(B)'=>['Wildlife Food', 'Wildlife Shelter'],
             'Invert Shelter'=>'Invertabrate Shelter',
             'Nectary(G)'=>'Generalist Nectary',
             'Nectary(S)'=>'Specialist Nectary',
             'Ground Cover'=>'Ground Cover',
             'Other(A)'=>'Aromatic',
-            'Other(C)'=>'Coppice');
+            'Other(C)'=>'Coppice'];
         foreach($role_strings as $role_string) {
 
             if ( empty($role_names[$role_string])) {
@@ -498,8 +498,8 @@ class PlantCSVParsingService {
     public function parseDrawbacks($drawbacks_string)
     {
         $drawback_symbols = array_map('trim', explode(';', $drawbacks_string));
-        $drawback_ids = array();
-        $drawback_names = array(
+        $drawback_ids = [];
+        $drawback_names = [
             'A'=>'Allelopathic',
             'D'=>'Dispersive',
             'E'=>'Expansive',
@@ -509,7 +509,7 @@ class PlantCSVParsingService {
             'St'=>'Stings',
             'T'=>'Thorny',
             'P'=>'Poison'
-        );
+        ];
         foreach($drawback_symbols as $symbol) {
             if ( strlen($symbol) == 0 ) {
                 continue;
@@ -537,24 +537,24 @@ class PlantCSVParsingService {
     public function parsePH($ph_string) 
     {
 		$phs = array_map('trim', explode(':', $ph_string));
-		$minimum_ph_values = array(
-			0=>array(1=>4.25, 2=>3.5),
-			1=>array(1=>5.55, 2=>5.1),
-			2=>array(1=>6.55, 2=>6.1),
-			3=>array(1=>7.55, 2=>7.1));
-		$maximum_ph_values = array(
-			0=>array(1=>4.25, 2=>5.0),
-			1=>array(1=>5.55, 2=>6.0),
-			2=>array(1=>6.55, 2=>7.0),
-            3=>array(1=>7.55, 2=>8.5));
-        $ph_list = array();
+		$minimum_ph_values = [
+			0=>[1=>4.00, 2=>3.5],
+			1=>[1=>5.35, 2=>5.1],
+			2=>[1=>6.35, 2=>6.1],
+			3=>[1=>7.50, 2=>7.1]];
+		$maximum_ph_values = [
+			0=>[1=>4.50, 2=>5.0],
+			1=>[1=>5.80, 2=>6.0],
+			2=>[1=>6.80, 2=>7.0],
+            3=>[1=>7.80, 2=>8.5]];
+        $ph_list = [];
 		for($i = 0; $i < 4; $i++) {
 			if( $phs[$i] > 0 ) {
 				$ph_list[] = $minimum_ph_values[$i][$phs[$i]];
 				break;
 			}
 		}
-		for($i = 3; $i > 0; $i--) {
+		for($i = 3; $i >= 0; $i--) {
 			if( $phs[$i] > 0 ) {
 				$ph_list[] = $maximum_ph_values[$i][$phs[$i]];
 				break;
