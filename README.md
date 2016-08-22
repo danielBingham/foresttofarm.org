@@ -27,50 +27,6 @@ feeling for where your efforts would be best spent.
 
 We use [Waffle](http://waffle.io) as an issue card board to help track development progress.  You can view our waffle by clicking one of the buttons above or going here: [Forest to Farm Waffle](https://waffle.io/danielbingham/foresttofarm.org)
 
-## Setting Up a Development Environment 
-
-The first thing you'll need to do after cloning the repository is 
-run ``composer install`` in the repository directory in order to install
-Laravel's dependencies.  You may need to install composer and PHP on your
-machine in order to do so.  Please see [Composer's
-website](https://getcomposer.org/) for download and installation instructions.
-
-The source includes a vagrant file and chef code to provision a full
-development vm.  To use it, you'll need to download and install
-[Vagrant](https://www.vagrantup.com/), the Vagrant
-[Berkshelf](http://berkshelf.com/) plugin, and the [Chef
-DK](https://www.chef.io/). Please see the Vagrant, Berkshelf, and Chef websites
-for installation instructions. 
-
-Once you have vagrant and vagrant-berkshelf installed, you can just 
-type ``vagrant up`` in the repository directory (the same one as the vagrant file
-and this README) to bring up your development vm.  
-
-The vm is configured to have a static private ip on your local network
-(192.168.34.34).  To view your development version of Forest to Farm in a web
-browser edit your hosts file and add a line to point ``foresttofarm.local`` to 
-this ip address.
-
-```
-192.168.34.34   foresttofarm.local
-```
-
-You can now develop code locally in your favorite editor or IDE and test it
-using your vagrant vm.  The code will be shared with the vm from your local
-machine through the magic of vagrant shared folders.
-
-
-You're now ready to hack away on Forest to Farm.
-
-## Code Documentation
-
-TODO
-
-## Testing
-
-TODO
-
-## Building
-
-TODO
-
+Before you dive in, we recommend you read through the documents under the
+heading "General Documentation" in the [documentation](documentation)
+directory.  
