@@ -2,7 +2,7 @@ require([
 	'jquery',
 	'underscore',
     'backbone',
-    'router'],
+    'app/router'],
 function($, _, Backbone, Router) {
     var router = new Router();
 
