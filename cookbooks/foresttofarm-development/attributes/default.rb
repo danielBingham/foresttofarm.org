@@ -5,6 +5,8 @@
 
 # The root directory for Forest to Farm's source, a vagrant share directory.
 default['foresttofarm.org']['source_directory'] = '/srv/www/foresttofarm.org'
+default['foresttofarm.org']['config_directory'] = '/srv/www/foresttofarm.org/app/config'
+default['foresttofarm.org']['secret_key'] = 'abcdefghijklmnop'
 
 #######################################
 #   PHP Configuration
