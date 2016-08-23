@@ -28,6 +28,65 @@ execute "Enable mcrypt mod" do
     command "php5enmod mcrypt"
 end
 
+database_file = File.join(node['foresttofarm.org']['config_directory'], 'database.php')
+template database_file do
+   source  'config/database.php.erb'
+   owner   'www-data'
+   group   'www-data'
+   mode     '0755'
+   variables(
+       :host    =>  node['foresttofarm.org']['database']['host'],
+       :name    =>  node['foresttofarm.org']['database']['name'],
+       :username => node['foresttofarm.org']['database']['username'],
+       :password => node['foresttofarm.org']['database']['password']
+   )
+end
+
+app_file = File.join(node['foresttofarm.org']['config_directory'], 'app.php')
+template app_file do
+    source  'config/app.php.erb'
+    owner   'www-data'
+    group   'www-data'
+    mode    '0755'
+    variables(
+        :url    =>  node['foresttofarm.org']['server_name'],
+        :secret_key =>  node['foresttofarm.org']['secret_key']
+    )
+end
+
+config_files = ['auth.php', 'cache.php',  'mail.php', 'session.php', 'view.php']
+config_files.each do |config_file|
+    file = File.join(node['foresttofarm.org']['config_directory'], config_file );
+    source_template = File.join('config', config_file);
+    source_template << '.erb'
+    template file do
+        source  source_template
+        owner   'www-data'
+        group   'www-data'
+        mode    '0755'
+    end
+end
+
+testing_environment_path = File.join(node['foresttofarm.org']['config_directory'], 'testing')
+directory testing_environment_path do
+    owner   'www-data'
+    group   'www-data'
+    recursive   true
+end
+
+config_files = ['testing/session.php', 'testing/cache.php']
+config_files.each do |config_file|
+    file = File.join(node['foresttofarm.org']['config_directory'], config_file );
+    source_template = File.join('config', config_file);
+    source_template << '.erb'
+    template file do
+        source  source_template
+        owner   'www-data'
+        group   'www-data'
+        mode    '0755'
+    end
+end
+
 composer_project node['foresttofarm.org']['source_directory'] do
     quiet   false
     action  :dump_autoload
