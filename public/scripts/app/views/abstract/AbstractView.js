@@ -101,6 +101,24 @@ function($, _, Backbone) {
         },
 
         /**
+         * Remove this view from the DOM, remove event handlers, stop
+         * listening, and destroy its element.  Resets the view to the
+         * pre-initialize state. You can still use this view object, but you'll
+         * need to call ``render()`` or ``create()`` again before using it.
+         *
+         * @return  this
+         */
+        destroy: function() {
+            this.remove();
+            this.undelegateEvents();
+            this.el = null;
+            this._ensureElement();
+            this.is_created = false;
+            this.markUnattachedFromDOM();
+            return this;
+        },
+
+        /**
          * Update this view's data in the DOM.  Assumes this view's element
          * has already been created.
          *

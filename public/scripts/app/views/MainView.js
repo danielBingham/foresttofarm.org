@@ -6,7 +6,7 @@ define([
 	'underscore',
 	'backbone',
 	'mustache'],
-function($, _, Backbone,Mustache) {
+function($, _, Backbone, Mustache) {
 
 	var MainView = Backbone.View.extend({
 

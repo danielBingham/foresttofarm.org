@@ -9,7 +9,7 @@
 </head>
 <body>
 <header>
-	<nav>
+	<nav id="header-menu">
 		<a href="" class="icon icon-search"></a>
 		<a href="" class="icon icon-menu"></a>
 	</nav>

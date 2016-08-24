@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "devDependencies": {
     "grunt": "~0.4.5",
+    "grunt-contrib-jasmine": "^1.0.3",
     "grunt-contrib-jshint": "^1.0.0",
-    "grunt-phpunit-runner": "^0.1.9"
+    "grunt-phpunit-runner": "^0.1.9",
+    "grunt-template-jasmine-requirejs": "^0.2.3"
   }
 }
