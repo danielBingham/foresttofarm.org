@@ -10,17 +10,38 @@ define([
 function($, _, AbstractView) {
 
     /**
-     *
+     * A base class for views that need to wrap child views.
      */
 	var AbstractParentView = AbstractView.extend({
 
         /**
+         * An array of subviews that have been added to this view. Needs
+         * to be created in the ``initialize()`` method.  If it's created
+         * here, then all instances of AbstractParentView will end up sharing
+         * the same subview array.
          *
+         * @type    AbstractView[]
          */
-        subviews: [],
+        subviews: null,
 
         /**
+         * Initialize the parent view.
          *
+         * @return {void}
+         */
+        initialize: function() {
+            this.subviews = []; // This is necessary to prevent all instances of
+            // AbstractParentView from sharing the same subviews array.
+
+            AbstractView.prototype.initialize.call(this);
+        },
+
+        /**
+         * Append a subview to this view's structure and the DOM structure.  
+         *
+         * @param   {AbstractView}  subview The subview to add to this view.
+         *
+         * @return  this
          */
         appendSubview: function(subview) {
             this.subviews.push(subview);
@@ -33,14 +54,12 @@ function($, _, AbstractView) {
         },
 
         /**
-         * Attach a subview to the DOM of the parent view. 
+         * Mark this view and any subviews as being attached to the DOM.
+         *
+         * @return this
          */
-        attachSubviewToParent: function(subview) {
-            return this;
-        },
-
         markAttachedToDOM: function() {
-            _.each(this.rendered_subviews, function(subview) {
+            _.each(this.subviews, function(subview) {
                 subview.markAttachedToDOM();
             });
 
@@ -48,6 +67,11 @@ function($, _, AbstractView) {
             return this;
         },
 
+        /**
+         * Update this view and any subviews.
+         *
+         * @return  this
+         */
         update: function() {
             AbstractView.prototype.update.call(this);
 
