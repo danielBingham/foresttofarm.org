@@ -2,33 +2,14 @@ require([
 	'jquery',
 	'underscore',
     'backbone',
-    'app/router'],
-function($, _, Backbone, Router) {
+    'app/router',
+    'app/views/HeaderMenuView',
+    'app/views/MainMenuView'],
+function($, _, Backbone, Router, HeaderMenuView, MainMenuView) {
+
+    var HeaderMenuView = new HeaderMenuView({el: '#header-menu'});
+    var MainMenuView = new MainMenuView({el: '#main-menu'});
+
     var router = new Router();
-
-    $("header nav a.icon-menu").click(function(e) {
-        e.preventDefault();     
-        $("header nav a.icon-menu").hide();
-        $("nav#main-menu").animate({width: "toggle", opacity: "toggle"}, 200);
-        return false;
-    });
-
-    var hideMenu = function() {
-        $("nav#main-menu").animate(
-            {width: "toggle", opacity: "toggle"}, 
-            200, 
-            function() {
-                $("header nav a.icon-menu").show();
-            }
-        );
-    };
-
-    $("nav#main-menu a").click(hideMenu);
-    $("nav#main-menu a.icon-menu").click(function(e) {
-        e.preventDefault();
-        return false;
-    });
-
-   
    
 });
