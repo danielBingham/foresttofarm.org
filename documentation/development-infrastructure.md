@@ -5,10 +5,12 @@
 The source includes a vagrant file and chef code to provision a full
 development vm.  To use it, you'll need to download and install
 [Vagrant](https://www.vagrantup.com/) and the Vagrant
-[Berkshelf](http://berkshelf.com/) plugin.  Please see the Vagrant and
-Berkshelf websites for installation instructions. 
+[Berkshelf](http://berkshelf.com/) plugin.  You'll also need to install
+[NodeJS](https://nodejs.org/en/) and NPM.  Please see the Vagrant and Berkshelf
+websites for installation instructions. 
 
-Once you have vagrant and vagrant-berkshelf installed, you can just 
+Once you have everything installed, you'll need to run ``npm install`` in your
+source directory to install the node dependencies.  Then you can just 
 type ``vagrant up`` in the repository directory (the same one as the vagrant file
 and this README) to bring up your development vm.  
 
@@ -41,8 +43,9 @@ projects respective websites for installation instructions.
 
 ## Troubleshooting Vagrant
 
-You may find that your first attempt to bring your vagrant box up with ``vagrant up`` fails with
-the following error:
+If you forget to run ``npm install`` prior to running ``vagrant up`` then you
+may find that your first attempt to bring your vagrant box up fails with the
+following error:
 
 ``` 
 ==> default:     Error executing action `run` on resource 'execute[Run 'npm install' in the project directory]'
@@ -88,14 +91,12 @@ If you scroll down through the error output you'll find this:
 ==> default:     npm ERR! There is likely additional logging output above.
 ```
 
-This is due to a bug in some combination of the phantomjs-prebuilt package version
-and the npm version.  The best workaround I've found so far is to just 
-run ``npm install`` on your local machine and then run ``vagrant provision`` 
-again. ``npm install`` should work fine on your local unless you have the same
-combination of npm verison and phantomjs version as the vagrant box, and
-running ``vagrant provision`` will finishing provisioning the vagrant server at
-the point it left off.  Once it finishes you should be good to go.
+This is due to a bug in some combination of the phantomjs-prebuilt package
+version, the npm version, and vagrant.  The best workaround I've found so far
+is to just run ``npm install`` on your local machine before running ``vagrant
+up``.  
 
-Alternatively, if you'd like to avoid the risk of running into this bug
-entirely, simply run ``npm install`` your local machine before bringing the
-vagrant box up.
+In the case that you forget and hit this error, you can just run ``npm
+install`` on your local and then run ``vagrant provision``. Running ``vagrant
+provision`` will finishing provisioning the vagrant server at the point it left
+off.  Once it finishes you should be good to go.
