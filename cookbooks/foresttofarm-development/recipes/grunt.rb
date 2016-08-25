@@ -7,6 +7,8 @@
 # Install grunt client
 nodejs_npm "grunt-cli"
 
+apt_package "phantomjs"
+
 # We need to run npm install in order to install all of grunt's dependencies.
 # Should pick up in project.json with out any help.
 execute "Run 'npm install' in the project directory" do
