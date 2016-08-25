@@ -28,6 +28,13 @@ execute "Enable mcrypt mod" do
     command "php5enmod mcrypt"
 end
 
+directory node['foresttofarm.org']['config_directory'] do
+    owner   'www-data'
+    group   'www-data'
+    mode    '0755'
+    recursive   true
+end
+
 database_file = File.join(node['foresttofarm.org']['config_directory'], 'database.php')
 template database_file do
    source  'config/database.php.erb'
