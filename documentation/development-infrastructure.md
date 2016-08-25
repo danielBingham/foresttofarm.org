@@ -67,22 +67,6 @@ If you scroll down through the error output you'll find this:
 ==> default:     npm ERR! npm  v2.15.1
 ```
 
-And further down:
-
-```
-==> default:     npm ERR! Failed at the phantomjs-prebuilt@2.1.12 install script 'node install.js'.
-==> default:     npm ERR! This is most likely a problem with the phantomjs-prebuilt package,
-==> default:     npm ERR! not with npm itself.
-==> default:     npm ERR! Tell the author that this fails on your system:
-==> default:     npm ERR!     node install.js
-==> default:     npm ERR! You can get information on how to open an issue for this project with:
-==> default:     npm ERR!     npm bugs phantomjs-prebuilt
-==> default:     npm ERR! Or if that isn't available, you can get their info via:
-==> default:     npm ERR! 
-==> default:     npm ERR!     npm owner ls phantomjs-prebuilt
-==> default:     npm ERR! There is likely additional logging output above.
-```
-
 This is due to a bug in some combination of the phantomjs-prebuilt package
 version, the npm version, and vagrant.  The best workaround I've found so far
 is to just run ``npm install`` on your local machine before running ``vagrant
