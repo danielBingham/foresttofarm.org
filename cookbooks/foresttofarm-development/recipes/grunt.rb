@@ -4,6 +4,14 @@
 #
 # Copyright (c) 2016 The Authors, All Rights Reserved.
 
+# Append the vagrant user to the www-data group.  We need to do this
+# because grunt needs write acccess to the source_directory.
+group 'www-data' do
+    action :modify
+    members 'vagrant'
+    append  true
+end
+
 # Install grunt client
 nodejs_npm "grunt-cli"
 
@@ -14,10 +22,3 @@ execute "Run 'npm install' in the project directory" do
     command "npm install"
 end
 
-# Append the vagrant user to the www-data group.  We need to do this
-# because grunt needs write acccess to the source_directory.
-group 'www-data' do
-    action :modify
-    members 'vagrant'
-    append  true
-end
