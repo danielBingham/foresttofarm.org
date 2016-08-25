@@ -43,6 +43,9 @@ projects respective websites for installation instructions.
 
 ## Troubleshooting Vagrant
 
+
+### PhantomJS Fails to Install
+
 If you forget to run ``npm install`` prior to running ``vagrant up`` then you
 may find that your first attempt to bring your vagrant box up fails with the
 following error:
@@ -61,23 +64,12 @@ If you scroll down through the error output you'll find this:
 ==> default:     npm ERR! Linux 3.13.0-93-generic
 ==> default:     npm ERR! argv "/usr/bin/node" "/usr/bin/npm" "install"
 ==> default:     npm ERR! node v0.10.46
-==> default:     
-==> default: npm ERR! npm  v2.15.1
-==> default: 
-==> default:     
-==> default: npm ERR! code ELIFECYCLE
-==> default: 
-==> default:     
-==> default: 
-==> default: 
-==> default:     
-==> default: npm ERR! phantomjs-prebuilt@2.1.12 install: `node install.js`
-==> default: 
-==> default:     
-==> default: npm ERR! Exit status 1
-==> default: 
-==> default:     
-==> default: npm ERR! 
+==> default:     npm ERR! npm  v2.15.1
+```
+
+And further down:
+
+```
 ==> default:     npm ERR! Failed at the phantomjs-prebuilt@2.1.12 install script 'node install.js'.
 ==> default:     npm ERR! This is most likely a problem with the phantomjs-prebuilt package,
 ==> default:     npm ERR! not with npm itself.
@@ -100,3 +92,4 @@ In the case that you forget and hit this error, you can just run ``npm
 install`` on your local and then run ``vagrant provision``. Running ``vagrant
 provision`` will finishing provisioning the vagrant server at the point it left
 off.  Once it finishes you should be good to go.
+
