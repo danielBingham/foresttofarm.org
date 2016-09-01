@@ -31,8 +31,8 @@ execute 'Disable default site' do
     command 'a2dissite 000-default'
 end
 
-execute 'Enable learnrails.local' do
-    command 'a2ensite learnrails.local'
+execute 'Enable ' + node['rails_vagrant']['server_name'] do
+    command 'a2ensite ' + node['rails_vagrant']['server_name']
 end
 
 execute 'Restart apache2' do
