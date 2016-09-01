@@ -117,7 +117,7 @@ CREATE TABLE `images` (
 	PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `plant_images` (
+CREATE TABLE `plants_images` (
 	`plant_id` int unsigned NOT NULL,
 	`image_id` int unsigned NOT NULL,
 	PRIMARY KEY (`plant_id`, `image_id`)
@@ -147,7 +147,7 @@ CREATE TABLE `plants` (
     KEY `species` (`species`)
 );
 
-CREATE TABLE `plant_common_names` (
+CREATE TABLE `common_names` (
 	`id` int unsigned NOT NULL AUTO_INCREMENT,
 	`plant_id` int unsigned NOT NULL,
 	`name` varchar(255),
@@ -155,51 +155,51 @@ CREATE TABLE `plant_common_names` (
 	KEY `plant_id` (`plant_id`)
 );
 
-CREATE TABLE `plant_habits` (
+CREATE TABLE `plants_habits` (
     `habit_id` int unsigned NOT NULL,
     `plant_id` int unsigned NOT NULL,
     PRIMARY KEY(`habit_id`, `plant_id`)
 );
 
-CREATE TABLE `plant_root_patterns` (
+CREATE TABLE `plants_root_patterns` (
     `root_pattern_id` int unsigned NOT NULL,
     `plant_id` int unsigned NOT NULL,
     PRIMARY KEY (`root_pattern_id`, `plant_id`)
 );
 
 
-CREATE TABLE `plant_habitats` (
+CREATE TABLE `plants_habitats` (
     `plant_id` int unsigned NOT NULL,
     `habitat_id` int unsigned NOT NULL,
     PRIMARY KEY (`habitat_id`, `plant_id`)
 );
 
-CREATE TABLE `plant_harvests` (
+CREATE TABLE `plants_harvests` (
     `plant_id` int unsigned NOT NULL,
     `harvest_id` int unsigned NOT NULL,
 	`rating` int unsigned,
     PRIMARY KEY (`harvest_id`,`plant_id`)
 );
 
-CREATE TABLE `plant_roles` (
+CREATE TABLE `plants_roles` (
     `plant_id` int unsigned NOT NULL,
     `role_id` int unsigned NOT NULL,
     PRIMARY KEY (`plant_id`,`role_id`)
 );
 
 CREATE TABLE `plant_drawbacks` (
-    `plant_id` int unsigned NOT NULL,
+    `plant_id` int sunsigned NOT NULL,
     `drawback_id` int unsigned NOT NULL,
     PRIMARY KEY (`drawback_id`,`plant_id`)
 );
 
-CREATE TABLE `plant_light_tolerances` (
+CREATE TABLE `plants_light_tolerances` (
     `plant_id` int unsigned NOT NULL,
     `light_tolerance_id` int unsigned NOT NULL,
     PRIMARY KEY (`plant_id`,`light_tolerance_id`)
 );
 
-CREATE TABLE `plant_moisture_tolerances` (
+CREATE TABLE `plants_moisture_tolerances` (
     `plant_id` int unsigned NOT NULL,
     `moisture_tolerance_id` int unsigned NOT NULL,
     PRIMARY KEY (`moisture_tolerance_id`,`plant_id`)

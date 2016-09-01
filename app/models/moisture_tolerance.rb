@@ -1,0 +1,2 @@
+class MoistureTolerance < ApplicationRecord
+end

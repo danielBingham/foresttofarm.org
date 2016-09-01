@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  genus: MyString
+  species: MyString
+  family: MyString
+  minimum_PH: 1.5
+  maximum_PH: 1.5
+  minimum_height: 1.5
+  maximum_height: 1.5
+  minimum_width: 1.5
+  maximum_width: 1.5
+  minimum_zone: MyString
+  maximum_zone: MyString
+  growth_rate: MyString
+  native_region: MyString
+
+two:
+  genus: MyString
+  species: MyString
+  family: MyString
+  minimum_PH: 1.5
+  maximum_PH: 1.5
+  minimum_height: 1.5
+  maximum_height: 1.5
+  minimum_width: 1.5
+  maximum_width: 1.5
+  minimum_zone: MyString
+  maximum_zone: MyString
+  growth_rate: MyString
+  native_region: MyString
