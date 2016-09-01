@@ -1,16 +1,19 @@
 .vagrant
 
-!app/config/
-app/config/*
+# Ignore bundler config.
+/.bundle
 
-!vendor
-vendor/*
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore Byebug command history file.
+.byebug_history
 
 !node_modules/
 node_modules/*
-
-composer.phar
-composer.lock
 
 .DS_Store
 *.swp
