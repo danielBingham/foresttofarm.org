@@ -81,6 +81,7 @@ class PlantCsvParsingService
         zones = parseZone(data[ZONE])
         plant.minimum_zone = zones[:minimum]
         plant.maximum_zone = zones[:maximum]
+        plant.form = parseForm(data[FORM])
 
         debug(plant.inspect)
     end
@@ -176,6 +177,32 @@ class PlantCsvParsingService
     end 
     
             
+    ##
+    # Parse this plant's form.
+    #
+    # Format: [size] [form]
+    # Examples: m Shrub, l Tree, s-m Herb
+    #
+    # * *Params*::
+    #   -   mixed[] +form_string+    The parsed CSV data.
+    # * *Returns*::  String  This plant's form.
+    #
+    def parseForm(form_string)
+        forms = form_string.split(' ').map { |form| form.strip } 
+        if forms.count > 2 
+            error("Failed to parse form.  Possible data error? [#{form_string}]")
+            return nil 
+        end
+
+        if forms[1].nil?
+            error("Failed to parse form.  Possible data error? [#{form_string}]")
+            return nil 
+        end
+
+        # We're ignoring size.  You can get it from the height / width.
+        # So we're just going to return the form, the second part of it.
+		forms[1].downcase 
+    end
 
 
     private
