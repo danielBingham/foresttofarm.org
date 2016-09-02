@@ -78,10 +78,17 @@ class PlantCsvParsingService
         phs = parsePh(data[PH])
         plant.minimum_PH = phs[:minimum]
         plant.maximum_PH = phs[:maximum]
+     
         zones = parseZone(data[ZONE])
         plant.minimum_zone = zones[:minimum]
         plant.maximum_zone = zones[:maximum]
+       
         plant.form = parseForm(data[FORM])
+
+        heights = parseHeight(data[HEIGHT])
+        plant.minimum_height = heights[:minimum]
+        plant.maximum_height = heights[:maximum]
+        
 
         debug(plant.inspect)
     end
@@ -203,6 +210,57 @@ class PlantCsvParsingService
         # So we're just going to return the form, the second part of it.
 		forms[1].downcase 
     end
+
+
+    ##
+    # Parse the plant's height (minimum and maximum).
+    #
+    # Format:  [Minimum Height]' - [Maximum Height]' OR [Maximum Height]' 
+    #      OR [Minimum Height]" - [Maximum Height]" OR [Maximum Height]"
+    # Examples: 20' - 100', 7', 24", 12" - 24"
+    #
+    # * *Params*::
+    #   -  mixed[] +height_string+  The parsed CSV data.
+    # * *Returns*::  Hash   A hash containing this plant's minimum and maximum
+    #       heights (``{:minimum=>minimum_height, :maximum=>maximum_height}``).
+    #
+    def parseHeight(height_string)
+        if height_string.index('-') != nil 
+            heights = height_string.split('-').map { |height| height.strip }
+            minimum_height = heights[0]
+            maximum_height = heights[1]
+        else 
+            maximum_height = height_string.strip
+            minimum_height = nil # If we've only got one value, then it's the maximum.
+        end
+
+
+        # Parse the minimum_height and ensure good data.
+        if minimum_height != nil && matches = /^(\d+)(\'|")/.match(minimum_height) 
+            minimum_height = matches[1].to_f
+            if matches[2] == '"' 
+                minimum_height = minimum_height / 12
+            end
+        elsif minimum_height != nil 
+            error("Invalid minimum height [#{minimum_height}]")
+            minimum_height = nil
+        end
+
+
+        # Parse the maximum_height and ensure good data.
+        if maximum_height != nil && matches = /^(\d+)(\'|")/.match(maximum_height) 
+            maximum_height = matches[1].to_f
+            if matches[2] == '"' 
+                maximum_height = maximum_height / 12
+            end
+        elsif maximum_height != nil
+            error("Invalid minimum width [#{maximum_height}]")
+            maximum_height = nil;
+        end
+
+        {:minimum => minimum_height, :maximum => maximum_height}
+    end
+    
 
 
     private
