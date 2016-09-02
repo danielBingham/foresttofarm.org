@@ -17,7 +17,7 @@ default: &default
 
 development:
   <<: *default
-  database: rails-src_development
+  database: local_foresttofarm 
   username: developer 
   password: developing 
 
