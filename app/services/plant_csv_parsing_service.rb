@@ -1,8 +1,29 @@
-# PlantCSVParsingService 
+##
+# Author:: Daniel Bingham <dbingham@theroadgoeson.com>
+# License:: MIT
 #
+# Service class that parses plant CSV data files and saves them to the
+# database.  
 #
+# Usage:
 #
-
+# ```
+#
+# csvService = PlantCSVParsingService.new
+# csvService.parseCSVFile(filename)
+# ```
+# Alternately, if the CSV file has already been parsed into individual lines,
+# you can parse it a line at the time by passing each line to
+# ``parsePlant``:
+#
+# ```
+# csvService = PlantCSVParsingService.new;
+# lines = csv_data_string.split("\n");
+# lines.each do |line|
+#      csvService.parsePlant(line)
+# end 
+# ```
+#
 class PlantCsvParsingService
 
     # Constants defining the position of each field in the data array generated
@@ -36,9 +57,10 @@ class PlantCsvParsingService
     # Will overwrite existing data with new data where new data differs from
     # existing data.
     #
-    # * *Params*::
-    #   - +filename+: The file path of the file to be read and parsed.
-    # * *Returns*:: nil
+    # Params::
+    # * filename     +String+   The file path of the file to be read and parsed.
+    #
+    # Returns:: nil
     #
     def parseCsvFile(filename)
         debug("Starting processing of #{filename}")
@@ -56,9 +78,10 @@ class PlantCsvParsingService
     # Parse a Plant model out of a line of CSV data.  Create any associated models
     # and save them all to the database.
     #
-    # * *Params*::
-    #   - +line+: The line of CSV data to parse.
-    # * *Returns*:: nil
+    # Params::
+    # * line    +String+    The line of CSV data to parse.
+    # 
+    # Returns:: nil
     #
     def parsePlant(line)
         data = line.split(',').map { |d| d.strip }
@@ -88,7 +111,10 @@ class PlantCsvParsingService
         heights = parseHeight(data[HEIGHT])
         plant.minimum_height = heights[:minimum]
         plant.maximum_height = heights[:maximum]
-        
+    
+        widths = parseWidth(data[WIDTH])
+        plant.minimum_width = widths[:minimum]
+        plant.maximum_width = widths[:maximum]    
 
         debug(plant.inspect)
     end
@@ -99,9 +125,10 @@ class PlantCsvParsingService
     # Format: [0-2]:[0-2]:[0-2]:[0-2]
     # Examples: 0:0:2:2, 0:1:2:1, 1:2:2:1, 0:0:0:2
     #
-    # * *Params*::
-    #   - +ph_string+ String  The parsed CSV data.
-    # * *Returns*:: Hash  A hash containing the minimum and maximum pH
+    # Params::
+    # * ph_string   +String+    The parsed CSV data.
+    # 
+    # Returns:: +Hash+  A hash containing the minimum and maximum pH
     #   values in list form: ``{:minimum=>minimum_ph, :maximum=>maximum_ph)``
     #
     def parsePh(ph_string)
@@ -146,8 +173,10 @@ class PlantCsvParsingService
     # Formats: [Minimum Zone] - [Maximum Zone] OR [Minimum Zone]
     # Examples: 3 - 7 OR 3b
     #
-    # @param   mixed[] $zone_string    The parsed CSV data.
-    # @return  string[]   An array containing the minimum and maximum zone values
+    # Params::
+    # * zone_string   +mixed[]* The parsed CSV data.
+    #
+    # Returns::  +String[]+   An array containing the minimum and maximum zone values
     #      in list form: ``array(0=>minimum_zone, 1=>maximum_zone)``
     #
     def parseZone(zone_string) 
@@ -190,9 +219,10 @@ class PlantCsvParsingService
     # Format: [size] [form]
     # Examples: m Shrub, l Tree, s-m Herb
     #
-    # * *Params*::
-    #   -   mixed[] +form_string+    The parsed CSV data.
-    # * *Returns*::  String  This plant's form.
+    # Params::
+    # * form_string +mixed[]+   The parsed CSV data.
+    #
+    # Returns::  +String+  This plant's form.
     #
     def parseForm(form_string)
         forms = form_string.split(' ').map { |form| form.strip } 
@@ -219,9 +249,10 @@ class PlantCsvParsingService
     #      OR [Minimum Height]" - [Maximum Height]" OR [Maximum Height]"
     # Examples: 20' - 100', 7', 24", 12" - 24"
     #
-    # * *Params*::
-    #   -  mixed[] +height_string+  The parsed CSV data.
-    # * *Returns*::  Hash   A hash containing this plant's minimum and maximum
+    # Params::
+    # * height_string   +String+  The parsed CSV data.
+    # 
+    # Returns::  +Hash+   A hash containing this plant's minimum and maximum
     #       heights (``{:minimum=>minimum_height, :maximum=>maximum_height}``).
     #
     def parseHeight(height_string)
@@ -234,7 +265,6 @@ class PlantCsvParsingService
             minimum_height = nil # If we've only got one value, then it's the maximum.
         end
 
-
         # Parse the minimum_height and ensure good data.
         if minimum_height != nil && matches = /^(\d+)(\'|")/.match(minimum_height) 
             minimum_height = matches[1].to_f
@@ -245,7 +275,6 @@ class PlantCsvParsingService
             error("Invalid minimum height [#{minimum_height}]")
             minimum_height = nil
         end
-
 
         # Parse the maximum_height and ensure good data.
         if maximum_height != nil && matches = /^(\d+)(\'|")/.match(maximum_height) 
@@ -262,6 +291,57 @@ class PlantCsvParsingService
     end
     
 
+    ##
+    # Parse the plant's width (minimum and maximum).
+    # Format:  [Minimum Width]' - [Maximum Width]' OR [Maximum Width]' 
+    #      OR [Minimum Width]" - [Maximum Width]" OR [Maximum Width]"
+    # Examples: 20' - 100', 7', 24", 12" - 24"
+    #
+    # Params:: 
+    # * width_string    +String+   The parsed CSV data.
+    #
+    # Returns::  +float[]+   An array containing this plant's minimum and maximum
+    #      widths(``array(0=>minimum_width, 1=>maximum_width)``).
+    #
+    def parseWidth(width_string)
+
+        if width_string.index('-') != nil 
+            widths = width_string.split('-').map { |width| width.strip } 
+            minimum_width = widths[0]
+            maximum_width = widths[1]
+        else 
+            maximum_width = width_string.strip
+            minimum_width = nil # If we've only got one value, then it's
+            # the maximum.
+        end
+
+        # Parse the minimum_width and ensure good data.
+        if minimum_width != nil && matches = /^(\d+)(\'|")/.match(minimum_width) 
+            minimum_width = matches[1].to_f
+            if (matches[2] == '"') 
+                minimum_width = minimum_width / 12
+            end
+        elsif minimum_width != nil
+            error("Invalid minimum width [#{minimum_width}]")
+            minimum_width = nil
+        end
+
+        # Parse the maximum_width and ensure good data.
+        if maximum_width != nil && matches = /^(\d+)(\'|")/.match(maximum_width) 
+            maximum_width = matches[1].to_f
+            if matches[2] == '"'
+                maximum_width = maximum_width / 12
+            end
+        elsif maximum_width.downcase == 'indefinite' 
+            maximum_width = -1 
+        elsif maximum_width != nil
+            error("Invalid minimum width [#{maximum_width}]")
+            maximum_width = nil
+        end
+
+        {:minimum => minimum_width, :maximum => maximum_width}
+    end
+    
 
     private
 
