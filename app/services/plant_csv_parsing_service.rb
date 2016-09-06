@@ -116,7 +116,32 @@ class PlantCsvParsingService
         plant.minimum_width = widths[:minimum]
         plant.maximum_width = widths[:maximum]    
 
+        # ---------------------------- Growth Rate ---------------------------
+        # Format: [Growth Rate]
+        # Examples: F, M, S
+        plant.growth_rate = data[GROWTH_RATE].downcase
+
+        # ---------------------------- Native Region -------------------------
+        # Format: [Native Region]
+        # Examples: ENA, EURA, ASIA
+        plant.native_region = data[NATIVE_REGION]
+
+
+        plant_name = "#{plant.genus} #{plant.species}"
+        if data[COMMON_NAME]
+            debug("Processing #{plant_name}'s common names.")
+            name = data[COMMON_NAME]
+            if ! plant.id || 
+                CommonName.where("name=? AND plant_id=?", name, plant.id).first == nil  
+                common_name = CommonName.new
+                common_name.name = name
+                plant.common_names << common_name 
+            end
+        end
+
+
         debug(plant.inspect)
+        debug(plant.common_names.inspect)
     end
 
     #  
