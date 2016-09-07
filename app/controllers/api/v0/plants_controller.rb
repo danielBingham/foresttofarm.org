@@ -2,9 +2,9 @@ class Api::V0::PlantsController < ApplicationController
 
     # Retrieve a json list of all plants in the database.
     def index
-        @plants = Plant.all
+      @plants = Plant.includes(:common_names).all
 
-        render :json => @plants
+        render :json => @plants, :include => { :common_names =>{} }
     end
 
     # Retrieve details of a single plant in the database.
@@ -13,6 +13,14 @@ class Api::V0::PlantsController < ApplicationController
     #   - +id+ -> The id of the plant to show.
     # * *returns*:: nil
     def show
-        @plant = Plant.find(params[:id]).includes(:common_name, :habit, :habitat, :harvest, :drawback, :light_tolerance, :moisture_tolerance, :role, :root_pattern)
+      @plant = Plant.includes(
+        :common_names, :harvests, :drawbacks, :habits, 
+        :habitats, :light_tolerances, :moisture_tolerances, 
+        :roles, :root_patterns).find(params[:id])
+
+      render :json => @plant, :include => [
+        :common_names, :harvests, :drawbacks, :habits, 
+        :habitats, :light_tolerances, :moisture_tolerances, 
+        :roles, :root_patterns]
     end
 end
