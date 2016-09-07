@@ -1,10 +1,8 @@
 Rails.application.routes.draw do
 
-  root 'site/plants#index'
+  root 'plants#index'
 
-  namespace :site do
-    resources :plants, only: [:index, :show]
-  end
+  resources :plants, only: [:index, :show]
 
   namespace :api do
     namespace :v0 do
