@@ -8,7 +8,7 @@ define([
 	'backbone'],
 function($, _, Backbone) {
 	return Backbone.Model.extend({
-		urlRoot: '/index.php/api/v0/plant',
+		urlRoot: '/api/v0/plants',
 
 	});
 });

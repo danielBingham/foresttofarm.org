@@ -473,7 +473,7 @@ class PlantCsvParsingService
   ##
   # Parse the plant's light tolerances and return an array of ids.
   #
-  # Format: tolerance;tolerance#
+  # Format: tolerance;tolerance*
   # Possible Values: Sun, Shade, Partial
   # Examples: Shade;Partial, Sun;Partial, Sun;Shade
   #
@@ -486,9 +486,21 @@ class PlantCsvParsingService
     light_tolerance_names = light_string.split(';').map { |light| light.strip }
 
     light_tolerances = [] 
+    light_tolerances_name_map = {
+      'Sun' => 'Full Sun',
+      'Partial' => 'Partial Shade',
+      'Shade' => 'Full Shade'
+    }
+
     light_tolerance_names.each do |name|
+      unless light_tolerances_name_map.has_key?(name)
+        error("Found invalid light tolerance #{name}")
+        next 
+      end
+
+      name = light_tolerances_name_map[name]
       light_tolerance = LightTolerance.where('name=?', name).first
-      if light_tolerance == nil
+      if light_tolerance.nil? 
         error("Found invalid light tolerance #{name}")
         next 
       end
