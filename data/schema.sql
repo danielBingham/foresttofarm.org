@@ -188,7 +188,7 @@ CREATE TABLE `plants_roles` (
 );
 
 CREATE TABLE `plant_drawbacks` (
-    `plant_id` int sunsigned NOT NULL,
+    `plant_id` int unsigned NOT NULL,
     `drawback_id` int unsigned NOT NULL,
     PRIMARY KEY (`drawback_id`,`plant_id`)
 );

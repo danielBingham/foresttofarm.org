@@ -105,7 +105,7 @@ class PlantCsvParsingService
         zones = parseZone(data[ZONE])
         plant.minimum_zone = zones[:minimum]
         plant.maximum_zone = zones[:maximum]
-       
+      
         plant.form = parseForm(data[FORM])
 
         heights = parseHeight(data[HEIGHT])
@@ -119,7 +119,11 @@ class PlantCsvParsingService
         # ---------------------------- Growth Rate ---------------------------
         # Format: [Growth Rate]
         # Examples: F, M, S
-        plant.growth_rate = data[GROWTH_RATE].downcase
+        unless data[GROWTH_RATE].empty?
+            plant.growth_rate = data[GROWTH_RATE].downcase
+        else
+            plant.growth_rate = nil
+        end
 
         # ---------------------------- Native Region -------------------------
         # Format: [Native Region]
@@ -139,10 +143,44 @@ class PlantCsvParsingService
             end
         end
 
+        unless data[LIGHT].empty?
+            light_tolerances = parseLightTolerances(data[LIGHT])
+            plant.light_tolerances = light_tolerances
+        end
 
+
+        debug("Saving #{plant_name} to the database...")
         debug(plant.inspect)
-        debug(plant.common_names.inspect)
+        plant.save
     end
+
+    ##
+    # Parse the plant's light tolerances and return an array of ids.
+    #
+    # Format: tolerance;tolerance#
+    # Possible Values: Sun, Shade, Partial
+    # Examples: Shade;Partial, Sun;Partial, Sun;Shade
+    #
+    # Params::   
+    # * light_string    +String+   The light data parsed from the CSV file.
+    #
+    # Returns::  +Int[]+   An array of LightTolerance ids. 
+    #
+    def parseLightTolerances(light_string) 
+        light_tolerance_names = light_string.split(';').map { |light| light.strip }
+        
+        light_tolerances = [] 
+        light_tolerance_names.each do |name|
+            light_tolerance = LightTolerance.where('name=?', name).first
+            if light_tolerance == nil
+                error("Found invalid light tolerance #{name}")
+                next 
+            end
+            light_tolerances.push(light_tolerance)
+        end
+        light_tolerances
+    end
+    
 
     #  
     # Parse out this plant's Soil pH requirements.
@@ -256,9 +294,15 @@ class PlantCsvParsingService
             return nil 
         end
 
-        if forms[1].nil?
+        if forms[1].empty?
             error("Failed to parse form.  Possible data error? [#{form_string}]")
             return nil 
+        end
+
+        valid_forms = ['tree', 'shrub', 'vine', 'herb']
+        unless valid_forms.include?(forms[1])
+            error("Failed to parse form.  Possible data error? [#{form_string}]")
+            return nil
         end
 
         # We're ignoring size.  You can get it from the height / width.
