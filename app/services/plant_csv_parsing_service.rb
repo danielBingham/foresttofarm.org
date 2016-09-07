@@ -44,8 +44,8 @@ class PlantCsvParsingService
   GROWTH_RATE = 13
   NATIVE_REGION = 14
   HABITATS = 15
-  USES = 16
-  FUNCTIONS = 17
+  HARVESTS = 16
+  ROLES = 17
   DRAWBACKS = 18
 
   def initialize(output_level=:none)
@@ -174,9 +174,215 @@ class PlantCsvParsingService
       plant.root_patterns = root_patterns
     end
 
+    unless data[HABITATS].empty?
+      debug("Parsing habitats for #{plant_name}...")
+      habitats = parseHabitats(data[HABITATS])
+      plant.habitats = habitats
+    end
+
+    unless data[HARVESTS].empty?
+      debug("Parsing harvests for #{plant_name}...")
+      harvests = parseHarvests(data[HARVESTS])
+      plant.harvests = harvests
+    end
+
+    unless data[ROLES].empty?
+      debug("Parsing roles for #{plant_name}...")
+      roles = parseRoles(data[ROLES])
+      plant.roles = roles
+    end
+
+    unless data[DRAWBACKS].empty?
+      debug("Parsing drawbacks for #{plant_name}...")
+      drawbacks = parseDrawbacks(data[DRAWBACKS])
+      plant.drawbacks = drawbacks
+    end
 
     debug("Saving #{plant_name} to the database...")
     plant.save
+  end
+
+  ##
+  # Parse the plant's habitats.
+  #
+  # Format: habitat;habitat*
+  # Possible values: Disturbed, Meadows, Prairies, Oldfields, Thickets,
+  #      Edges, Gaps/Clearings, Open Woods, Forest, Conifer Forest, Other
+  # Examples: Disturbed;Meadows;Oldfields, Forest;Open Woods,
+  #      Gaps/Clearings;Open Woods;Conifer Forest
+  #
+  # Params::
+  # * habitat_string +String+ The parsed CSV data.
+  # 
+  # Returns::  int[]   An array of Habitat ids.
+  #
+  def parseHabitats(habitat_string) 
+    habitat_names = habitat_string.split(';').map { |habitat| habitat.strip }
+    habitats = []
+
+    habitat_names.each do |name| 
+      if name.nil? || name.empty?
+        next
+      end
+
+      habitat = Habitat.where('name=?', name).first
+      if habitat.blank? 
+        error("Failed to find habitat '#{name}'")
+        next
+      end
+
+      habitats.push(habitat)
+    end
+
+    habitats
+  end
+    
+
+  ##
+  # Parse the plant's possible harvests.
+  #
+  # Format: harvest(rating);harvest(rating)*
+  # Possible Harvests: Fruit, Nuts/Mast, Greens, Roots, Culinary, Tea,
+  #      Other, Medicinal 
+  # Possible Ratings: E, G, F, Y, S
+  # Examples: Fruit(E);Medicinal(Y), Greens(F);Roots(E);Tea(F);
+  #
+  # @param   mixed[] harvest_string The parsed CSV data.
+  # @return  int[]   An array of Harvest ids.
+  #
+  def parseHarvests(harvest_string)
+    harvest_descriptions = harvest_string.split(';').map { |string| string.strip }
+
+    harvests = []
+    harvest_descriptions.each do |description| 
+      if matches = /(\w+\s*\w*)\((\w+)\)/.match(description)
+        name = matches[1]
+        rating = matches[2]
+      else
+        error("Failed to parse harvest '#{description}'")
+        next
+      end
+
+      harvest_type = HarvestType.where('name=?', name).first
+      if harvest_type.blank?
+        error("Failed to find a harvest type for '#{name}'")
+        next
+      end
+
+      harvests.push(Harvest.new(harvest_type_id: harvest_type.id, rating: rating))
+    end
+
+    harvests
+  end
+    
+
+  ##
+  # Parse this plants roles in the ecosystem.
+  #
+  # Format: role;role*
+  # Possible Values: N2, Dynamic Accumulator, Wildlife(F), Wildlife(S),
+  #      Wildlife(B), Invert Shelter, Nectary(G), Nectary(S), Ground Cover,
+  #      Other(A), Other(C) 
+  # Examples: N2;Willife(F);Invert Shelter, Dynamic Accumulator;Wildlife(S)
+  #
+  # Params::
+  # * role_string +String+  The parsed CSV data.
+  #
+  # Returns::  +Role[]+   An array of Roles.
+  #
+  def parseRoles(role_string)
+    role_descriptions = role_string.split(';').map { |string| string.strip }
+
+    roles = []
+    # The names in our csv file won't match perfectly to the names in the
+    # database, so we'll need to perform a mapping before we hit the database.
+    role_names = {
+      'N2'=>'Nitrogen Fixer',
+      'Dynamic Accumulator'=>'Dynamic Accumulator',
+      'Wildlife(F)'=>'Wildlife Food',
+      'Wildlife(S)'=>'Wildlife Shelter',
+      'Wildlife(B)'=>['Wildlife Food', 'Wildlife Shelter'],
+      'Invert Shelter'=>'Invertabrate Shelter',
+      'Nectary(G)'=>'Generalist Nectary',
+      'Nectary(S)'=>'Specialist Nectary',
+      'Ground Cover'=>'Ground Cover',
+      'Other(A)'=>'Aromatic',
+      'Other(C)'=>'Coppice'}
+
+    role_descriptions.each do |description| 
+      unless role_names.has_key?(description)
+        error("Found invalid role '#{description}'")
+        next
+      end
+
+      if role_names[description].respond_to?('each') 
+        role_names[description].each do |name|
+          role = Role.where('name=?', name).first
+          if role.blank?
+            error("Failed to find role for '#{description}'")
+            next
+          end
+          roles.push(role)
+        end
+      else 
+        role = Role.where('name=?', role_names[description]).first
+        if role.blank? 
+          error("Failed to find role for '#{description}'")
+          next
+        end
+        roles.push(role)
+      end
+    end
+
+    roles
+  end
+    
+
+  ##
+  # Parse this plant's drawbacks.
+  #
+  # Format: drawback;drawback*
+  # Possible Values: A, D, E, H, Ps, S, St, T P
+  # Examples: P;D, D, P;H;Ps, A;D
+  #
+  # Params::
+  # * drawbacks_string  +String+  The parsed CSV data.
+  #
+  # Returns::  +Drawback[]+   An array of Drawbacks parsed from the string.
+  #
+  def parseDrawbacks(drawbacks_string)
+    drawback_symbols = drawbacks_string.split(';').map { |string| string.strip }
+
+    drawbacks = []
+    # The names in our csv file won't match perfectly to the names in the
+    # database, so we'll need to perform a mapping before we hit the database.
+    drawback_names = {
+      'A'=>'Allelopathic',
+      'D'=>'Dispersive',
+      'E'=>'Expansive',
+      'H'=>'Hay Fever',
+      'Ps'=>'Persistent',
+      'S'=>'Sprawling vigorous vine',
+      'St'=>'Stings',
+      'T'=>'Thorny',
+      'P'=>'Poison'
+    }
+
+    drawback_symbols.each do |symbol| 
+      if symbol.empty? 
+        next
+      end
+
+      drawback = Drawback.where('name=?', drawback_names[symbol]).first
+      if drawback.blank? 
+        error("Failed to find drawback for '#{symbol}'")
+        next
+      end
+
+      drawbacks.push(drawback)
+    end
+
+    drawbacks
   end
 
   ##

@@ -58,13 +58,13 @@ CREATE TABLE `habitats` (
 INSERT INTO `habitats` (`name`) VALUES ('Disturbed'), ('Meadows'), ('Prairies'), ('Oldfields'), ('Thickets'), ('Edges'), ('Gaps/Clearings'), ('Open Woods'), ('Forest'), ('Conifer Forest'), ('Other');
 
 
-CREATE TABLE `harvests` (
+CREATE TABLE `harvest_types` (
     `id` int unsigned NOT NULL AUTO_INCREMENT,
     `name` varchar(255),
     PRIMARY KEY(`id`)
 ); 
 
-INSERT INTO `harvests` (`name`) VALUES ('Fruit'), ('Nuts/Mast'), ('Greens'), ('Roots'), ('Culinary'), ('Tea'), ('Other'), ('Medicinal');
+INSERT INTO `harvest_types` (`name`) VALUES ('Fruit'), ('Nuts/Mast'), ('Greens'), ('Roots'), ('Culinary'), ('Tea'), ('Other'), ('Medicinal');
 
 CREATE TABLE `roles` (
     `id` int unsigned NOT NULL AUTO_INCREMENT,
@@ -174,11 +174,12 @@ CREATE TABLE `plants_habitats` (
     PRIMARY KEY (`habitat_id`, `plant_id`)
 );
 
-CREATE TABLE `plants_harvests` (
+CREATE TABLE `harvests` (
+    `id` int unsigned NOT NULL AUTO_INCREMENT,
     `plant_id` int unsigned NOT NULL,
-    `harvest_id` int unsigned NOT NULL,
+    `harvest_type_id` int unsigned NOT NULL,
 	`rating` int unsigned,
-    PRIMARY KEY (`harvest_id`,`plant_id`)
+    PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `plants_roles` (
@@ -187,7 +188,7 @@ CREATE TABLE `plants_roles` (
     PRIMARY KEY (`plant_id`,`role_id`)
 );
 
-CREATE TABLE `plant_drawbacks` (
+CREATE TABLE `plants_drawbacks` (
     `plant_id` int unsigned NOT NULL,
     `drawback_id` int unsigned NOT NULL,
     PRIMARY KEY (`drawback_id`,`plant_id`)
