@@ -88,6 +88,10 @@ class PlantCsvParsingService
 
     genus = data[GENUS]
     species = data[SPECIES]
+    plant_name = "#{genus} #{species}"
+
+    debug("Beginning processing of #{plant_name}...")
+
 
     plant = Plant.where('genus = ? AND species = ?', genus, species).first
     if plant == nil
@@ -128,12 +132,15 @@ class PlantCsvParsingService
     # ---------------------------- Native Region -------------------------
     # Format: [Native Region]
     # Examples: ENA, EURA, ASIA
-    plant.native_region = data[NATIVE_REGION]
+    unless data[NATIVE_REGION].empty?
+      plant.native_region = data[NATIVE_REGION]
+    else
+      plant.native_region = nil
+    end
 
 
-    plant_name = "#{plant.genus} #{plant.species}"
     if data[COMMON_NAME]
-      debug("Processing #{plant_name}'s common names.")
+      debug("Parsing common names for #{plant_name}...")
       name = data[COMMON_NAME]
       if ! plant.id || 
           CommonName.where("name=? AND plant_id=?", name, plant.id).first == nil  
@@ -144,14 +151,117 @@ class PlantCsvParsingService
     end
 
     unless data[LIGHT].empty?
+      debug("Parsing light tolerances for #{plant_name}...")
       light_tolerances = parseLightTolerances(data[LIGHT])
       plant.light_tolerances = light_tolerances
     end
 
+    unless data[MOISTURE].empty?
+      debug("Parsing moisture tolerances for #{plant_name}...")
+      moisture_tolerances = parseMoistureTolerances(data[MOISTURE])
+      plant.moisture_tolerances = moisture_tolerances
+    end
+
+    unless data[HABIT].empty?
+      debug("Parsing habits for #{plant_name}...")
+      habits = parseHabits(data[HABIT])
+      plant.habits = habits
+    end
+
+    unless data[ROOT_PATTERN].empty?
+      debug("Parsing root patterns for #{plant_name}...")
+      root_patterns = parseRootPatterns(data[ROOT_PATTERN])
+      plant.root_patterns = root_patterns
+    end
+
 
     debug("Saving #{plant_name} to the database...")
-    debug(plant.inspect)
     plant.save
+  end
+
+  ##
+  # Parse the plant's root patterns.
+  #
+  # Format: symbol;symbol*
+  # Possible values: F, FB, H, T, Sk, St, B, C, R, Tu, Fl, St
+  # Examples: F;FB, St;F, Sk;R;FB  
+  #
+  # @param   mixed[] $root_pattern_string    The parsed CSV data.
+  # @return  int[]   An array of RootPattern ids.
+  #
+  def parseRootPatterns(root_pattern_string)
+    root_pattern_symbols = root_pattern_string.split(';').map { |symbol| symbol.strip }
+    root_patterns = []
+
+    root_pattern_symbols.each do |symbol|
+      root_pattern = RootPattern.where('symbol=?', symbol).first
+      if root_pattern == nil
+        error("Failed to find root pattern '#{symbol}'")
+        next 
+      end
+      root_patterns.push(root_pattern)
+    end
+
+    root_patterns 
+  end
+    
+
+  ##
+  # Parse the plant's growth habit.
+  #
+  # Format: symbol symbol* 
+  # Possible Values: E, std, skr, spr, ms, Ctkt, Rtkt, Cmat, Rmat, w, r,
+  #      vine, v/kr, a, e, clmp, run
+  # Examples: clmp, w vine, Rtkt, r vine, a e clmp
+  #
+  # Params::
+  # * habit_string  +string+  The parsed CSV data.
+  #
+  # Returns:: +int[]+   An array of Habit ids.
+  #
+  def parseHabits(habit_string)
+    habit_symbols = habit_string.split(' ').map { |habit| habit.strip }
+    habits = []
+
+    habit_symbols.each do |symbol| 
+      habit = Habit.where('symbol=?', symbol).first
+      if habit == nil 
+        error("Failed to find habit '#{symbol}'")
+        next 
+      end
+      habits.push(habit)
+    end
+
+    habits
+  end 
+
+
+  ##
+  # Parse the plant's moisture tolerances.
+  #
+  # Format: tolerance;tolerance#
+  # Possible Values: Xeric, Mesic, Hydric
+  # Examples: Xeric, Xeric;Mesic, Hydric,Mesic 
+  #
+  # Params::
+  # * moisture_string +string+  The moisture data parsed from the
+  #      CSV file.
+  #
+  # Returns:: +int[]+ An array of MoistureTolerance ids. 
+  #
+  def parseMoistureTolerances(moisture_string)
+    moisture_tolerance_names = moisture_string.split(';').map { |moisture| moisture.strip }
+    moisture_tolerances = []
+
+    moisture_tolerance_names.each do |name|
+      moisture_tolerance = MoistureTolerance.where('name=?', name).first
+      if moisture_tolerance == nil
+        error("Found invalid moisture tolerance '#{name}'")
+        next 
+      end
+      moisture_tolerances.push(moisture_tolerance)
+    end
+    moisture_tolerances
   end
 
   ##
