@@ -29,7 +29,7 @@ return Backbone.Router.extend({
      */
     routes: {
         '': 'index',
-        'plant/:id': 'viewPlant'
+        'plants/:id': 'viewPlant'
     },
 
     main_view: null,
