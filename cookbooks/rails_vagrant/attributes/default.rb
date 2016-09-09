@@ -30,10 +30,13 @@ default['rails_vagrant']['document_root'] = '/srv/www/application/public'
 default['rails_vagrant']['database']['root_password'] = 'password'
 default['rails_vagrant']['database']['host'] = '127.0.0.1'
 
-default['rails_vagrant']['database']['name'] = 'local_foresttofarm'
+default['rails_vagrant']['database']['development']['name'] = 'local_foresttofarm'
+default['rails_vagrant']['database']['development']['username'] = 'developer'
+default['rails_vagrant']['database']['development']['password'] = 'developing'
 
-default['rails_vagrant']['database']['username'] = 'developer'
-default['rails_vagrant']['database']['password'] = 'developing'
+default['rails_vagrant']['database']['test']['name'] = 'test_foresttofarm'
+default['rails_vagrant']['database']['test']['username'] = 'tester'
+default['rails_vagrant']['database']['test']['password'] = 'testing'
 
 default['rails_vagrant']['database']['data_directory'] = '/srv/www/application/data/'
 default['rails_vagrant']['database']['schema_file'] = 'schema.sql'

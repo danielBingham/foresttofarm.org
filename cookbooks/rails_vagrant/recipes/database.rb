@@ -29,18 +29,32 @@ connection_info = {
     :password => node['rails_vagrant']['database']['root_password']
 }
 
-# create the database instance
-mysql_database node['rails_vagrant']['database']['name'] do
+# create the development database instance
+mysql_database node['rails_vagrant']['database']['development']['name'] do
     connection connection_info
     action :create
 end
 
-# Add a database user
-mysql_database_user node['rails_vagrant']['database']['username'] do
+# Add a development database user
+mysql_database_user node['rails_vagrant']['database']['development']['username'] do
     connection connection_info
-    password node['rails_vagrant']['database']['password']
-    database_name node['rails_vagrant']['database']['name']
+    password node['rails_vagrant']['database']['development']['password']
+    database_name node['rails_vagrant']['database']['development']['name']
     host node['rails_vagrant']['database']['host']
     action [:create,:grant]
 end
 
+# create the test database instance
+mysql_database node['rails_vagrant']['database']['test']['name'] do
+    connection connection_info
+    action :create
+end
+
+# Add a test database user
+mysql_database_user node['rails_vagrant']['database']['test']['username'] do
+    connection connection_info
+    password node['rails_vagrant']['database']['test']['password']
+    database_name node['rails_vagrant']['database']['test']['name']
+    host node['rails_vagrant']['database']['host']
+    action [:create,:grant]
+end
