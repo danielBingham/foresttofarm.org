@@ -25,7 +25,7 @@ module.exports = function(grunt) {
         all: {
             src: 'public/scripts/app/**/*.js',
             options: {
-                specs: 'tests/**/*Spec.js',
+                specs: 'spec/javascript/**/*Spec.js',
                 template: require('grunt-template-jasmine-requirejs'),
                 templateOptions: {
                     requireConfigFile: 'public/scripts/bootstrap.js',
