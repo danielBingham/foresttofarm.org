@@ -44,10 +44,9 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "images", unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at",                                      null: false
     t.integer  "width",      default: 1024,                                    unsigned: true
     t.integer  "height",     default: 768,                                     unsigned: true
+    t.timestamps
   end
 
   create_table "light_tolerances", unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -59,8 +58,6 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "plants", unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.datetime "created_at",                default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at",                                                     null: false
     t.string   "genus"
     t.string   "species"
     t.string   "family"
@@ -77,6 +74,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "native_region",  limit: 4
     t.index ["genus"], name: "genus", using: :btree
     t.index ["species"], name: "species", using: :btree
+    t.timestamps
   end
 
   create_table "plants_drawbacks", primary_key: ["drawback_id", "plant_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
