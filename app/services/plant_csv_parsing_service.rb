@@ -445,15 +445,15 @@ class PlantCsvParsingService
   ##
   # Parse the plant's moisture tolerances.
   #
-  # Format: tolerance;tolerance#
+  # Format: tolerance;tolerance*
   # Possible Values: Xeric, Mesic, Hydric
-  # Examples: Xeric, Xeric;Mesic, Hydric,Mesic 
+  # Examples: Xeric, Xeric;Mesic, Hydric;Mesic 
   #
   # Params::
   # * moisture_string +string+  The moisture data parsed from the
   #      CSV file.
   #
-  # Returns:: +int[]+ An array of MoistureTolerance ids. 
+  # Returns:: +MoistureTolerance[]+ An array of MoistureTolerance ids. 
   #
   def parseMoistureTolerances(moisture_string)
     moisture_tolerance_names = moisture_string.split(';').map { |moisture| moisture.strip }
@@ -465,7 +465,9 @@ class PlantCsvParsingService
         error("Found invalid moisture tolerance '#{name}'")
         next 
       end
-      moisture_tolerances.push(moisture_tolerance)
+      unless moisture_tolerances.include?(moisture_tolerance)
+        moisture_tolerances.push(moisture_tolerance)
+      end
     end
     moisture_tolerances
   end
@@ -480,7 +482,7 @@ class PlantCsvParsingService
   # Params::   
   # * light_string    +String+   The light data parsed from the CSV file.
   #
-  # Returns::  +Int[]+   An array of LightTolerance ids. 
+  # Returns::  +LightTolerance[]+   An array of LightTolerance ids. 
   #
   def parseLightTolerances(light_string) 
     light_tolerance_names = light_string.split(';').map { |light| light.strip }
@@ -504,7 +506,9 @@ class PlantCsvParsingService
         error("Found invalid light tolerance #{name}")
         next 
       end
-      light_tolerances.push(light_tolerance)
+      unless light_tolerances.include?(light_tolerance)
+        light_tolerances.push(light_tolerance)
+      end
     end
     light_tolerances
   end
@@ -537,7 +541,7 @@ class PlantCsvParsingService
     minimum_ph = 6.1;
     maximum_ph = 7.0;
 
-    for i in 0..3 
+    (0..3).each do |i|
       if phs[i] == 1 || phs[i] == 2 
         minimum_ph = minimum_ph_values[i][phs[i]]
         break
@@ -744,13 +748,13 @@ class PlantCsvParsingService
 
   def debug(output)
     if @error_level == :debug || @error_level == :error
-      puts Time.now.utc.iso8601 + ':: ' + output
+      Rails.logger.debug output
     end
   end
 
   def error(output)
     if @error_level == :error
-      puts Time.now.utc.iso8601 + ':: ' + output
+      Rails.logger.error output
     end
   end
 end
