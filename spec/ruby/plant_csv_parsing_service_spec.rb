@@ -26,6 +26,20 @@ describe PlantCsvParsingService do
       end
     end
 
+    it "should be case insensitive" do
+      fixtures = [
+        {'test'=>'sun;Shade', 'result'=>[@sun,@shade]},
+        {'test'=>'Sun;shade', 'result'=>[@sun,@shade]},
+        {'test'=>'sun;partial;Shade', 'result'=>[@sun,@partial,@shade]}
+      ]
+
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseLightTolerances(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
+
     it "should ignore duplicated light tolerance values" do
       fixtures = [
         {'test'=>'Sun;Sun;Shade', 'result'=>[@sun,@shade]},
@@ -40,9 +54,8 @@ describe PlantCsvParsingService do
       end
     end
 
-    it "should ignore malformed light tolerance values and return an array of LightTolerance objects from any correctly formatted values" do
+    it "should ignore invalid values" do
       fixtures = [
-        {'test'=>'sun;Partial', 'result'=>[@partial]},
         {'test'=>'Suun;Shade', 'result'=>[@shade]},
         {'test'=>'Sun,Shade', 'result'=>[]},
         {'test'=>'Sun;Partial;Shade;Cloudy', 'result'=>[@sun,@partial,@shade]},
@@ -83,9 +96,38 @@ describe PlantCsvParsingService do
       end
     end
 
-    it "should handle bad moisture tolerance data correctly" do
+    it "should be case insensitive" do
+        fixtures = [
+            {'test'=>'Xeric;mesic', 'result'=>[@xeric,@mesic]},
+            {'test'=>'xeric', 'result'=>[@xeric]},
+            {'test'=>'hydric;mesic;Xeric', 'result'=>[@hydric,@mesic,@xeric]},
+            {'test'=>'xeric;Mesic;hydric', 'result'=>[@xeric,@mesic,@hydric]},
+        ]
+
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseMoistureTolerances(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
+
+    it "should ignore duplicated values" do
+        fixtures = [
+            {'test'=>'Xeric;Xeric;Mesic', 'result'=>[@xeric,@mesic]},
+            {'test'=>'Xeric;Xeric', 'result'=>[@xeric]},
+            {'test'=>'hydric;Hydric;mesic;Mesic;Xeric', 'result'=>[@hydric,@mesic,@xeric]},
+            {'test'=>'xeric;Mesic;Mesic;hydric', 'result'=>[@xeric,@mesic,@hydric]},
+        ]
+
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseMoistureTolerances(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
+
+    it "should ignore invalid values" do
       fixtures = [
-        {'test'=>'xeric;Mesic', 'result'=>[@mesic]},
         {'test'=>'Xeric;Partial', 'result'=>[@xeric]},
         {'test'=>'Xeeric;Mesic', 'result'=>[@mesic]},
         {'test'=>'Xeric;Xeric;Mesic', 'result'=>[@xeric,@mesic]},
@@ -103,27 +145,61 @@ describe PlantCsvParsingService do
   end
 
   context "parsePh" do
-    it "should handle good pH data correctly"
+    it "should parse pH data presented as a series of four colon separated integers from 0-2 with out spaces representing a range of pH tolerances and returning a hash of minimum and maximum pH" do
 
-    it "should handle bad pH data correctly"
+    end
+
+    it "should ignore invalid integer values and return a range generated from any valid values found" do
+
+    end
+
+    it "should ignore any non-integer values and return a range generated from any valid values found" do
+
+    end
+
+    it "should return a default range when no valid values are found" do
+    end
   end
 
   context "parseZone" do
-    it "should handle good zone data correctly"
+    it "should parse valid USDA zones from range string and return a hash with a minimum and maximum zone"
 
-    it "should handle bad zone data correctly"
+    it "should parse a valid USDA zone from a single zone string and return a hash with the parse zone set to the minimum and the maximum set to nil"
+
+    it "should ignore invalid zone values and return any correctly parsed values"
+
+    it "should return a hash of nil values when no valid values are found"
   end
 
   context "parseForm" do
-    it "should handle good form data correctly"
+    it "should parse form string formatted as '[size] [form]' and return the plant's from as a string"
 
-    it "should handle bad form data correctly"
+    it "should ignore the size value"
+
+    it "should ignore invalid values and return any valid values found"
+
   end
 
   context "parseHeight" do
-    it "should handle good height data correctly"
+    it "should parse valid height data from range string formatted as [minimum]' - [maximum]' with units in either inches (\") or feet (') and return a hash with keys :minimum and :maximum"
 
-    it "should handle bad height data correctly"
+    it "should parse valid height data from a single value formatted as [height]' with units in either inches (\") or feet (') and return a hash with :minimum set to nil and :maximum set to the parsed value"
+
+    it "should ignore non-integer values and return only valid values"
+
+    it "should ignore invalidly formatted values and return a hash with nil values"
+
+  end
+
+  context "parseWidth" do
+    it "should parse valid width data from range string formatted as [minimum]' - [maximum]' with units in either inches (\") or feet (') and return a hash with keys :minimum and :maximum"
+
+    it "should parse valid width data from a single value formatted as [height]' with units in either inches (\") or feet (') and return a hash with :minimum set to nil and :maximum set to the parsed value"
+
+    it "should ignore non-integer values and return only valid values"
+
+    it "should ignore invalidly formatted values and return a hash with nil values"
+
   end
 
 end
