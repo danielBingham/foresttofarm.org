@@ -145,19 +145,91 @@ describe PlantCsvParsingService do
   end
 
   context "parsePh" do
+
     it "should parse pH data presented as a series of four colon separated integers from 0-2 with out spaces representing a range of pH tolerances and returning a hash of minimum and maximum pH" do
+      fixtures = [
+        {'test'=>'0:0:2:0', 'result'=>{minimum: 6.1, maximum: 7.0}},
+        {'test'=>'2:2:2:2', 'result'=>{minimum: 3.5, maximum: 8.5}},
+        {'test'=>'1:2:2:1', 'result'=>{minimum: 4.0, maximum: 7.8}},
+        {'test'=>'0:1:2:1', 'result'=>{minimum: 5.35, maximum: 7.8}},
+        {'test'=>'1:2:1:0', 'result'=>{minimum: 4.0, maximum: 6.8}},
+        {'test'=>'1:1:0:0', 'result'=>{minimum: 4.0, maximum: 5.8}},
+        {'test'=>'0:0:1:1', 'result'=>{minimum: 6.35, maximum: 7.8}},
+        {'test'=>'1:0:0:0', 'result'=>{minimum: 4.0, maximum: 4.5}},
+        {'test'=>'0:1:0:0', 'result'=>{minimum: 5.35, maximum: 5.8}},
+        {'test'=>'0:0:1:0', 'result'=>{minimum: 6.35, maximum: 6.8}},
+        {'test'=>'0:0:0:1', 'result'=>{minimum: 7.5, maximum: 7.8}}
+      ]
+
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parsePh(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+
 
     end
 
-    it "should ignore invalid integer values and return a range generated from any valid values found" do
+    it "should treat invalid integer values as 0 and return a range generated from any valid values found" do
+      fixtures = [
+        {'test'=>'0:3:2:1', 'result'=>{minimum: 6.1, maximum: 7.8}},
+        {'test'=>'0:0:0:0', 'result'=>{minimum: 6.1, maximum: 7.0}},
+        {'test'=>'-1:0:2:1', 'result'=>{minimum: 6.1, maximum: 7.8}},
+        {'test'=>'-1:22:2:1', 'result'=>{minimum: 6.1, maximum: 7.8}}
 
+      ]
+
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parsePh(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
     end
+
 
     it "should ignore any non-integer values and return a range generated from any valid values found" do
+      fixtures = [
+        {'test'=>'and:1:2:1', 'result'=>{minimum: 5.35, maximum: 7.8}},
+        {'test'=>'0:now:2:1', 'result'=>{minimum: 6.1, maximum: 7.8}},
+        {'test'=>'0:2:2:for', 'result'=>{minimum: 5.1, maximum: 7.0}},
+        {'test'=>'something:0:2:1', 'result'=>{minimum: 6.1, maximum: 7.8}},
+        {'test'=>'completely:0:2:different', 'result'=>{minimum: 6.1, maximum: 7.0}}
+      ]
 
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parsePh(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
+
+    it "should return a default range when there are more or less than 4 colon separated values" do
+      fixtures = [
+        {'test'=>'0:3:2:1:0', 'result'=>{minimum: 6.1, maximum: 7.0}},
+        {'test'=>'0:22:0', 'result'=>{minimum: 6.1, maximum: 7.0}},
+        {'test'=>'0:0:', 'result'=>{minimum: 6.1, maximum: 7.0}},
+        {'test'=>'0:0', 'result'=>{minimum: 6.1, maximum: 7.0}}
+      ]
+
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parsePh(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
     end
 
     it "should return a default range when no valid values are found" do
+      fixtures = [
+        {'test'=>'0:0:0:0', 'result'=>{minimum: 6.1, maximum: 7.0}},
+        {'test'=>'0:22:0:0', 'result'=>{minimum: 6.1, maximum: 7.0}},
+        {'test'=>'-1:-3:3:4', 'result'=>{minimum: 6.1, maximum: 7.0}}
+      ]
+
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parsePh(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
     end
   end
 

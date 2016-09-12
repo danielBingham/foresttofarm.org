@@ -528,6 +528,11 @@ class PlantCsvParsingService
   #
   def parsePh(ph_string)
     phs = ph_string.split(':').map { |ph| ph.strip.to_i }
+
+    if phs.count != 4
+      return { minimum: 6.1, maximum: 7.0 }
+    end
+
     minimum_ph_values = {
       0=>{1=>4.00, 2=>3.5},
       1=>{1=>5.35, 2=>5.1},
@@ -545,7 +550,7 @@ class PlantCsvParsingService
       if phs[i] == 1 || phs[i] == 2 
         minimum_ph = minimum_ph_values[i][phs[i]]
         break
-      elsif phs[i] > 2 || phs[i] < 0 
+      elsif phs[i].nil? || (phs[i] > 2 || phs[i] < 0)
         error('Bad data in pH values.')
       end 
     end
@@ -554,12 +559,12 @@ class PlantCsvParsingService
       if phs[i] == 1 || phs[i] == 2 
         maximum_ph = maximum_ph_values[i][phs[i]]
         break
-      elsif phs[i] > 2 || phs[i] < 0 
+      elsif phs[i].nil? || (phs[i] > 2 || phs[i] < 0)
         error('Bad data in pH values.')
       end
     end
 
-    { :minimum => minimum_ph, :maximum => maximum_ph }
+    { minimum: minimum_ph, maximum: maximum_ph }
   end
 
   #
