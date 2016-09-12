@@ -291,23 +291,23 @@ class PlantCsvParsingService
   # Returns::  +Role[]+   An array of Roles.
   #
   def parseRoles(role_string)
-    role_descriptions = role_string.split(';').map { |string| string.strip }
+    role_descriptions = role_string.split(';').map { |string| string.strip.downcase }
 
     roles = []
     # The names in our csv file won't match perfectly to the names in the
     # database, so we'll need to perform a mapping before we hit the database.
     role_names = {
-      'N2'=>'Nitrogen Fixer',
-      'Dynamic Accumulator'=>'Dynamic Accumulator',
-      'Wildlife(F)'=>'Wildlife Food',
-      'Wildlife(S)'=>'Wildlife Shelter',
-      'Wildlife(B)'=>['Wildlife Food', 'Wildlife Shelter'],
-      'Invert Shelter'=>'Invertabrate Shelter',
-      'Nectary(G)'=>'Generalist Nectary',
-      'Nectary(S)'=>'Specialist Nectary',
-      'Ground Cover'=>'Ground Cover',
-      'Other(A)'=>'Aromatic',
-      'Other(C)'=>'Coppice'}
+      'n2'=>'Nitrogen Fixer',
+      'dynamic accumulator'=>'Dynamic Accumulator',
+      'wildlife(f)'=>'Wildlife Food',
+      'wildlife(s)'=>'Wildlife Shelter',
+      'wildlife(b)'=>['Wildlife Food', 'Wildlife Shelter'],
+      'invert shelter'=>'Invertabrate Shelter',
+      'nectary(g)'=>'Generalist Nectary',
+      'nectary(s)'=>'Specialist Nectary',
+      'ground cover'=>'Ground Cover',
+      'other(a)'=>'Aromatic',
+      'other(c)'=>'Coppice'}
 
     role_descriptions.each do |description| 
       unless role_names.has_key?(description)
@@ -351,21 +351,21 @@ class PlantCsvParsingService
   # Returns::  +Drawback[]+   An array of Drawbacks parsed from the string.
   #
   def parseDrawbacks(drawbacks_string)
-    drawback_symbols = drawbacks_string.split(';').map { |string| string.strip }
+    drawback_symbols = drawbacks_string.split(';').map { |string| string.strip.downcase }
 
     drawbacks = []
     # The names in our csv file won't match perfectly to the names in the
     # database, so we'll need to perform a mapping before we hit the database.
     drawback_names = {
-      'A'=>'Allelopathic',
-      'D'=>'Dispersive',
-      'E'=>'Expansive',
-      'H'=>'Hay Fever',
-      'Ps'=>'Persistent',
-      'S'=>'Sprawling vigorous vine',
-      'St'=>'Stings',
-      'T'=>'Thorny',
-      'P'=>'Poison'
+      'a'=>'Allelopathic',
+      'd'=>'Dispersive',
+      'e'=>'Expansive',
+      'h'=>'Hay Fever',
+      'ps'=>'Persistent',
+      's'=>'Sprawling vigorous vine',
+      'st'=>'Stings',
+      't'=>'Thorny',
+      'p'=>'Poison'
     }
 
     drawback_symbols.each do |symbol| 
@@ -485,13 +485,13 @@ class PlantCsvParsingService
   # Returns::  +LightTolerance[]+   An array of LightTolerance ids. 
   #
   def parseLightTolerances(light_string) 
-    light_tolerance_names = light_string.split(';').map { |light| light.strip }
+    light_tolerance_names = light_string.split(';').map { |light| light.strip.downcase }
 
     light_tolerances = [] 
     light_tolerances_name_map = {
-      'Sun' => 'Full Sun',
-      'Partial' => 'Partial Shade',
-      'Shade' => 'Full Shade'
+      'sun' => 'Full Sun',
+      'partial' => 'Partial Shade',
+      'shade' => 'Full Shade'
     }
 
     light_tolerance_names.each do |name|
@@ -576,7 +576,7 @@ class PlantCsvParsingService
   #
   def parseZone(zone_string) 
     if zone_string.index("-") != nil
-      zones = zone_string.split('-').map { |zone| zone.strip }
+      zones = zone_string.split('-').map { |zone| zone.strip.downcase }
 
       minimum_zone = zones[0]
       maximum_zone = zones[1]
@@ -620,7 +620,7 @@ class PlantCsvParsingService
   # Returns::  +String+  This plant's form.
   #
   def parseForm(form_string)
-    forms = form_string.split(' ').map { |form| form.strip } 
+    forms = form_string.split(' ').map { |form| form.strip.downcase } 
     if forms.count > 2 
       error("Failed to parse form.  Possible data error? [#{form_string}]")
       return nil 
