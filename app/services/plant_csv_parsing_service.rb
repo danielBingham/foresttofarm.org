@@ -123,7 +123,7 @@ class PlantCsvParsingService
     # ---------------------------- Growth Rate ---------------------------
     # Format: [Growth Rate]
     # Examples: F, M, S
-    unless data[GROWTH_RATE].empty?
+    unless data[GROWTH_RATE].blank?
       plant.growth_rate = data[GROWTH_RATE].downcase
     else
       plant.growth_rate = nil
@@ -132,7 +132,7 @@ class PlantCsvParsingService
     # ---------------------------- Native Region -------------------------
     # Format: [Native Region]
     # Examples: ENA, EURA, ASIA
-    unless data[NATIVE_REGION].empty?
+    unless data[NATIVE_REGION].blank?
       plant.native_region = data[NATIVE_REGION]
     else
       plant.native_region = nil
@@ -150,49 +150,49 @@ class PlantCsvParsingService
       end
     end
 
-    unless data[LIGHT].empty?
+    unless data[LIGHT].blank?
       debug("Parsing light tolerances for #{plant_name}...")
       light_tolerances = parseLightTolerances(data[LIGHT])
       plant.light_tolerances = light_tolerances
     end
 
-    unless data[MOISTURE].empty?
+    unless data[MOISTURE].blank?
       debug("Parsing moisture tolerances for #{plant_name}...")
       moisture_tolerances = parseMoistureTolerances(data[MOISTURE])
       plant.moisture_tolerances = moisture_tolerances
     end
 
-    unless data[HABIT].empty?
+    unless data[HABIT].blank?
       debug("Parsing habits for #{plant_name}...")
       habits = parseHabits(data[HABIT])
       plant.habits = habits
     end
 
-    unless data[ROOT_PATTERN].empty?
+    unless data[ROOT_PATTERN].blank?
       debug("Parsing root patterns for #{plant_name}...")
       root_patterns = parseRootPatterns(data[ROOT_PATTERN])
       plant.root_patterns = root_patterns
     end
 
-    unless data[HABITATS].empty?
+    unless data[HABITATS].blank?
       debug("Parsing habitats for #{plant_name}...")
       habitats = parseHabitats(data[HABITATS])
       plant.habitats = habitats
     end
 
-    unless data[HARVESTS].empty?
+    unless data[HARVESTS].blank?
       debug("Parsing harvests for #{plant_name}...")
       harvests = parseHarvests(data[HARVESTS])
       plant.harvests = harvests
     end
 
-    unless data[ROLES].empty?
+    unless data[ROLES].blank?
       debug("Parsing roles for #{plant_name}...")
       roles = parseRoles(data[ROLES])
       plant.roles = roles
     end
 
-    unless data[DRAWBACKS].empty?
+    unless data[DRAWBACKS].blank?
       debug("Parsing drawbacks for #{plant_name}...")
       drawbacks = parseDrawbacks(data[DRAWBACKS])
       plant.drawbacks = drawbacks
@@ -369,7 +369,7 @@ class PlantCsvParsingService
     }
 
     drawback_symbols.each do |symbol| 
-      if symbol.empty? 
+      if symbol.blank? 
         next
       end
 
