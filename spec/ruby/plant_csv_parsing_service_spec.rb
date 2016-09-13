@@ -234,43 +234,259 @@ describe PlantCsvParsingService do
   end
 
   context "parseZone" do
-    it "should parse valid USDA zones from range string and return a hash with a minimum and maximum zone"
+    it "should parse valid USDA zones from range string and return a hash with a minimum and maximum zone" do
+      fixtures = [
+        {'test'=>'3 - 7', 'result'=>{minimum: '3', maximum: '7'}},
+        {'test'=>'7-10', 'result'=>{minimum: '7', maximum: '10'}},
+        {'test'=>'4a-10', 'result'=>{minimum: '4a', maximum: '10'}},
+        {'test'=>'4-7b', 'result'=>{minimum: '4', maximum: '7b'}},
+      ]
 
-    it "should parse a valid USDA zone from a single zone string and return a hash with the parse zone set to the minimum and the maximum set to nil"
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseZone(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
 
-    it "should ignore invalid zone values and return any correctly parsed values"
+    end
 
-    it "should return a hash of nil values when no valid values are found"
+
+    it "should parse a valid USDA zone from a single zone string and return a hash with the parse zone set to the minimum and the maximum set to nil" do
+      fixtures = [
+        {'test'=>'3b', 'result'=>{minimum: '3b', maximum: nil}},
+        {'test'=>'2', 'result'=>{minimum: '2', maximum: nil}},
+        {'test'=>'6a', 'result'=>{minimum: '6a', maximum: nil}}
+      ]
+
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseZone(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
+
+    it "should ignore invalid zone values and return any correctly parsed values" do
+      fixtures = [
+        {'test'=>'3-20', 'result'=>{minimum: '3', maximum:  nil}},
+        {'test'=>'3c-6a',  'result'=>{minimum: nil, maximum:  '6a'}}
+      ]
+
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseZone(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
+
+    it "should return a hash of nil values when no valid values are found" do
+      fixtures = [
+        {'test'=>'3_7', 'result'=>{minimum: nil, maximum:  nil}},
+        {'test'=>'20', 'result'=>{minimum: nil, maximum:  nil}},
+        {'test'=>'3c',  'result'=>{minimum: nil, maximum:  nil}}
+      ]
+
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseZone(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
   end
 
   context "parseForm" do
-    it "should parse form string formatted as '[size] [form]' and return the plant's from as a string"
+    it "should parse string formatted as '[size] [form]' and return the plant's from as a string" do
+      fixtures = [
+        {'test'=>'m Shrub', 'result'=>'shrub'},
+        {'test'=>'l Tree', 'result'=>'tree'},
+        {'test'=>'s Herb', 'result'=>'herb'},
+        {'test'=>'l Vine', 'result'=>'vine'},
+        {'test'=>'m-l Tree', 'result'=>'tree'},
+        {'test'=>'s-m Herb', 'result'=>'herb'},
+        {'test'=>'m Shrub', 'result'=>'shrub'},
+        {'test'=>'m-l Tree', 'result'=>'tree'}
+      ] 
 
-    it "should ignore the size value"
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseForm(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
 
-    it "should ignore invalid values and return any valid values found"
+    it "should be case insensitive" do
+      fixtures = [
+        {'test'=>'m shrub', 'result'=>'shrub'},
+        {'test'=>'l tree', 'result'=>'tree'},
+        {'test'=>'s herb', 'result'=>'herb'},
+        {'test'=>'l vine', 'result'=>'vine'},
+        {'test'=>'m-l Tree', 'result'=>'tree'},
+        {'test'=>'s-m Herb', 'result'=>'herb'},
+        {'test'=>'m shrub', 'result'=>'shrub'},
+        {'test'=>'m-l Vine', 'result'=>'vine'}
+      ] 
 
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseForm(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
+
+    it "should ignore the size value" do
+      fixtures = [
+        {'test'=>'This shrub', 'result'=>'shrub'},
+        {'test'=>'can tree', 'result'=>'tree'},
+        {'test'=>'be herb', 'result'=>'herb'},
+        {'test'=>'42 vine', 'result'=>'vine'},
+        {'test'=>'for Tree', 'result'=>'tree'},
+        {'test'=>'all Herb', 'result'=>'herb'},
+        {'test'=>'we shrub', 'result'=>'shrub'},
+        {'test'=>'care Vine', 'result'=>'vine'}
+      ] 
+
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseForm(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
+
+    it "should return 'nil' for invalid values" do
+      fixtures = [
+        {'test'=>'mShrub', 'result'=>nil},
+        {'test'=>'ltree', 'result'=>nil},
+        {'test'=>'s l tree', 'result'=>nil}
+      ] 
+
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseForm(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
   end
 
   context "parseHeight" do
-    it "should parse valid height data from range string formatted as [minimum]' - [maximum]' with units in either inches (\") or feet (') and return a hash with keys :minimum and :maximum"
+    it "should parse valid height data from range string formatted as [minimum]' - [maximum]' with units in either inches (\") or feet (') and return a hash with keys :minimum and :maximum in feet" do
+      fixtures = [
+        {'test'=>"20' - 100'", 'result'=>{minimum: 20.0, maximum: 100.0}},
+        {'test'=>"1'-2'", 'result'=>{minimum: 1.0, maximum: 2.0}},
+        {'test'=>'12"-24"', 'result'=>{minimum: 1.0, maximum: 2.0}},
+        {'test'=>"15'-30'", 'result'=>{minimum: 15.0, maximum: 30.0}},
+        {'test'=>'24" - 20\'', 'result'=>{minimum: 2.0, maximum: 20.0}},
+        {'test'=>'12"-36"', 'result'=>{minimum: 1.0, maximum: 3.0}}
+      ]
 
-    it "should parse valid height data from a single value formatted as [height]' with units in either inches (\") or feet (') and return a hash with :minimum set to nil and :maximum set to the parsed value"
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseHeight(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
 
-    it "should ignore non-integer values and return only valid values"
+    it "should parse valid height data from a single value formatted as [height]' with units in either inches (\") or feet (') and return a hash with :minimum set to nil and :maximum with the value in feet" do
+      fixtures = [
+        {'test'=>"20'", 'result'=>{minimum: nil, maximum:  20.0}},
+        {'test'=>'24"', 'result'=>{minimum: nil, maximum: 2.0}},
+        {'test'=>'18"', 'result'=>{minimum: nil, maximum: 1.5}}
+      ]
 
-    it "should ignore invalidly formatted values and return a hash with nil values"
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseHeight(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
+
+    it "should ignore non-integer values and return only valid values" do
+      fixtures = [
+        {'test'=>"one to twenty", 'result'=>{minimum: nil, maximum: nil}},
+        {'test'=>'24" - ten', 'result'=>{minimum: 2.0, maximum: nil}},
+        {'test'=>'one - 18"', 'result'=>{minimum: nil, maximum: 1.5}}
+      ]
+
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseHeight(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
+
+    it "should ignore invalidly formatted values and return a hash with nil values" do
+      fixtures = [
+        {'test'=>"one to twenty", 'result'=>{minimum: nil, maximum: nil}},
+        {'test'=>'1-10 ', 'result'=>{minimum: nil, maximum: nil}},
+        {'test'=>'2\'_18"', 'result'=>{minimum: nil, maximum: nil}}
+      ]
+
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseHeight(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
 
   end
 
   context "parseWidth" do
-    it "should parse valid width data from range string formatted as [minimum]' - [maximum]' with units in either inches (\") or feet (') and return a hash with keys :minimum and :maximum"
+    it "should parse valid width data from range string formatted as [minimum]' - [maximum]' with units in either inches (\") or feet (') and return a hash with keys :minimum and :maximum" do
+      fixtures = [
+        {'test'=>"20' - 100'", 'result'=>{minimum: 20.0, maximum: 100.0}},
+        {'test'=>"1'-2'", 'result'=>{minimum: 1.0, maximum: 2.0}},
+        {'test'=>'12"-24"', 'result'=>{minimum: 1.0, maximum: 2.0}},
+        {'test'=>"15'-30'", 'result'=>{minimum: 15.0, maximum: 30.0}},
+        {'test'=>'24" - 20\'', 'result'=>{minimum: 2.0, maximum: 20.0}},
+        {'test'=>'12"-36"', 'result'=>{minimum: 1.0, maximum: 3.0}}
+      ]
 
-    it "should parse valid width data from a single value formatted as [height]' with units in either inches (\") or feet (') and return a hash with :minimum set to nil and :maximum set to the parsed value"
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseWidth(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
 
-    it "should ignore non-integer values and return only valid values"
+    it "should parse valid width data from a single value formatted as [height]' with units in either inches (\") or feet (') and return a hash with :minimum set to nil and :maximum set to the parsed value" do
+      fixtures = [
+        {'test'=>"20'", 'result'=>{minimum: nil, maximum:  20.0}},
+        {'test'=>'24"', 'result'=>{minimum: nil, maximum: 2.0}},
+        {'test'=>'18"', 'result'=>{minimum: nil, maximum: 1.5}}
+      ]
 
-    it "should ignore invalidly formatted values and return a hash with nil values"
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseWidth(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
+
+    it "should ignore non-integer values and return only valid values" do
+      fixtures = [
+        {'test'=>"one to twenty", 'result'=>{minimum: nil, maximum: nil}},
+        {'test'=>'24" - ten', 'result'=>{minimum: 2.0, maximum: nil}},
+        {'test'=>'one - 18"', 'result'=>{minimum: nil, maximum: 1.5}}
+      ]
+
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseWidth(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
+
+    it "should ignore invalidly formatted values and return a hash with nil values" do
+      fixtures = [
+        {'test'=>"one to twenty", 'result'=>{minimum: nil, maximum: nil}},
+        {'test'=>'1-10 ', 'result'=>{minimum: nil, maximum: nil}},
+        {'test'=>'2\'_18"', 'result'=>{minimum: nil, maximum: nil}}
+      ]
+
+      plant_csv_parsing_service = PlantCsvParsingService.new
+      fixtures.each do |fixture|
+        result = plant_csv_parsing_service.parseWidth(fixture['test'])
+        expect(result).to eql(fixture['result'])
+      end
+    end
 
   end
 

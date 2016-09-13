@@ -221,7 +221,7 @@ class PlantCsvParsingService
     habitats = []
 
     habitat_names.each do |name| 
-      if name.nil? || name.empty?
+      if name.blank? 
         next
       end
 
@@ -502,7 +502,7 @@ class PlantCsvParsingService
 
       name = light_tolerances_name_map[name]
       light_tolerance = LightTolerance.where('name=?', name).first
-      if light_tolerance.nil? 
+      if light_tolerance.blank? 
         error("Found invalid light tolerance #{name}")
         next 
       end
@@ -550,7 +550,7 @@ class PlantCsvParsingService
       if phs[i] == 1 || phs[i] == 2 
         minimum_ph = minimum_ph_values[i][phs[i]]
         break
-      elsif phs[i].nil? || (phs[i] > 2 || phs[i] < 0)
+      elsif phs[i].blank? || (phs[i] > 2 || phs[i] < 0)
         error('Bad data in pH values.')
       end 
     end
@@ -559,7 +559,7 @@ class PlantCsvParsingService
       if phs[i] == 1 || phs[i] == 2 
         maximum_ph = maximum_ph_values[i][phs[i]]
         break
-      elsif phs[i].nil? || (phs[i] > 2 || phs[i] < 0)
+      elsif phs[i].blank? || (phs[i] > 2 || phs[i] < 0)
         error('Bad data in pH values.')
       end
     end
@@ -601,12 +601,12 @@ class PlantCsvParsingService
 
     if  minimum_zone != nil && ! valid_zones.include?(minimum_zone)  
       error("Invalid zone detected [#{minimum_zone}]")
-      minimum_zone = null
+      minimum_zone = nil 
     end
 
     if maximum_zone != nil && ! valid_zones.include?(maximum_zone) 
       error("Invalid zone detected [$maximum_zone]")
-      maximum_zone = null
+      maximum_zone = nil 
     end
 
     {:minimum => minimum_zone, :maximum => maximum_zone}
@@ -631,7 +631,7 @@ class PlantCsvParsingService
       return nil 
     end
 
-    if forms[1].empty?
+    if forms[1].blank?
       error("Failed to parse form.  Possible data error? [#{form_string}]")
       return nil 
     end
@@ -672,7 +672,7 @@ class PlantCsvParsingService
     end
 
     # Parse the minimum_height and ensure good data.
-    if minimum_height != nil && matches = /^(\d+)(\'|")/.match(minimum_height) 
+    if minimum_height != nil && matches = /^(\d+)(\'|")$/.match(minimum_height) 
       minimum_height = matches[1].to_f
       if matches[2] == '"' 
         minimum_height = minimum_height / 12
@@ -683,7 +683,7 @@ class PlantCsvParsingService
     end
 
     # Parse the maximum_height and ensure good data.
-    if maximum_height != nil && matches = /^(\d+)(\'|")/.match(maximum_height) 
+    if maximum_height != nil && matches = /^(\d+)(\'|")$/.match(maximum_height) 
       maximum_height = matches[1].to_f
       if matches[2] == '"' 
         maximum_height = maximum_height / 12
@@ -722,7 +722,7 @@ class PlantCsvParsingService
     end
 
     # Parse the minimum_width and ensure good data.
-    if minimum_width != nil && matches = /^(\d+)(\'|")/.match(minimum_width) 
+    if minimum_width != nil && matches = /^(\d+)(\'|")$/.match(minimum_width) 
       minimum_width = matches[1].to_f
       if (matches[2] == '"') 
         minimum_width = minimum_width / 12
@@ -733,7 +733,7 @@ class PlantCsvParsingService
     end
 
     # Parse the maximum_width and ensure good data.
-    if maximum_width != nil && matches = /^(\d+)(\'|")/.match(maximum_width) 
+    if maximum_width != nil && matches = /^(\d+)(\'|")$/.match(maximum_width) 
       maximum_width = matches[1].to_f
       if matches[2] == '"'
         maximum_width = maximum_width / 12
