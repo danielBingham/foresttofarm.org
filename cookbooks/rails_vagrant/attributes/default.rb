@@ -5,6 +5,7 @@
 
 # The root directory for Forest to Farm's source, a vagrant share directory.
 default['rails_vagrant']['source_directory'] = '/srv/www/application'
+default['rails_vagrant']['config_directory'] = '/srv/www/application/config'
 
 
 #######################################
