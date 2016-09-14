@@ -19,10 +19,10 @@ starters to keep in mind when performing a code review.
 We use a different casing style for each level of the code so that we can tell,
 at a glance, what we're dealing with.
 
-- Constants use ALL\_CAPS\_UNDERSCORE\_CASE
-- Properties and variables use underscore\_case 
-- Methods and function use camelCase
-- Classes and Namespaces use StudlyCase
+- Constants use ``ALL\_CAPS\_UNDERSCORE\_CASE``
+- Properties and variables use ``underscore\_case``
+- Methods and function use ``camelCase``
+- Classes and Namespaces use ``StudlyCase``
 
 Sometimes libraries prevent us from using our preferred casing, but, otherwise,
 we should stick to this casing schema.
