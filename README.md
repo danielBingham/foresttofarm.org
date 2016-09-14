@@ -25,7 +25,10 @@ you'd like to help develop it, take a look at the code standards document, and
 then spend a little time reading through the issues and milestones to get a
 feeling for where your efforts would be best spent.  
 
-We use [Waffle](http://waffle.io) as an issue card board to help track development progress.  You can view our waffle by clicking one of the buttons above or going here: [Forest to Farm Waffle](https://waffle.io/danielbingham/foresttofarm.org)
+We use [Waffle](http://waffle.io) as an issue card board to help track
+development progress.  You can view our waffle by clicking one of the buttons
+above or going here: [Forest to Farm
+Waffle](https://waffle.io/danielbingham/foresttofarm.org)
 
 Before you dive in, we recommend you read through the documents under the
 heading "General Documentation" in the [documentation](/documentation)
