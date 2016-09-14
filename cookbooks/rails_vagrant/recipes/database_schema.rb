@@ -32,4 +32,5 @@ end
 data_file = File.join(node['rails_vagrant']['database']['data_directory'], node['rails_vagrant']['database']['data_file'])
 execute "Load data into development database" do
   command "rake 'load_data_from_csv[#{data_file}]'"
+  cwd node['rails_vagrant']['source_directory'] 
 end
