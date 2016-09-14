@@ -28,3 +28,8 @@ execute "Import test database schema" do
   command "mysql -h #{host} -u #{username} -p#{password} -D #{database_name} < #{schema_path}"
   not_if  "mysql -h #{host} -u #{username} -p#{password} -D #{database_name} -e 'describe #{test_table};'"
 end
+
+data_file = File.join(node['rails_vagrant']['database']['data_directory'], node['rails_vagrant']['database']['data_file'])
+execute "Load data into development database" do
+  command "rake 'load_data_from_csv[#{data_file}]'"
+end

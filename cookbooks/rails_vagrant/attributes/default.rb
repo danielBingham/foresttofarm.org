@@ -41,5 +41,6 @@ default['rails_vagrant']['database']['test']['password'] = 'testing'
 
 default['rails_vagrant']['database']['data_directory'] = '/srv/www/application/data/'
 default['rails_vagrant']['database']['schema_file'] = 'schema.sql'
+default['rails_vagrant']['database']['data_file'] = 'data.csv'
 default['rails_vagrant']['database']['test_table'] = 'plants'
 
