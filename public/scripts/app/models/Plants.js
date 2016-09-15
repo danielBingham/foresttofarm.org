@@ -6,6 +6,6 @@ define([
 function($, _, Backbone, Plant) {
 	return Backbone.Collection.extend({
 		model: Plant,
-		url: '/index.php/api/v0/plants'
+		url: '/api/v0/plants'
 	});
 });

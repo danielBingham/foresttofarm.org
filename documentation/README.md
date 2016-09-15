@@ -2,8 +2,6 @@
 
 ## General Documentation
 
-It is highly recommendation you read 
-
 [Development Environment](/documentation/development-infrastructure.md)
 describes setting up your development environment, running a build, and running
 the unit tests.

@@ -1,0 +1,2 @@
+class RootPattern < ApplicationRecord
+end

@@ -11,7 +11,7 @@ the logo, and "Cabin Sketch", used for the "Farm" part of the logo.
 
 To include these two fonts, it is necessary to include the linked stylesheet
 provided by google.  The relevent link line can be found 
-in  ``app/views/layouts/master.blade.php``:
+in  ``app/views/layouts/application.html.erb``:
 
 ```
     <link href="https://fonts.googleapis.com/css?family=Arima+Madurai|Cabin+Sketch" rel="stylesheet">

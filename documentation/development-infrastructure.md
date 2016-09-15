@@ -29,20 +29,19 @@ machine through the magic of vagrant shared folders.
 
 ## Testing the Code
 
-The chef which provisions the Vagrant vm will install NodeJS, Grunt, PHPUnit,
+The chef which provisions the Vagrant vm will install NodeJS, Grunt, RSpec,
 and all of the various software required to build and test Forest to Farm.  You
 can use ``vagrant ssh`` typed from the directory that contains 
 your ``Vagrantfile`` to ssh into your vm.  Once in your vm, you can ``cd
-/srv/www/foresttofarm.org/`` to get to your source directory.  From there you
+/srv/www/application/`` to get to your source directory.  From there you
 can run ``grunt`` to perform a build and run the unit tests.
 
 You may decide to install the test code locally rather than through the vm
 itself.  In that case you'll need to install Grunt, which depends on NodeJS,
-and PHPUnit, which depends on PHP on your local machine.  Please see those
+and RSpec, which depends on Ruby on your local machine.  Please see those
 projects respective websites for installation instructions.
 
 ## Troubleshooting Vagrant
-
 
 ### PhantomJS Fails to Install
 
@@ -72,8 +71,8 @@ version, the npm version, and vagrant.  The best workaround I've found so far
 is to just run ``npm install`` on your local machine before running ``vagrant
 up``.  
 
-In the case that you forget and hit this error, you can just run ``npm
-install`` on your local and then run ``vagrant provision``. Running ``vagrant
-provision`` will finishing provisioning the vagrant server at the point it left
-off.  Once it finishes you should be good to go.
+In the case that you forget and hit this error, you can run ``npm install`` on
+your local and then run ``vagrant provision``. Running ``vagrant provision``
+will finish provisioning the vagrant server at the point it left off.  Once it
+finishes you should be good to go.
 

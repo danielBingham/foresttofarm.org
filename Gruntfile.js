@@ -11,21 +11,11 @@ module.exports = function(grunt) {
         }
       }
     },
-    'phpunit-runner': {
-        all: {
-            options: {
-                phpunit: 'phpunit'
-            },
-            files: {
-                testFiles: 'app/tests/'
-            }
-        }
-    },
     jasmine: {
         all: {
             src: 'public/scripts/app/**/*.js',
             options: {
-                specs: 'tests/**/*Spec.js',
+                specs: 'spec/javascript/**/*Spec.js',
                 template: require('grunt-template-jasmine-requirejs'),
                 templateOptions: {
                     requireConfigFile: 'public/scripts/bootstrap.js',
@@ -40,9 +30,8 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-phpunit-runner');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
 
-  grunt.registerTask('default', ['jshint', 'phpunit-runner', 'jasmine']);
+  grunt.registerTask('default', ['jshint', 'jasmine']);
 
 };

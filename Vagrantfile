@@ -13,10 +13,10 @@ Vagrant.configure("2") do |config|
 
     # Chef provisioning using vagrant-berkshelf plugin and chef_solo
     config.berkshelf.enabled = true
-    config.berkshelf.berksfile_path = "cookbooks/foresttofarm-development/Berksfile"
+    config.berkshelf.berksfile_path = "cookbooks/rails_vagrant/Berksfile"
 
     config.vm.provision "chef_solo" do |chef|
-      chef.add_recipe "foresttofarm-development::default"
+      chef.add_recipe "rails_vagrant::default"
     end
 
     # There are issues with vagrant shares and symlinks.
@@ -26,5 +26,5 @@ Vagrant.configure("2") do |config|
     # A simple work around, since this is just a local development environment,
     # is to share the whole folder right where we need it.
     #
-    config.vm.synced_folder ".", "/srv/www/foresttofarm.org/", group:  'www-data', owner: 'www-data'
+    config.vm.synced_folder ".", "/srv/www/application", group:  'www-data', owner: 'www-data'
 end

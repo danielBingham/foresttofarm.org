@@ -1,3 +1,0 @@
-<ul id="plants">
-
-</ul>

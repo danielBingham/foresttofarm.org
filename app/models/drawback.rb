@@ -1,0 +1,2 @@
+class Drawback < ApplicationRecord
+end

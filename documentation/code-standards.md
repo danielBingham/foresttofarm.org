@@ -8,22 +8,21 @@ to consider when reviewing code.  Nor is it intended to be a set of hard and
 fast rules.  It is merely a list of guidelines, rules of thumb, and discussion
 starters to keep in mind when performing a code review. 
 
-- [ ] Except where dictated by libraries, code uses PMC casing 
+- [ ] Except where dictated by libraries, code uses proper casing 
 - [ ] Names are accurate, unambiguous, and descriptive
 - [ ] Doc blocks are thorough and describe code intent
 - [ ] Don't let anonymous hashes travel multiple scopes
 - [ ] Options hashes should have defaults 
 
-## Except Where Dictated by Libraries, Code Uses PMC Casing
+## Except Where Dictated by Libraries, Code Uses Proper Casing
 
-PMC casing is property, method, class casing.  We use a different casing style
-for each level of the code so that we can tell, at a glance, what we're dealing
-with.
+We use a different casing style for each level of the code so that we can tell,
+at a glance, what we're dealing with.
 
-- Constants use ALL\_CAPS\_UNDERSCORE\_CASE
-- Properties and variables use underscore\_case 
-- Methods and function use camelCase
-- Classes and Namespaces use StudlyCase
+- Constants use ``ALL_CAPS_UNDERSCORE_CASE``
+- Properties and variables use ``underscore_case``
+- Methods and function use ``camelCase``
+- Classes and Namespaces use ``StudlyCase``
 
 Sometimes libraries prevent us from using our preferred casing, but, otherwise,
 we should stick to this casing schema.
@@ -48,16 +47,17 @@ is a template, but clarifying that saves the reader's brain a few cycles
 
 ## Doc Blocks are Thorough and Describe Code Intent
 
-All methods should have doc blocks that describe what parameters, the method
+All methods should have doc blocks that describe what parameters the method
 takes, what it returns, what it throws, and include a short paragraph
 describing what the method's intended task is as well as any side effects it
 has.
 
-When documenting the parameters a method takes, keep in mind that the doc blocks
-should allow a coder reading them to treat the method as a black box.  It should
-describe exactly what parameters the method takes and all permutations there in
-and exactly what the method will return.  That means the structure of complex
-parameters like arrays or hashes should be thoroughly documented.
+When documenting the parameters a method takes, keep in mind that the doc
+blocks should allow a coder reading them to treat the method as a black box.
+It should describe exactly what parameters the method takes -- and all
+permutations there in -- and exactly what the method will return.  That means
+the structure of complex parameters like arrays or hashes should be thoroughly
+documented.
 
 So, for example, instead of doing this:
 
@@ -95,59 +95,35 @@ and views building on the frameworks -- are self explanatory and do not need
 doc blocks.  Their usage is described by the backing frameworks.  
 
 For our own services, however, including a doc block with usage examples is a
-good idea.  A good example comes from the ``PlantCSVParsingService``:
+good idea.  A good example comes from the ``PlantCsvParsingService``:
 
-```php
-/**
- * Service class that parses plant CSV data files and saves them to the
- * database.  
- *
- * Usage:
- *
- * ```
- *
- * $csvService = new PlantCSVParsingService();
- * $csvService->parseCSVFile($filename);
- * ```
- * Alternately, if the CSV file has already been parsed into individual lines,
- * you can parse it a line at the time by passing each line to
- * ``parsePlant()``:
- *
- * ```
- * $csvService = new PlantCSVParsingService();
- * $lines = explode("\n", $csv_data_string);
- * foreach($lines as $line) {
- *      $csvService->parsePlant($line);
- * }
- * ```
- *
- * If you would like for debug and error output to be printed to an 
- * interface, such as the console, then you must provide an output
- * interface that implements a ``debug()`` and an ``error()`` method to
- * the ``setOutput()`` method.  
- *
- * Example interface:
- *
- * ```
- * interface Output {
- *
- *      public function debug($message);
- *      public function error($message);
- * }
- * ```
- *
- * Laravel Commands implement these methods, thus a laravel command can be used
- * for this purpose.  To use this service to parse CSV file input from a
- * laravel Command and have the input routed to the console through the
- * Command, do the following from with in a the Command's method:
- *
- * ```
- * $csvService = new PlantCSVParsingService();
- * $csvService->setOutput($this);
- * $csvService->parseCSVFile($filename);
- * ```
- */
-class PlantCSVParsingService {
+```ruby
+##
+# Author:: Daniel Bingham <dbingham@theroadgoeson.com>
+# License:: MIT
+#
+# Service class that parses plant CSV data files and saves them to the
+# database.  
+#
+# Usage:
+#
+# ```
+# csvService = PlantCSVParsingService.new
+# csvService.parseCSVFile(filename)
+# ```
+# Alternately, if the CSV file has already been parsed into individual lines,
+# you can parse it a line at the time by passing each line to
+# ``parsePlant``:
+#
+# ```
+# csvService = PlantCSVParsingService.new;
+# lines = csv_data_string.split("\n");
+# lines.each do |line|
+#      csvService.parsePlant(line)
+# end 
+# ```
+#
+class PlantCsvParsingService
 ```
 
 ## Don't Let Hashes Travel Multiple Scopes
