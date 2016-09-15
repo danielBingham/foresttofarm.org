@@ -14,7 +14,7 @@ starters to keep in mind when performing a code review.
 - [ ] Don't let anonymous hashes travel multiple scopes
 - [ ] Options hashes should have defaults 
 
-## Except Where Dictated by Libraries, Code Uses PMC Casing
+## Except Where Dictated by Libraries, Code Uses Proper Casing
 
 We use a different casing style for each level of the code so that we can tell,
 at a glance, what we're dealing with.

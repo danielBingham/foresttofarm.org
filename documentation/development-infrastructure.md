@@ -71,8 +71,8 @@ version, the npm version, and vagrant.  The best workaround I've found so far
 is to just run ``npm install`` on your local machine before running ``vagrant
 up``.  
 
-In the case that you forget and hit this error, you can just run ``npm
-install`` on your local and then run ``vagrant provision``. Running ``vagrant
-provision`` will finishing provisioning the vagrant server at the point it left
-off.  Once it finishes you should be good to go.
+In the case that you forget and hit this error, you can run ``npm install`` on
+your local and then run ``vagrant provision``. Running ``vagrant provision``
+will finish provisioning the vagrant server at the point it left off.  Once it
+finishes you should be good to go.
 
