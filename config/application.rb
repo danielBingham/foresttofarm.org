@@ -11,5 +11,8 @@ module RailsSrc
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+    config.images = ActiveSupport::OrderedOptions.new
+    config.images.upload_directory = 'public/img/full'
+    config.images.crop_directory = 'public/img/crop'
   end
 end
