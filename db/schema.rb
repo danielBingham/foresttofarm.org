@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20160917161832) do
 
   create_table "common_names", unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "plant_id", null: false, unsigned: true
@@ -44,9 +44,13 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "images", unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.integer  "width",      default: 1024,                                    unsigned: true
-    t.integer  "height",     default: 768,                                     unsigned: true
-    t.timestamps
+    t.integer  "width"
+    t.integer  "height"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "attribution"
+    t.integer  "plant_id"
+    t.index ["plant_id"], name: "index_images_on_plant_id", using: :btree
   end
 
   create_table "light_tolerances", unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -58,6 +62,8 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "plants", unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "genus"
     t.string   "species"
     t.string   "family"
@@ -74,7 +80,6 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "native_region",  limit: 4
     t.index ["genus"], name: "genus", using: :btree
     t.index ["species"], name: "species", using: :btree
-    t.timestamps
   end
 
   create_table "plants_drawbacks", primary_key: ["drawback_id", "plant_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -90,11 +95,6 @@ ActiveRecord::Schema.define(version: 0) do
   create_table "plants_habits", primary_key: ["habit_id", "plant_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer "habit_id", null: false, unsigned: true
     t.integer "plant_id", null: false, unsigned: true
-  end
-
-  create_table "plants_images", primary_key: ["plant_id", "image_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.integer "plant_id", null: false, unsigned: true
-    t.integer "image_id", null: false, unsigned: true
   end
 
   create_table "plants_light_tolerances", primary_key: ["plant_id", "light_tolerance_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -121,7 +121,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "name"
   end
 
-  create_table "root_patterns", id: :bigint, unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "root_patterns", unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string "name"
     t.string "symbol"
     t.string "description"
