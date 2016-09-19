@@ -43,13 +43,12 @@ ActiveRecord::Schema.define(version: 20160917161832) do
     t.integer "rating",                       unsigned: true
   end
 
-  create_table "images", unsigned: true, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.integer  "width"
-    t.integer  "height"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.string   "attribution"
-    t.integer  "plant_id"
+  create_table "images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "height"
+    t.integer "width"
+    t.string  "attribution"
+    t.string  "extension"
+    t.integer "plant_id"
     t.index ["plant_id"], name: "index_images_on_plant_id", using: :btree
   end
 
