@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  root 'plants#index'
+  root 'site#index'
 
   resources :plants, only: [:index, :show], controller: 'site' do
     resources :images, only: [:index, :new, :edit, :show], controller: 'site'
