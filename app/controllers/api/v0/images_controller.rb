@@ -2,7 +2,7 @@
 # Author:: Daniel Bingham <dbingham@theroadgoeson.com>
 #
 # Handle api requests for Plant images.
-class Api::V0::ImagesConroller < ApplicationController
+class Api::V0::ImagesController < ApplicationController
 
   ##
   # Retrieve a json list of all images in the database for the given
@@ -50,8 +50,9 @@ class Api::V0::ImagesConroller < ApplicationController
   def create 
     image_service = ImageService.new
     @image = image_service.createFromUploaded(params[:image], params[:uploaded])
-    if image == nil
-      # TODO send some sort of error headers (404? 500? 400?)
+    if @image == nil
+      render  nothing: true, status: :unprocessable_entity
+      return
     end
 
     render :json => @image

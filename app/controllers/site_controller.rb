@@ -12,6 +12,7 @@
 # We only need to create the routes that traditionally return views since those
 # are the only one that will be routed to the SiteController.
 class SiteController < ApplicationController
+  protect_from_forgery with: :exception
 
   def index
   end
