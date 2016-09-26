@@ -202,7 +202,7 @@ function($, _) {
 
         }
 
-	});
+	};
 
     return ImageService;
 });
