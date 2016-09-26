@@ -10,22 +10,23 @@ define([
 	'app/models/Plant'],
 function($, _, Backbone, Plant) {
 	return Backbone.Collection.extend({
-        /**
-         * This collection can wrap any image endpoint, but it must be
-         * initialized with the parent endpoint.
+
+        /** 
+         * This collection needs a plant_id in order to retrieve images, since
+         * images are has many child of plants.
          */
-        base_url: null,
+        plant_id: null,
         
         initialize: function(models, options) {
-            this.base_url = options.base_url;
+            this.plant_id = options.plant_id;
         },
 
         url: function() {
-            if ( this.base_url == null ) {
-                throw new Error('Images collection requires a ``base_url`` to be set!');
+            if ( this.plant_id == null ) {
+                throw new Error('Images collection requires a ``plant_id`` to be set!');
             }
 
-            return this.base_url + '/images';
+            return '/api/v0/plants/' + this.plant_id + '/images';
         }
 
 	});

@@ -33,7 +33,12 @@ function($, _, Mustache, AbstractParentView, template, PlantImageView) {
 
 
         parse: function() {
-            var list = Mustache.render(template);
+            var list = Mustache.render(
+                template, 
+                {
+                    plant_id: this.collection.plant_id
+                }
+            );
             return $.parseHTML(list);
         },
 
