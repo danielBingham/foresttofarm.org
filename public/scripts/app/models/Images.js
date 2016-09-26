@@ -20,7 +20,7 @@ function($, _, Backbone, Plant) {
             this.base_url = options.base_url;
         },
 
-        getUrl: function() {
+        url: function() {
             if ( this.base_url == null ) {
                 throw new Error('Images collection requires a ``base_url`` to be set!');
             }

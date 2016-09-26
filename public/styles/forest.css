@@ -248,6 +248,7 @@ nav#main-menu section#nav-links a:hover {
 }
 
 
+
 /******************************************************************************
  *      Responsive Design -- Sizes and Dimensions
  ******************************************************************************/
@@ -412,10 +413,22 @@ nav#main-menu section#nav-links a:hover {
         width: 165px;
         padding: 0 5px;
     }
-    .plant-detail section.image {
+    .plant-detail section.image-wrapper {
         float: right;
         width: 350px;
+        padding: 0;
+    }
+    .plant-detail section.image {
+        width: 350px;
         height: 300px;
+    }
+
+    /******************************************************************************
+     *      Plant Image Upload Page
+     ******************************************************************************/
+
+    #plant-image-new {
+        text-align: center;
     }
 }
 

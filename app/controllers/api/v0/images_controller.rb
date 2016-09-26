@@ -18,7 +18,7 @@ class Api::V0::ImagesController < ApplicationController
   def index
     @images = Image.where('plant_id=?', params[:plant_id]).all
 
-    render :json => @images
+    render :json => @images.to_json(:methods => [:full_path, :cropped_path])
   end
 
   ##
@@ -34,7 +34,7 @@ class Api::V0::ImagesController < ApplicationController
   def show
     @image = Image.find(params[:id])
 
-    render :json => @image
+    render :json => @image.to_json(:methods => [:full_path, :cropped_path])
   end
 
   ##
