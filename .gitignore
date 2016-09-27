@@ -1,5 +1,11 @@
 .vagrant
 
+# Ignore images but not the image directory.
+!/public/img/full/
+/public/img/full/*
+!/public/img/cropped/
+/public/img/cropped/*
+
 # Ignore bundler config.
 /.bundle
 
