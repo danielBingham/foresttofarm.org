@@ -138,7 +138,7 @@ return Backbone.Router.extend({
     uploadPlantImage: function(id) {
         this.main_view.clear();
 
-        var image_upload_view = new PlantImageUploadView({plant_id:id});
+        var image_upload_view = new PlantImageUploadView({plant_id:id, router: this});
 
         this.main_view.appendSubview(image_upload_view);
         this.main_view.render();

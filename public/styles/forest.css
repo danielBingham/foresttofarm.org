@@ -430,6 +430,10 @@ nav#main-menu section#nav-links a:hover {
     #plant-image-new {
         text-align: center;
     }
+
+    progress { display: none; }
+
+   
 }
 
 /**
