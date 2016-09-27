@@ -4,18 +4,28 @@ define([
     'backbone',
     'app/models/Plant',
     'app/models/Plants',
+    'app/models/Image',
+    'app/models/Images',
     'app/views/MainView',
     'app/views/PlantView',
-    'app/views/PlantListView'],
+    'app/views/PlantListView',
+    'app/views/PlantImageGalleryView',
+    'app/views/PlantImageView',
+    'app/views/PlantImageUploadView'],
 function(
     $, 
     _, 
     Backbone,
     Plant,
     Plants,
+    Image,
+    Images,
     MainView,
     PlantView,
-    PlantListView
+    PlantListView,
+    PlantImageGalleryView,
+    PlantImageView,
+    PlantImageUploadView
 ) {
 
 return Backbone.Router.extend({
@@ -29,7 +39,11 @@ return Backbone.Router.extend({
      */
     routes: {
         '': 'index',
-        'plants/:id': 'viewPlant'
+        'plants/:id': 'viewPlant',
+        'plants/:plant_id/images': 'viewImageGallery',
+        'plants/:id/images/new': 'uploadPlantImage',
+        'plants/:plant_id/images/:image_id': 'viewImage'
+
     },
 
     main_view: null,
@@ -63,6 +77,8 @@ return Backbone.Router.extend({
 
     /** 
      * The site index.  A an auto-paged list of plants available for viewing.
+     *
+     * @returns {void}
      */
     index: function() {
         this.main_view.clear();
@@ -81,6 +97,8 @@ return Backbone.Router.extend({
      * A detail page to view the details of a single plant.
      *
      * @param   {number}    id  The database id of the plant we'd like to view.
+     *
+     * @returns {void}
      */
     viewPlant: function(id) {
         this.main_view.clear();
@@ -92,7 +110,40 @@ return Backbone.Router.extend({
         this.main_view.appendSubview(plant_view);
         this.main_view.render();
 
+    },
+
+    viewImageGallery: function(plant_id) {
+        this.main_view.clear();
+
+        var images = new Images(null, {plant_id: plant_id});
+        images.fetch();
+
+        var plant_image_gallery_view = new PlantImageGalleryView({collection:images});
+        this.main_view.appendSubview(plant_image_gallery_view);
+        this.main_view.render();
+    },
+
+    viewImage: function(plant_id, image_id) {
+
+    },
+
+    /**
+     * Upload an image of a plant.
+     *
+     * @param   {number}    id  The database id of the plant we'd like to add
+     *  an image to.
+     *
+     * @returns  {void}
+     */
+    uploadPlantImage: function(id) {
+        this.main_view.clear();
+
+        var image_upload_view = new PlantImageUploadView({plant_id:id});
+
+        this.main_view.appendSubview(image_upload_view);
+        this.main_view.render();
     }  
+
 });
 
 

@@ -42,11 +42,12 @@ function($, _, Mustache,AbstractView,template) {
 				{
 					id: this.model.get('id'),
                     plant_id: this.model.get('plant_id'),
-					image_url: this.model.get('cropped_path')
+					cropped_path: this.model.get('cropped_path'),
+                    full_path:  this.model.get('full_path')
 				}
 			);
 
-            return $.parseHTML();
+            return $.parseHTML(image_template.trim());
         },
 
         /** 
@@ -56,12 +57,10 @@ function($, _, Mustache,AbstractView,template) {
          * @return this 
          */
         update: function() {
-            this.$el.find("a.title")
-                .html(this.model.get('genus') + ' ' + this.model.get('species')); 
-            this.$el.find("span.sub-title")
-                .html(this.model.get('common_names')[0].name);
+            this.$el.find('img').attr('src', this.model.get('cropped_path'));
+            this.$el.find('a').attr('href', '/plants/' + this.model.get('plant_id') + '/images/' + this.model.get('id'));
+            this.$el.find('li').attr('id', 'image-' + this.model.get('id'));
             return this;
-
         }
 	});
 

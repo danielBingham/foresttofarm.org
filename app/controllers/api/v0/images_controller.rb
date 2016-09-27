@@ -49,11 +49,14 @@ class Api::V0::ImagesController < ApplicationController
   #
   def create 
     image_service = ImageService.new
-    @image = image_service.createFromUploaded(params[:image], params[:uploaded])
+    @image = image_service.createFromUploaded(params[:image], params[:attribution])
     if @image == nil
       render  nothing: true, status: :unprocessable_entity
       return
     end
+
+    @image.plant_id = params[:plant_id]
+    @image.save
 
     render :json => @image
   end

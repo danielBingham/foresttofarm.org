@@ -137,7 +137,7 @@ function($, _) {
 
             // Build the form data that will hold the image
             form_data = new FormData();
-            form_data.append('image', file);
+            form_data.append('image', image);
 
             $.ajax({
                 url: this.endpoint,
@@ -151,7 +151,9 @@ function($, _) {
                 }, this),
                 success: this.onSuccess,
                 error: this.onError,
-                data: form_data
+                data: form_data,
+                processData: false,
+                contentType: false
             });
         }
     };
@@ -176,7 +178,7 @@ function($, _) {
         /**
          *
          */
-        this.upload_endpoint = this.endpoint_base + '/images/new';
+        this.upload_endpoint = endpoint_base + '/images';
     };
         
     ImageService.prototype = {

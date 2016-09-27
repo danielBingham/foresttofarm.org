@@ -24,18 +24,16 @@ class ImageService
     
     image = Image.create(attribution: attribution, extension: extension)
 
-    File.open(image.getFullPath, 'wb') do |file|
+    File.open(image.full_directory, 'wb') do |file|
       file.write(uploaded_image.read)
     end
 
-    image_magick = MiniMagick::Image.open(image.getFullPath) 
+    image_magick = MiniMagick::Image.open(image.full_directory) 
     image.width = image_magick.width
     image.height = image_magick.height
     image.save
 
     return image
-  rescue MiniMagick::Invalid
-    return nil
   end
 
   ##
@@ -53,12 +51,12 @@ class ImageService
   # Returns:: +Image+ The model for the cropped image.
   #
   def crop(image, crop_geometry)
-    cropped_image = MiniMagick::Image.open(image.getFullPath)
+    cropped_image = MiniMagick::Image.open(image.full_directory)
 
     crop_geometry_string = "#{crop_geometry.width}x#{crop_geometry.height}+#{crop_geometry.x}+#{crop_geometry.y}"
     cropped_image.crop(crop_geometry_string)
 
-    cropped_image.write(image.getCroppedPath)
+    cropped_image.write(image.cropped_directory)
     return image
   end
 end

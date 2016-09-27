@@ -14,5 +14,7 @@ module RailsSrc
     config.images = ActiveSupport::OrderedOptions.new
     config.images.upload_directory = 'public/img/full'
     config.images.crop_directory = 'public/img/crop'
+    config.images.full_path_root = '/img/full'
+    config.images.crop_path_root = '/img/crop'
   end
 end
