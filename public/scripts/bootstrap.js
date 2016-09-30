@@ -5,7 +5,8 @@ require.config({
 		backbone: 'library/backbone',
 		underscore: 'library/underscore',
 		mustache: 'library/mustache',
-		text: 'library/text'
+		text: 'library/text',
+        jcrop: 'library/jcrop/jquery.Jcrop'
 	}
 });
 
