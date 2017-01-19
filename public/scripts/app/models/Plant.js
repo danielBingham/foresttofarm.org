@@ -1,7 +1,6 @@
 /**
  * Plant Model
  */
-
 define([
 	'jquery',
 	'underscore',

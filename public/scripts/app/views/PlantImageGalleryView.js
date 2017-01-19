@@ -1,7 +1,7 @@
 /**
- * Plant List View
+ * Plant Image Gallery View
  *
- * Shows a scrollable, pageable list of plant short info boxes.
+ * Shows a scrollable, pageable gallery of images attached to a plant.
  *
  */
 define([
@@ -9,15 +9,14 @@ define([
 	'underscore',
     'mustache',
     'app/views/abstract/AbstractParentView',
-    'text!app/templates/plant-list-template.html',
-	'app/views/PlantBoxView'],
-function($, _, Mustache, AbstractParentView, template, PlantBoxView) {
+    'text!app/templates/plant-image-gallery-template.html',
+	'app/views/PlantImageView'],
+function($, _, Mustache, AbstractParentView, template, PlantImageView) {
 
     /**
      * @todo Comment.
      */
-	var PlantListView = AbstractParentView.extend({
-
+	var PlantImageGalleryView = AbstractParentView.extend({
         /**
          * Initialize the view, calling parent class initializers and binding
          * the view to its events.
@@ -32,11 +31,14 @@ function($, _, Mustache, AbstractParentView, template, PlantBoxView) {
             );
 		},
 
-        /**
-         * 
-         */
+
         parse: function() {
-            var list = Mustache.render(template);
+            var list = Mustache.render(
+                template, 
+                {
+                    plant_id: this.collection.plant_id
+                }
+            );
             return $.parseHTML(list);
         },
 
@@ -46,16 +48,16 @@ function($, _, Mustache, AbstractParentView, template, PlantBoxView) {
         create: function() {
             AbstractParentView.prototype.create.call(this);
 
-            _.each(this.collection.models, _.bind(function(plant) {
-                this.appendSubview(new PlantBoxView({model: plant}));
+            _.each(this.collection.models, _.bind(function(image) {
+                this.appendSubview(new PlantImageView({model: image}));
             }, this));
 
             return this;
         },
 
         /**
-         * Update the plant list view.  If provided a list of changes to 
-         * the plant collection, then add or remove ``PlantBoxView`` objects
+         * Update the plant image gallery.  If provided a list of changes to 
+         * the plant collection, then add or remove ``PlantImageView`` objects
          * as appropriate.  Otherwise, render each subview to update them
          * for any changes.
          *
@@ -69,13 +71,13 @@ function($, _, Mustache, AbstractParentView, template, PlantBoxView) {
          */
         update: function(changes) {
             if ( changes ) {
-                _.each(changes.added, _.bind(function(plant) {
-                    this.appendSubview(new PlantBoxView({model:plant}));
+                _.each(changes.added, _.bind(function(image) {
+                    this.appendSubview(new PlantImageView({model:image}));
                 }, this));
 
-                _.each(changes.removed, _.bind(function(plant) {
+                _.each(changes.removed, _.bind(function(image) {
                     var subview = _.find(this.subviews, function(test_subview) {
-                        if (test_subview.model.id == plant.id) {
+                        if (test_subview.model.id == image.id) {
                             return true;
                         } else {
                             return false;
@@ -90,5 +92,5 @@ function($, _, Mustache, AbstractParentView, template, PlantBoxView) {
         }
 	});
 
-    return PlantListView;
+    return PlantImageGalleryView;
 });
