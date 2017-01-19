@@ -86,16 +86,24 @@ function($, _, Mustache,AbstractView,ImageService,template) {
         /**
          * Handle success events on the upload.
          *
-         * @param   {Event} event   The standard event object.
+         * @param   {Object}    data
+         * @param   {string}    textStatus
+         * @param   {jqXHR}     jqXHR
          *
          * @returns {void}
          */
-        uploadSuccess: function(event) {
+        uploadSuccess: function(data, textStatus, jqXHR) {
             this.$el.find("progress").css('display', 'none');
-            this.router.navigate('/plants/'+this.plant_id+'/images', true);
+            this.router.navigate('/plants/'+this.plant_id+'/images/'+ data.id +'/edit', true);
         },
 
-        uploadError: function(event) {
+
+        /**
+         * @param   {jqXHR}     jqXHR
+         * @param   {String}    textStatus
+         * @param   {String}    errorThrown
+         */
+        uploadError: function(jqXHR, textStatus, errorThrown) {
 
         },
 

@@ -11,7 +11,8 @@ define([
     'app/views/PlantListView',
     'app/views/PlantImageGalleryView',
     'app/views/PlantImageView',
-    'app/views/PlantImageUploadView'],
+    'app/views/PlantImageUploadView',
+    'app/views/PlantImageCropView'],
 function(
     $, 
     _, 
@@ -25,7 +26,8 @@ function(
     PlantListView,
     PlantImageGalleryView,
     PlantImageView,
-    PlantImageUploadView
+    PlantImageUploadView,
+    PlantImageCropView
 ) {
 
 return Backbone.Router.extend({
@@ -41,8 +43,9 @@ return Backbone.Router.extend({
         '': 'index',
         'plants/:id': 'viewPlant',
         'plants/:plant_id/images': 'viewImageGallery',
-        'plants/:id/images/new': 'uploadPlantImage',
-        'plants/:plant_id/images/:image_id': 'viewImage'
+        'plants/:plant_id/images/new': 'uploadPlantImage',
+        'plants/:plant_id/images/:image_id': 'viewPlantImage',
+        'plants/:plant_id/images/:image_id/edit': 'cropPlantImage',
 
     },
 
@@ -123,25 +126,41 @@ return Backbone.Router.extend({
         this.main_view.render();
     },
 
-    viewImage: function(plant_id, image_id) {
+    viewPlantImage: function(plant_id, image_id) {
 
     },
 
     /**
      * Upload an image of a plant.
      *
-     * @param   {number}    id  The database id of the plant we'd like to add
+     * @param   {number}    plant_id  The database id of the plant we'd like to add
      *  an image to.
      *
      * @returns  {void}
      */
-    uploadPlantImage: function(id) {
+    uploadPlantImage: function(plant_id) {
         this.main_view.clear();
 
-        var image_upload_view = new PlantImageUploadView({plant_id:id, router: this});
+        var image_upload_view = new PlantImageUploadView({plant_id:plant_id, router: this});
 
         this.main_view.appendSubview(image_upload_view);
         this.main_view.render();
+    },
+
+    /**
+     *
+     */
+    cropPlantImage: function(plant_id, image_id) {
+        this.main_view.clear();
+
+        var image = new Image({id: image_id, base_url: '/api/v0/plants/' + plant_id});
+        image.fetch();
+
+        var image_crop_view = new PlantImageCropView({model: image});
+
+        this.main_view.appendSubview(image_crop_view);
+        this.main_view.render();
+
     }  
 
 });

@@ -19,7 +19,7 @@ function($, _, Backbone) {
             this.base_url = options.base_url;
         },
 
-        getUrl: function() {
+        urlRoot: function() {
             if ( this.base_url == null) {
                 throw new Error('Image model requires a ``base_url`` to be set!');
             }

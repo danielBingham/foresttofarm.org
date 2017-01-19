@@ -17,6 +17,7 @@ function($, _, Mustache, AbstractParentView, template, PlantBoxView) {
      * @todo Comment.
      */
 	var PlantListView = AbstractParentView.extend({
+
         /**
          * Initialize the view, calling parent class initializers and binding
          * the view to its events.
@@ -31,7 +32,9 @@ function($, _, Mustache, AbstractParentView, template, PlantBoxView) {
             );
 		},
 
-
+        /**
+         * 
+         */
         parse: function() {
             var list = Mustache.render(template);
             return $.parseHTML(list);

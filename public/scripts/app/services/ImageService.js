@@ -77,7 +77,7 @@ function($, _) {
          * @see ImageUploader.onError
          */ 
         setErrorCallback: function(errorCallback) {
-            this.errorCallback = errorCallback;
+            this.onError = errorCallback;
             return this;
         },
        
@@ -158,6 +158,97 @@ function($, _) {
         }
     };
 
+    var ImageCropper = function(crop_geometry, endpoint) {
+        this.endpoint = endpoint;
+        this.crop_geometry = crop_geometry;
+    };
+
+    ImageCropper.prototype = { 
+
+        /**
+         * Convenience method to allow chaining of setting callbacks.
+         *
+         * @see ImageCropper.beforeUpload
+         */ 
+        setBeforeCallback: function(beforeCallback) {
+            this.beforeCrop = beforeCallback;
+            return this;
+        },
+
+        /**
+         * Convenience method to allow chaining of setting callbacks.
+         *
+         * @see ImageCropper.onSuccess
+         */ 
+        setSuccessCallback: function(successCallback) {
+            this.onSuccess = successCallback;
+            return this;
+        },
+
+        /**
+         * Convenience method to allow chaining of setting callbacks.
+         *
+         * @see ImageCropper.onError
+         */ 
+        setErrorCallback: function(errorCallback) {
+            this.onError = errorCallback;
+            return this;
+        },
+       
+        /**
+         * Called at the beginning of the crop process to allow the object's
+         * user to do any setup necessary.           
+         * 
+         * @returns {void}
+         */ 
+        beforeCrop: function() {}, 
+
+        /**
+         * Called on the successful completion of the file upload.
+         *
+         * @param   {Event} event   A standard event object.
+         *
+         * @returns {void}
+         */
+        onSuccess: function() {},
+
+        /**
+         * Called when the server reports an error or the client fails to connect
+         * to the server.
+         *
+         * @param   {Event} event   A standard event object.
+         *
+         * @returns {void}
+         */
+        onError: function() {},
+
+
+        /**
+         * Launch the cropping process for the given image model and crop
+         * geometry.
+         *
+         * @param   {Image} image_model The image we want to crop.
+         * @param   {CropGeometry}  crop_geometry The geometry of the crop we'd
+         *  like to execute.
+         *
+         *  @returns    {undefined}
+         */
+        crop: function(image_model, crop_geometry) {
+            var data = _.extend({}, crop_geometry.getRawData(), {
+                id: image_model.get('id'),
+                plant_id: image_model.get('plant_id'),
+            });
+
+            $.ajax({
+                method: "PATCH",
+                url: this.endpoint,
+                data: data
+            }).fail(this.onError)
+                .done(this.onSuccess); 
+        }
+
+    };
+
     /**
      * A service to handle front end image manipulation.  Exposes methods
      * to handle image uploading and image cropping.
@@ -172,13 +263,29 @@ function($, _) {
      *      // Handle error
      * }).upload(image);
      * ```
+     *
+     * To crop an image:
+     *
+     * ```
+     * service = new ImageService(endpoint);
+     * service.getCropper().setSuccessCallback(function(event) {
+     *      // Handle success
+     * }).setErrorCallback(function(event) {
+     *      // Handle error
+     * }).crop(image,geometry);
      */
 	var ImageService = function(endpoint_base) {
 
+        if ( ! endpoint_base ) {
+            endpoint_base = '';
+        }
+   
         /**
-         *
-         */
-        this.upload_endpoint = endpoint_base + '/images';
+         *  The endpoint we'd like this service to wrap.  Since images are
+         *  child objects, we might be accessing raw images, or the child
+         *  images of some other resource.
+         */ 
+        this.endpoint = endpoint_base + '/images';
     };
         
     ImageService.prototype = {
@@ -194,14 +301,14 @@ function($, _) {
          * of files to the server.
          */
         getUploader: function() {
-            return new ImageUploader(this.upload_endpoint);
+            return new ImageUploader(this.endpoint);
         },
 
         /**
          * Handle the cropping of an image on the client side.
          */
-        handleCrop: function() {
-
+        getCropper: function() {
+            return new ImageCropper(this.endpoint);
         }
 
 	};
